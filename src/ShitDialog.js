@@ -12,9 +12,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Address from './Address';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
-const ShitDialog =()=> {
+const ShitDialog =(props)=> {
   const [open, setOpen] = useState(false);
  
   const [addressza, setAddressza] = React.useState();
@@ -35,6 +36,13 @@ const ShitDialog =()=> {
     setOpen(false);
   };
 
+  const ClosenCreate =()=>{  
+    setTimeout(() => {
+      props.btn();
+      setOpen(false);
+      }, 500);
+  }
+
   const DropdownAddress = Address.map((option) => 
     <MenuItem 
         key={ option.value } 
@@ -44,11 +52,14 @@ const ShitDialog =()=> {
             { option.label }
     </MenuItem>)
 
+
   return (
     <div className='container col col m-1  '>
+      
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
-        Send a parcel
+        Send a parcel 
       </Button>
+     
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" className='p-5' fullWidth id='shitDialog'>
         <DialogTitle id="form-dialog-title" className='text-center'><h1>Shipping information </h1></DialogTitle><hr/>
@@ -66,7 +77,7 @@ const ShitDialog =()=> {
             <TextField id="addresstextarea" className='col col-11 float-right' variant="outlined"  
             multiline rows="4" InputProps={{readOnly: true, }} value={addressza}/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
       
-
+            <h1>{props.OwwwYes}</h1>
 
 
 
@@ -101,12 +112,13 @@ const ShitDialog =()=> {
             Cancel
           </Button>
 
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={ClosenCreate} color="primary">
             Submit
           </Button>
 
         </DialogActions>
       </Dialog>
+      
     </div>
   );
 }

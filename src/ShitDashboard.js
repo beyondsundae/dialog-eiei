@@ -22,7 +22,7 @@ import Typography from '@material-ui/core/Typography';
 // import Avatar from '@material-ui/core/Avatar';
 // import { makeStyles } from '@material-ui/core/styles';
 
-import AddStatus from './AddCase';
+import AddCase from './AddCase';
 
 const ShitDashboard =()=>{
 
@@ -35,7 +35,6 @@ const ShitDashboard =()=>{
             
                 <Typography variant="subtitle1" gutterBottom>
                     <h1 class='text-center'>Parcel registration</h1>
-                    
                     <ShitDialog/>
                 </Typography>
                 

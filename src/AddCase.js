@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import App from './App';
+import ShitDialog from './ShitDialog';
 
-function AddStatus() {
+function AddCase() {
 
     const [AddData, setAddData] = useState([])
 
@@ -55,15 +55,15 @@ function AddStatus() {
 
       useEffect(() => {console.log(...AddData)})
 
-      const btnshit =()=>(
-          <button className='btn bnt-danger'/>
-      )
+      // const btnshit =()=>(
+      //     <button className='btn bnt-danger'/>
+      // )
 
       return (
         <div className="container text-center my-5 py-5 border border-danger">
             <button className='btn btn-danger btn-lg' onClick={ addData }>เพิ่มข้อมูล</button>
             <div>shit button: {AddButton}</div>
-            <App OwwwYes="EiEi"/>
+            <ShitDialog btn={addData}/>
                 
                 
                 
@@ -71,4 +71,4 @@ function AddStatus() {
       )
 }
 
-export default AddStatus;
+export default AddCase;
