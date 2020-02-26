@@ -8,12 +8,11 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+// import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Address from './Address';
 
-import sender from './sender.png';
 
 const ShitDialog =()=> {
   const [open, setOpen] = useState(false);
@@ -46,15 +45,15 @@ const ShitDialog =()=> {
     </MenuItem>)
 
   return (
-    <div className='container col col m-5 text-center '>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+    <div className='container col col m-1  '>
+      <Button variant="contained" color="primary" onClick={handleClickOpen}>
         Send a parcel
       </Button>
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" className='p-5' fullWidth id='shitDialog'>
         <DialogTitle id="form-dialog-title" className='text-center'><h1>Shipping information </h1></DialogTitle><hr/>
           <DialogContent>
-            <img src={sender} />
+  
             <DialogTitle id="form-dialog-title" className='text-center'><h4>Sender </h4></DialogTitle>
 
             <TextField required id="nameSender" label="Name" variant="outlined" fullWidth/><br/><br/>
@@ -83,16 +82,16 @@ const ShitDialog =()=> {
             <TextField id="addresstextarea" className='col col-11 float-right' variant="outlined"  
             multiline rows="4" InputProps={{readOnly: true, }} value={addressza2}/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
 
-
+           
 
 
 
             <DialogTitle id="form-dialog-title" className='text-center'><h4>Pracel information </h4></DialogTitle>
 
             <TextField required id="namePracel" label="Pracel" variant="outlined" fullWidth/><br/><br/>
-
+                          
             <TextField id="detailpraceltextarea" className='col col-11 float-right' variant="outlined"  
-            multiline rows="4"  />
+            multiline rows="4" />
 
         </DialogContent>
 
@@ -103,7 +102,7 @@ const ShitDialog =()=> {
           </Button>
 
           <Button onClick={handleClose} color="primary">
-            Subscribe
+            Submit
           </Button>
 
         </DialogActions>

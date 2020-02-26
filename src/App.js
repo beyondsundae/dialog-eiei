@@ -1,13 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
-import ShitDialog from './ShitDialog';
 import './App.css';
+import ShitDashboard from './ShitDashboard';
 
-function App() {
+function App(props) {
   return (
-    <>
-      <ShitDialog/>
-    </>
+    <div id='ShitAllofPage'>
+      <ShitDashboard/>
+    </div>
   );
 }
 
