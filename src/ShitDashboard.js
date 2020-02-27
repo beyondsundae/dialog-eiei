@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -19,15 +19,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
-
-
-
-
 const ShitDashboard =()=>{
 
     const [AddData, setAddData] = useState([])
+    const [AddDoc, setAddDoc] = useState([])
 
     const [open, setOpen] = useState(false);
+
+    
 
     const [SName, setSName] = useState([]); 
     function SNameChange (e){
@@ -63,6 +62,40 @@ const ShitDashboard =()=>{
     function DparcelChange (e){
       setDparcel(e.target.value)
     }
+    
+    function PushDoc (e){
+        var data = AddDoc
+        AddDoc.push({
+            SName:SName,
+            SPhone:SPhone,
+            addressza:addressza,
+            RName:RName,
+            RPhone:RPhone,
+            addressza2:addressza2,
+            PName:PName,
+            Dparcel:Dparcel
+        })
+        setAddDoc(data)
+
+        setSName(e.target.value)
+        setSPhone(e.target.value)
+        setAddressza(e.target.value); 
+        setRName(e.target.value)
+        setRPhone(e.target.value)
+        setAddressza2(e.target.value);
+        setPName(e.target.value)
+        setDparcel(e.target.value)
+
+        setTimeout(() => {
+            addData();
+            setOpen(false);
+            }, 500);  
+    }
+
+    function GetIndex (index){
+        console.log(index)
+
+    }
 
     function addData(){
         setAddData([...AddData, {item:false, status: 'SENT'}])
@@ -70,22 +103,30 @@ const ShitDashboard =()=>{
       
     const updateAccept = (index)  => {
         let newArr = [...AddData]; // copying the old datas array
-        newArr[index] = { item:false, status: 'ACCEPTED'} // replace e.target.value with whatever you want to change it to
+        newArr[index] = { index, item:false, status: 'ACCEPTED'} // replace e.target.value with whatever you want to change it to
         console.log(newArr)
         setAddData(newArr); // ??
     }
 
     const updateDecline = (index)  => {
         let newArr = [...AddData]; // copying the old datas array
-        newArr[index] = { item:false, status: 'REJECTED'} // replace e.target.value with whatever you want to change it to
+        newArr[index] = { index, item:false, status: 'REJECTED'} // replace e.target.value with whatever you want to change it to
         console.log(newArr)
         setAddData(newArr); // ??       
+        
     }
+
+    // const Nothin = (index) =>{
+    //     let newArr = [...AddData]; // copying the old datas array
+    //     newArr[index] = { index, item:false, status: 'SENT'} // replace e.target.value with whatever you want to change it to
+    //     console.log(newArr)
+    //     setAddData(newArr);
+    // }
     
     const AddButton =AddData.map((item,index)=>(
         
         <div className='my-3'>
-          <button key={index} className="btn btn-warning btn-lg btn-block mr-3" onClick={ ()=>console.log(item.status, index) }>
+          <button key={index} className="btn btn-warning btn-lg btn-block mr-3" onClick={ ()=>GetIndex(index) } >
             { item.status } {/*{index}*/} 
           </button><br/>
         
@@ -107,32 +148,36 @@ const ShitDashboard =()=>{
                 { option.label }
         </MenuItem>)
 
-    const ClosenCreate =(e)=>{  
-        setSName(e.target.value)
-        setSPhone(e.target.value)
-        setAddressza(e.target.value); 
-        setRName(e.target.value)
-        setRPhone(e.target.value)
-        setAddressza2(e.target.value);
-        setPName(e.target.value)
-        setDparcel(e.target.value)
+    // const ClosenCreate =(e)=>{  
+    //     setSName(e.target.value)
+    //     setSPhone(e.target.value)
+    //     setAddressza(e.target.value); 
+    //     setRName(e.target.value)
+    //     setRPhone(e.target.value)
+    //     setAddressza2(e.target.value);
+    //     setPName(e.target.value)
+    //     setDparcel(e.target.value)
+       
+
+
+    //     console.log("SenderName", SName)
+    //     console.log("SenderPhone", SPhone)
+    //     console.log("SenderAddress", addressza)
+    //     console.log("ReceiverName", RName)
+    //     console.log("ReceiverPhone", RPhone)
+    //     console.log("Address2", addressza2)
+    //     console.log("ReceiverPhone", PName)
+    //     console.log("DescriptionParcel", Dparcel)
         
 
+    //     setTimeout(() => {
+    //     addData();
+    //     setOpen(false);
+    //     }, 500);
+    // }
 
-        console.log("SenderName", SName)
-        console.log("SenderPhone", SPhone)
-        console.log("SenderAddress", addressza)
-        console.log("ReceiverName", RName)
-        console.log("ReceiverPhone", RPhone)
-        console.log("Address2", addressza2)
-        console.log("ReceiverPhone", PName)
-        console.log("DescriptionParcel", Dparcel)
+    
 
-        setTimeout(() => {
-        addData();
-        setOpen(false);
-        }, 0);
-    }
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -140,6 +185,10 @@ const ShitDashboard =()=>{
     const handleClose = () => {
         setOpen(false);
     };
+useEffect(() => {
+    console.log(...AddData)
+    console.log(...AddDoc)})
+    console.log(AddDoc.indexOf(1))
 
     return(
         <div class='owwDashboard'>
@@ -210,7 +259,7 @@ const ShitDashboard =()=>{
                         variant="outlined"  
                         multiline rows="4" 
                         InputProps={{readOnly: true, }} 
-                        value={addressza}/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
+                        value={ addressza }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
 
 
 
@@ -253,7 +302,7 @@ const ShitDashboard =()=>{
                         variant="outlined"  
                         multiline rows="4" 
                         InputProps={{readOnly: true, }} 
-                        value={addressza2}/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
+                        value={ addressza2 }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
 
                     
 
@@ -296,7 +345,7 @@ const ShitDashboard =()=>{
                     </Button>
 
                     <Button 
-                    onClick={ ClosenCreate } 
+                    onClick={ PushDoc } 
                     variant="contained" 
                     size="large" 
                     color="primary" >
@@ -337,36 +386,39 @@ const ShitDashboard =()=>{
                                                     <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }</h4>
                                                     </DialogTitle>
 
-                                                        <TextField required 
+                                                        <TextField required autoFucus
                                                         id="nameSender" 
-                                                        label="Name" 
+                                                        helperText="Name"
                                                         variant="outlined" 
                                                         value={ SName }
                                                         type="text"
                                                         onChange={ SNameChange }
+                                                        InputProps={{readOnly: true, }}
                                                         fullWidth/><br/><br/>
                                                         <TextField required 
                                                         id="phoneSender" 
-                                                        label="Phone Number" 
+                                                        helperText="Phone Number"
                                                         variant="outlined" 
                                                         value={SPhone}
                                                         type="text"
                                                         onChange={ SPhonehange }
+                                                        InputProps={{readOnly: true, }}
                                                         fullWidth/><br/><br/>
 
-                                                        <TextField required 
+                                                        {/* <TextField required 
                                                         id="addressdropdown" 
+                                                        helperText="Address"
                                                         className='col col-12 ' 
                                                         select 
-                                                        label="Address" 
                                                         value={ addressza } 
                                                         onChange={ handleChange } 
                                                         fullwidth>
                                                             { DropdownAddress }
-                                                        </TextField><br/><br/>
+                                                        </TextField><br/><br/> */}
 
                                                         <TextField 
                                                         id="addresstextarea" 
+                                                        helperText="Address"
                                                         className='col col-11 float-right' 
                                                         variant="outlined"  
                                                         multiline rows="4" 
@@ -383,33 +435,38 @@ const ShitDashboard =()=>{
 
                                                         <TextField required 
                                                         id="nameSender" 
-                                                        label="Name" 
+                                                        helperText="Name"
                                                         variant="outlined" 
                                                         value={RName}
                                                         type="text"
                                                         onChange={ RNameChange }
+                                                        InputProps={{readOnly: true, }}
                                                         fullWidth/><br/><br/>
                                                         <TextField required 
                                                         id="phoneSender" 
-                                                        label="Phone Number" 
+                                                        helperText="Phone"
                                                         variant="outlined" 
                                                         value={RPhone}
                                                         type="text"
                                                         onChange={ RPhoneChange }
+                                                        InputProps={{readOnly: true, }}
                                                         fullWidth/><br/><br/>
 
-                                                        <TextField required 
+                                                        {/* <TextField required 
                                                         id="addressdropdown" 
+                                                        helperText="Address"
                                                         className='col col-12 ' 
                                                         select label="Address" 
                                                         value={ addressza2 } 
                                                         onChange={ handleChange2}  
+                                                        
                                                         fullwidth>
                                                             { DropdownAddress }
-                                                        </TextField><br/><br/>
+                                                        </TextField><br/><br/> */}
 
                                                         <TextField  
                                                         id="addresstextarea" 
+                                                        helperText="Address"
                                                         className='col col-11 float-right' 
                                                         variant="outlined"  
                                                         multiline rows="4" 
@@ -426,7 +483,7 @@ const ShitDashboard =()=>{
 
                                                         <TextField required 
                                                         id="namePracel" 
-                                                        label="Pracel" 
+                                                        helperText="Pracel"
                                                         variant="outlined" 
                                                         value={PName}
                                                         type="text"
@@ -435,7 +492,7 @@ const ShitDashboard =()=>{
                                                                     
                                                         <TextField required 
                                                         id="detailpraceltextarea" 
-                                                        label="Description" 
+                                                        helperText="Pracel Description"
                                                         className='col col-11 float-right' 
                                                         variant="outlined"  
                                                         value={Dparcel}
