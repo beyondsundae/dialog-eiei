@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ShitDialog from './ShitDialog';
+import ShitDashboard from './ShitDashboard';
 
 function AddCase() {
 
@@ -60,10 +61,11 @@ function AddCase() {
       // )
 
       return (
-        <div className="container text-center my-5 py-5 border border-danger">
-            <button className='btn btn-danger btn-lg' onClick={ addData }>เพิ่มข้อมูล</button>
-            <div>shit button: {AddButton}</div>
-            <ShitDialog btn={addData}/>
+        <div className="container text-left ">
+            <ShitDialog btn={addData} />
+            <div>xxxx{AddButton}</div>
+            {/* <ShitDashboard showsts={AddButton}/> */}
+            
                 
                 
                 

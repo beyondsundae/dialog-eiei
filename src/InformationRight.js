@@ -5,7 +5,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 // import DialogContentText from '@material-ui/core/DialogContentText';
@@ -19,8 +18,8 @@ import FaceIcon from '@material-ui/icons/Face';
 import Address from './Address';
 
 
-const ShitDialog =(props)=> {
-  const [open, setOpen] = useState(false);
+const InformationRight =(props)=> {
+  const [open, setOpen] = useState(true);
  
   const [addressza, setAddressza] = React.useState();
   const handleChange = event => {
@@ -32,9 +31,9 @@ const ShitDialog =(props)=> {
     setAddressza2(event.target.value);
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+//   const handleClickOpen = () => {
+//     setOpen(true);
+//   };
 
   const handleClose = () => {
     setOpen(false);
@@ -44,7 +43,7 @@ const ShitDialog =(props)=> {
     setTimeout(() => {
       props.btn();
       setOpen(false);
-      }, 500);
+      }, 0);
   }
 
 
@@ -54,27 +53,20 @@ const ShitDialog =(props)=> {
         key={ option.value } 
         value={ option.value } 
         onChange={ ()=> {setAddressza(option.label)}} fullwidth >
-        
             { option.label }
     </MenuItem>)
 
 
   return (
     <div className='container col col m-1  '>
-      
-      <Button variant="contained" size="large" color="primary" onClick={handleClickOpen}>
-        Send a parcel <br/>  { <ArchiveIcon/> }{ <ArrowForwardIcon/> }
-      </Button>
-
-
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" className='p-5' fullWidth id='shitDialog'>
+        
         <DialogTitle id="form-dialog-title" className='text-center'><h1>Shipping information </h1></DialogTitle><hr/>
           <DialogContent>
   
         <DialogTitle id="form-dialog-title" className='text-center'><h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }</h4></DialogTitle>
 
-            <TextField required id="nameSender" label="Name" variant="outlined" fullWidth/><br/><br/>
-            <TextField required id="phoneSender" label="Phone Number" variant="outlined" fullWidth/><br/><br/>
+            <TextField required id="nameSender" label="Name" variant="outlined" fullWidth InputProps={{readOnly: true, }}/><br/><br/>
+            <TextField required id="phoneSender" label="Phone Number" variant="outlined" fullWidth InputProps={{readOnly: true, }}/><br/><br/>
 
             <TextField required id="addressdropdown" className='col col-12 ' select label="Address" value={ addressza } onChange={ handleChange } fullwidth>
                 { DropdownAddress }
@@ -85,12 +77,12 @@ const ShitDialog =(props)=> {
 
 
 
-            <DialogTitle id="form-dialog-title" className='text-center'><h4>Reciever { <ArrowForwardIcon/> }{ <FaceIcon/> }</h4></DialogTitle>
+        <DialogTitle id="form-dialog-title" className='text-center'><h4>Reciever { <ArrowForwardIcon/> }{ <FaceIcon/> }</h4></DialogTitle>
 
-            <TextField required id="nameSender" label="Name" variant="outlined" fullWidth/><br/><br/>
-            <TextField required id="phoneSender" label="Phone Number" variant="outlined" fullWidth/><br/><br/>
+            <TextField required id="nameSender" label="Name" variant="outlined" fullWidth InputProps={{readOnly: true, }}/><br/><br/>
+            <TextField required id="phoneSender" label="Phone Number" variant="outlined" fullWidth InputProps={{readOnly: true, }}/><br/><br/>
 
-            <TextField required id="addressdropdown" className='col col-12 ' select label="Address" value={ addressza2 } onChange={ handleChange2}  fullwidth>
+            <TextField required id="addressdropdown" className='col col-12 ' select label="Address" value={ addressza2 } onChange={ handleChange2} fullwidth>
                 { DropdownAddress }
             </TextField><br/><br/>
 
@@ -103,10 +95,10 @@ const ShitDialog =(props)=> {
 
             <DialogTitle id="form-dialog-title" className='text-center'><h4>Pracel information { <ArchiveIcon/> } </h4></DialogTitle>
 
-            <TextField required id="namePracel" label="Pracel" variant="outlined" fullWidth/><br/><br/>
+            <TextField required id="namePracel" label="Pracel" variant="outlined" fullWidth InputProps={{readOnly: true, }}/><br/><br/>
                           
             <TextField required id="detailpraceltextarea" label="Description" className='col col-11 float-right' variant="outlined"  
-            multiline rows="4" />
+            multiline rows="4" InputProps={{readOnly: true, }} />
 
         </DialogContent>
 
@@ -121,12 +113,10 @@ const ShitDialog =(props)=> {
           {<DoneIcon/>}
             Submit
           </Button>
-
         </DialogActions>
-      </Dialog>
-      
+
     </div>
   );
 }
 
-export default ShitDialog;
+export default InformationRight;
