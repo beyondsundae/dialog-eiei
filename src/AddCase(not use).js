@@ -37,10 +37,8 @@ function AddCase() {
       const AddButton =AddData.map((item,index)=>(
         
         <div>
-          <button key={index} className="btn btn-warning btn-lg mr-3" onClick={ () => (item.item) }>
+          <button key={index} className="btn btn-warning btn-lg mr-3" onClick={ console.log(index) }>
             { item.status } {index}
-            
-            
           </button>
         
           <button key={index} className='btn btn-success btn-sm' onClick={ ()=>updateAccept(index) }>
@@ -64,7 +62,7 @@ function AddCase() {
         <div className="container text-left ">
             <ShitDialog btn={addData} />
             <div>xxxx{AddButton}</div>
-            {/* <ShitDashboard showsts={AddButton}/> */}
+            <ShitDashboard showsts={AddButton}/>
             
                 
                 
