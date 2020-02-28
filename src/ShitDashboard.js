@@ -25,7 +25,6 @@ const ShitDashboard =()=>{
     const [AddDoc, setAddDoc] = useState([])
 
     const [open, setOpen] = useState(false);
-
     
 
     const [SName, setSName] = useState([]); 
@@ -126,19 +125,19 @@ const ShitDashboard =()=>{
     
 
     function addData(){
-        setAddData([...AddData, {status: 'SENT'}])
+        setAddData([...AddData, {status: 'SENT' , color:"btn btn-warning btn-lg btn-block mr-3"}])
     }
       
     const updateAccept = (index)  => {
         let newArr = [...AddData]; // copying the old datas array
-        newArr[index] = { index, status: 'ACCEPTED'} // replace e.target.value with whatever you want to change it to
+        newArr[index] = { index, status: 'ACCEPTED', color:"btn btn-success btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
         console.log(newArr)
         setAddData(newArr); // ??
     }
 
     const updateDecline = (index)  => {
         let newArr = [...AddData]; // copying the old datas array
-        newArr[index] = { index, status: 'REJECTED'} // replace e.target.value with whatever you want to change it to
+        newArr[index] = { index, status: 'REJECTED', color:"btn btn-danger  btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
         console.log(newArr)
         setAddData(newArr); // ??       
         
@@ -154,7 +153,7 @@ const ShitDashboard =()=>{
     const AddButton =AddData.map((item,index)=>(
         
         <div className='my-3'>
-          <button key={index} className="btn btn-warning btn-lg btn-block mr-3" onClick={ ()=>GetIndex(index) } >
+          <button key={index} className={ item.color } onClick={ ()=>GetIndex(index) } >
             { item.status } {/*{index}*/} 
           </button><br/>
         
@@ -170,8 +169,8 @@ const ShitDashboard =()=>{
 
     const DropdownAddress = Address.map((option) => 
         <MenuItem 
-            key={ option.value } 
-            value={ option.value } 
+            key={ option.address } 
+            value={ option.address } 
             onChange={ ()=> {setAddressza(option.label)}} fullwidth >
                 { option.label }
         </MenuItem>)
@@ -185,8 +184,6 @@ const ShitDashboard =()=>{
     //     setAddressza2(e.target.value);
     //     setPName(e.target.value)
     //     setDparcel(e.target.value)
-       
-
 
     //     console.log("SenderName", SName)
     //     console.log("SenderPhone", SPhone)
@@ -204,18 +201,16 @@ const ShitDashboard =()=>{
     //     }, 500);
     // }
 
-    
-
-
     const handleClickOpen = () => {
         setOpen(true);
     };
     const handleClose = () => {
         setOpen(false);
     };
-useEffect(() => {
-    console.log(...AddData)
-    console.log(...AddDoc)})
+
+    useEffect(() => {
+        console.log(...AddData)
+        console.log(...AddDoc)})
 
     
  
