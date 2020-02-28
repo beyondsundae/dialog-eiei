@@ -63,6 +63,17 @@ const ShitDashboard =()=>{
       setDparcel(e.target.value)
     }
     
+    const [SNameR, setSNameR] =useState();
+    const [SPhoneR, setSPhoneR] =useState();
+    const [SAddressR, setSAddressR] =useState();
+
+    const [RNameR, setRNameR] =useState();
+    const [RPhoneR, setRPhoneR] =useState();
+    const [RAddressR, setRAddressR] =useState();
+
+    const [PNameR, setPNameR] =useState();
+    const [DparcelR, setDparcelR] =useState();
+
     function PushDoc (e){
         var data = AddDoc
         AddDoc.push({
@@ -90,27 +101,44 @@ const ShitDashboard =()=>{
             addData();
             setOpen(false);
             }, 500);  
+
+          
     }
 
-    function GetIndex (index){
-        console.log(index)
+    function GetIndex ( index ){
+        var getindex =AddDoc[index]
+        // console.log(getindex)
+        // console.log(getindex.SName + getindex.SPhone)
 
+        setSNameR(getindex.SName)
+        setSPhoneR(getindex.SPhone)
+        setSAddressR(getindex.addressza)
+
+        setRNameR(getindex.RName)
+        setRPhoneR(getindex.RPhone)
+        setRAddressR(getindex.addressza2)
+        
+        setPNameR(getindex.PName)
+        setDparcelR(getindex.Dparcel)
     }
+
+    
+    
 
     function addData(){
-        setAddData([...AddData, {item:false, status: 'SENT'}])
+        setAddData([...AddData, {status: 'SENT'}])
     }
       
     const updateAccept = (index)  => {
         let newArr = [...AddData]; // copying the old datas array
-        newArr[index] = { index, item:false, status: 'ACCEPTED'} // replace e.target.value with whatever you want to change it to
+        newArr[index] = { index, status: 'ACCEPTED'} // replace e.target.value with whatever you want to change it to
         console.log(newArr)
         setAddData(newArr); // ??
     }
 
     const updateDecline = (index)  => {
         let newArr = [...AddData]; // copying the old datas array
-        newArr[index] = { index, item:false, status: 'REJECTED'} // replace e.target.value with whatever you want to change it to
+        newArr[index] = { index, status: 'REJECTED'} // replace e.target.value with whatever you want to change it to
         console.log(newArr)
         setAddData(newArr); // ??       
         
@@ -188,7 +216,9 @@ const ShitDashboard =()=>{
 useEffect(() => {
     console.log(...AddData)
     console.log(...AddDoc)})
-    console.log(AddDoc.indexOf(1))
+
+    
+ 
 
     return(
         <div class='owwDashboard'>
@@ -390,7 +420,7 @@ useEffect(() => {
                                                         id="nameSender" 
                                                         helperText="Name"
                                                         variant="outlined" 
-                                                        value={ SName }
+                                                        value={ SNameR }
                                                         type="text"
                                                         onChange={ SNameChange }
                                                         InputProps={{readOnly: true, }}
@@ -399,7 +429,7 @@ useEffect(() => {
                                                         id="phoneSender" 
                                                         helperText="Phone Number"
                                                         variant="outlined" 
-                                                        value={SPhone}
+                                                        value={ SPhoneR }
                                                         type="text"
                                                         onChange={ SPhonehange }
                                                         InputProps={{readOnly: true, }}
@@ -423,7 +453,7 @@ useEffect(() => {
                                                         variant="outlined"  
                                                         multiline rows="4" 
                                                         InputProps={{readOnly: true, }} 
-                                                        value={addressza}/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
+                                                        value={ SAddressR }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
 
 
 
@@ -437,7 +467,7 @@ useEffect(() => {
                                                         id="nameSender" 
                                                         helperText="Name"
                                                         variant="outlined" 
-                                                        value={RName}
+                                                        value={ RNameR }
                                                         type="text"
                                                         onChange={ RNameChange }
                                                         InputProps={{readOnly: true, }}
@@ -446,7 +476,7 @@ useEffect(() => {
                                                         id="phoneSender" 
                                                         helperText="Phone"
                                                         variant="outlined" 
-                                                        value={RPhone}
+                                                        value={ RPhoneR }
                                                         type="text"
                                                         onChange={ RPhoneChange }
                                                         InputProps={{readOnly: true, }}
@@ -471,7 +501,7 @@ useEffect(() => {
                                                         variant="outlined"  
                                                         multiline rows="4" 
                                                         InputProps={{readOnly: true, }} 
-                                                        value={addressza2}/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
+                                                        value={ RAddressR }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
 
                                                     
 
@@ -485,7 +515,7 @@ useEffect(() => {
                                                         id="namePracel" 
                                                         helperText="Pracel"
                                                         variant="outlined" 
-                                                        value={PName}
+                                                        value={ PNameR }
                                                         type="text"
                                                         onChange={ PNameChange }
                                                         fullWidth/><br/><br/>
@@ -495,7 +525,7 @@ useEffect(() => {
                                                         helperText="Pracel Description"
                                                         className='col col-11 float-right' 
                                                         variant="outlined"  
-                                                        value={Dparcel}
+                                                        value={ DparcelR }
                                                         type="text"
                                                         onChange={ DparcelChange }
                                                         multiline rows="4" />
