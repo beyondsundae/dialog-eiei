@@ -52,7 +52,7 @@ const ShitDashboard =()=>{
     const handleChange2 = e => {
       setAddressza2(e.target.value);
     }
-  
+
     const [PName, setPName] = useState();
     function PNameChange (e){
       setPName(e.target.value)
@@ -121,6 +121,27 @@ const ShitDashboard =()=>{
         setDparcelR(getindex.Dparcel)
     }
 
+    function BTNAddress (index){
+        var btnbutton = AddDoc[index]
+        let newArr = [...AddData]; // copying the old datas array
+        newArr[index] = {  status: (btnbutton.addressza2), color:"btn btn-warning btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
+        setAddData(newArr); // 
+    }
+
+    function BTNDefault (index){
+        let newArr = [...AddData]; // copying the old datas array
+        newArr[index] = {  status: 'SENT', color:"btn btn-warning btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
+        setAddData(newArr); // 
+    }
+
+
+    // function ShowingAddres (index){
+    //     var getindex =AddDoc[index]
+        
+    //     return(<p>{getindex}</p>)
+         
+       
+    // }
     
     
 
@@ -150,28 +171,41 @@ const ShitDashboard =()=>{
     //     setAddData(newArr);
     // }
     
-    const AddButton =AddData.map((item,index)=>(
+    const AddButton =AddData.map((item,index)=>
         
         <div className='my-3'>
-          <button key={index} className={ item.color } onClick={ ()=>GetIndex(index) } >
+          <button key={index} className={ item.color } onClick={ ()=>GetIndex (index) }  onMouseOver={()=>BTNAddress (index)} onMouseOut={()=>BTNDefault (index)}>
             { item.status } {/*{index}*/} 
           </button><br/>
         
+          
+          
 
-          <button key={index} className='btn btn-success btn-sm' onClick={ ()=>updateAccept(index) }>
+          {/* <TextField  
+            key={index}
+            id="addresstextarea" 
+            helperText="Address"
+            className='col col-11 float-right' 
+            variant="outlined"  
+            multiline rows="4" 
+            InputProps={{readOnly: true, }} 
+            value={ btnbutton.addressza2 }/> */}
+
+          <button key={index} className='btn btn-outline-success btn-sm' onClick={ ()=>updateAccept(index) }>
             Accept Parcel {/*{index}*/}
           </button>
-          <button key={index} className='btn btn-danger btn-sm' onClick={ ()=>updateDecline(index) } >
+          <button key={index} className='btn btn-outline-danger btn-sm' onClick={ ()=>updateDecline(index) } >
             Decline Parcel {/*{index}*/}
           </button><hr/>
         </div> 
-      ))
+      );
 
     const DropdownAddress = Address.map((option) => 
         <MenuItem 
             key={ option.address } 
             value={ option.address } 
-            onChange={ ()=> {setAddressza(option.label)}} fullwidth >
+            // onChange={ ()=> {setAddressza(option.label)}} 
+            fullwidth >
                 { option.label }
         </MenuItem>)
 
@@ -210,7 +244,10 @@ const ShitDashboard =()=>{
 
     useEffect(() => {
         console.log(...AddData)
-        console.log(...AddDoc)})
+        console.log(...AddDoc)
+        console.log({addressza})
+        console.log({addressza2})
+    })
 
     
  
@@ -258,14 +295,14 @@ const ShitDashboard =()=>{
                         type="text"
                         onChange={ SNameChange }
                         fullWidth/><br/><br/>
-                        <TextField required 
-                        id="phoneSender" 
-                        label="Phone Number" 
-                        variant="outlined" 
-                        value={SPhone}
-                        type="text"
-                        onChange={ SPhonehange }
-                        fullWidth/><br/><br/>
+                                <TextField required 
+                                id="phoneSender" 
+                                label="Phone Number" 
+                                variant="outlined" 
+                                value={SPhone}
+                                type="text"
+                                onChange={ SPhonehange }
+                                fullWidth/><br/><br/>
 
                         <TextField required 
                         id="addressdropdown" 
@@ -277,14 +314,13 @@ const ShitDashboard =()=>{
                         fullwidth>
                             { DropdownAddress }
                         </TextField><br/><br/>
-
-                        <TextField 
-                        id="addresstextarea" 
-                        className='col col-11 float-right' 
-                        variant="outlined"  
-                        multiline rows="4" 
-                        InputProps={{readOnly: true, }} 
-                        value={ addressza }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
+                                <TextField 
+                                id="addresstextarea" 
+                                className='col col-11 float-right' 
+                                variant="outlined"  
+                                multiline rows="4" 
+                                InputProps={{readOnly: true, }} 
+                                value={ addressza }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
 
 
 
@@ -302,32 +338,31 @@ const ShitDashboard =()=>{
                         type="text"
                         onChange={ RNameChange }
                         fullWidth/><br/><br/>
-                        <TextField required 
-                        id="phoneSender" 
-                        label="Phone Number" 
-                        variant="outlined" 
-                        value={RPhone}
-                        type="text"
-                        onChange={ RPhoneChange }
-                        fullWidth/><br/><br/>
+                                <TextField required 
+                                id="phoneSender" 
+                                label="Phone Number" 
+                                variant="outlined" 
+                                value={RPhone}
+                                type="text"
+                                onChange={ RPhoneChange }
+                                fullWidth/><br/><br/>
 
                         <TextField required 
                         id="addressdropdown" 
                         className='col col-12 ' 
                         select label="Address" 
                         value={ addressza2 } 
-                        onChange={ handleChange2}  
+                        onChange={ handleChange2 }  
                         fullwidth>
                             { DropdownAddress }
                         </TextField><br/><br/>
-
-                        <TextField  
-                        id="addresstextarea" 
-                        className='col col-11 float-right' 
-                        variant="outlined"  
-                        multiline rows="4" 
-                        InputProps={{readOnly: true, }} 
-                        value={ addressza2 }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
+                                <TextField  
+                                id="addresstextarea" 
+                                className='col col-11 float-right' 
+                                variant="outlined"  
+                                multiline rows="4" 
+                                InputProps={{readOnly: true, }} 
+                                value={ addressza2 }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
 
                     
 
@@ -532,15 +567,7 @@ const ShitDashboard =()=>{
                         </div>
                     
                     </div>
-                </div>
-                        
-
-                        
-
-                            
-                
-                
-                    
+                </div>         
             </Card>
             </div>
         </div>

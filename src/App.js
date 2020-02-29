@@ -4,12 +4,14 @@ import ShitDashboard from './ShitDashboard';
 // import AddCase from './AddCase';
 // import ShitDialog from './ShitDialog';
 
-function App(props) {
+
+function App() {
   return (
     <div id='ShitAllofPage'>
       <ShitDashboard/>
       {/* <AddCase/> */}
       {/* <ShitDialog/> */}
+     
       
     </div>
   );
