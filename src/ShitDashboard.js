@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/css/bootstrap.css";
+import axios from 'axios';
+
 // import DialogContentText from '@material-ui/core/DialogContentText';
 import Address from './Address';
+import "bootstrap/dist/css/bootstrap.css";
 import Card from '@material-ui/core/Card';
+import "bootstrap/dist/css/bootstrap.min.css";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DoneIcon from '@material-ui/icons/Done';
@@ -87,6 +89,10 @@ const ShitDashboard =()=>{
         })
         setAddDoc(data)
 
+
+
+        
+
         setSName(e.target.value)
         setSPhone(e.target.value)
         setAddressza(e.target.value); 
@@ -96,12 +102,43 @@ const ShitDashboard =()=>{
         setPName(e.target.value)
         setDparcel(e.target.value)
 
+        
+          
+        
+
         setTimeout(() => {
             addData();
             setOpen(false);
+            PostShit();
+           
             }, 500);  
 
           
+    }
+
+
+    
+    function PostShit (){
+
+        var formData = {
+            SName:SName,
+            SPhone:SPhone,
+            addressza:addressza,
+            RName:RName,
+            RPhone:RPhone,
+            addressza2:addressza2,
+            PName:PName,
+            Dparcel:Dparcel}
+
+        axios.post('http://localhost:4000/kkkk', formData)
+             
+            .then(function (response) {
+                console.log(response);
+          })
+            .catch(function (error) {
+                console.log(error);
+          });
+        
     }
 
     function GetIndex ( index ){
@@ -245,8 +282,8 @@ const ShitDashboard =()=>{
     useEffect(() => {
         console.log(...AddData)
         console.log(...AddDoc)
-        console.log({addressza})
-        console.log({addressza2})
+        // console.log({addressza})
+        // console.log({addressza2})
     })
 
     

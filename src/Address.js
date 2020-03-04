@@ -34,7 +34,7 @@ const Address = [
       label: 'Honda Maliwan (Naka)',
     },
     {
-      address: 'Honda Maliwan (Krabi) -------- 489/8,489/10 Utarakit Road, Krabi Yai, Muang Krabi 81000, Thailand Tel 075-855-888y',
+      address: 'Honda Maliwan (Krabi) -------- 489/8,489/10 Utarakit Road, Krabi Yai, Muang Krabi 81000, Thailand Tel 075-855-888',
       label: 'Honda Maliwan (Krabi)',
     }
 
