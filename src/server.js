@@ -27,6 +27,8 @@ connection.connect(function(err){
     console.log('status: connected')
     console.log(`Example app listening on port ${port}!`)
 
+    
+
     // var sql = "INSERT INTO Address (ID_Address, Address_Name, Address_Full) VALUES ('1', 'eieiei', 'test')";
     //     connection.query(sql, function (err, result) {
     //         if (err) throw err;
@@ -60,8 +62,19 @@ app.post('/111', (req, res) => {
             console.log("1 record inserted")})})
 
 
-app.post('/kkkk',(req, res) => {
-    console.log(req.body.SName)
+app.get('/yyyy', (req, res)=>{
+    connection.query("SELECT Id_parcel FROM Parcel", function (err, result, fields) {
+        // if (err) throw err;
+            // console.log(result[2]);    
+            res.send(result)
+            console.log("show result")
+            console.log(result);   
+      });
+})
+
+
+app.post('/PostParcel',(req, res) => {
+    console.log("insertingrs done")
     let data = {
         Sender_Name: req.body.SName, 
         Sender_Phone: req.body.SPhone, 
@@ -74,7 +87,8 @@ app.post('/kkkk',(req, res) => {
 
     let sql = "INSERT INTO Parcel SET ?";
         connection.query(sql, data,(err, results) => {
-        if(err) throw err;
+        
+        // if(err) throw err;
         
     });
     });

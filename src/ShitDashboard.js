@@ -27,6 +27,8 @@ const ShitDashboard =()=>{
     const [AddDoc, setAddDoc] = useState([])
 
     const [open, setOpen] = useState(false);
+
+    const [Gett, setGett] = useState();
     
 
     const [SName, setSName] = useState([]); 
@@ -76,22 +78,18 @@ const ShitDashboard =()=>{
     const [DparcelR, setDparcelR] =useState();
 
     function PushDoc (e){
-        var data = AddDoc
-        AddDoc.push({
-            SName:SName,
-            SPhone:SPhone,
-            addressza:addressza,
-            RName:RName,
-            RPhone:RPhone,
-            addressza2:addressza2,
-            PName:PName,
-            Dparcel:Dparcel
-        })
-        setAddDoc(data)
-
-
-
-        
+        // var data = AddDoc
+        // AddDoc.push({
+        //     SName:SName,
+        //     SPhone:SPhone,
+        //     addressza:addressza,
+        //     RName:RName,
+        //     RPhone:RPhone,
+        //     addressza2:addressza2,
+        //     PName:PName,
+        //     Dparcel:Dparcel
+        // })
+        // setAddDoc(data)
 
         setSName(e.target.value)
         setSPhone(e.target.value)
@@ -102,18 +100,13 @@ const ShitDashboard =()=>{
         setPName(e.target.value)
         setDparcel(e.target.value)
 
-        
-          
-        
 
         setTimeout(() => {
             addData();
             setOpen(false);
             PostShit();
-           
             }, 500);  
 
-          
     }
 
 
@@ -130,15 +123,27 @@ const ShitDashboard =()=>{
             PName:PName,
             Dparcel:Dparcel}
 
-        axios.post('http://localhost:4000/kkkk', formData)
-             
+        axios.post('http://localhost:4000/PostParcel', formData)
             .then(function (response) {
                 console.log(response);
           })
             .catch(function (error) {
                 console.log(error);
           });
-        
+
+          axios.get('http://localhost:4000/yyyy')
+            .then(function (response){
+                const data = response.data;
+                console.log(...data)
+                console.log(data[2])
+
+                setGett(data)
+        })
+            .catch(function (error) {
+                console.log(error);
+        });
+
+
     }
 
     function GetIndex ( index ){
@@ -156,22 +161,32 @@ const ShitDashboard =()=>{
         
         setPNameR(getindex.PName)
         setDparcelR(getindex.Dparcel)
+        /* 
+        ! Data showing rightside
+        */
+    }
+
+
+    function BTNDefault (index){
+        let newArr = [...AddData]; // copying the old datas array
+        newArr[index] = {  status: 'SENT', color:"btn btn-warning btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
+        setAddData(newArr); // Showing default when hover
+        /* 
+        ! Showing default
+        */
     }
 
     function BTNAddress (index){
         var btnbutton = AddDoc[index]
         let newArr = [...AddData]; // copying the old datas array
         newArr[index] = {  status: (btnbutton.addressza2), color:"btn btn-warning btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
-        setAddData(newArr); // 
-    }
+        setAddData(newArr); 
+        /* 
+        ! Showing destiantion when hover
+        */
+    } 
 
-    function BTNDefault (index){
-        let newArr = [...AddData]; // copying the old datas array
-        newArr[index] = {  status: 'SENT', color:"btn btn-warning btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
-        setAddData(newArr); // 
-    }
-
-
+ 
     // function ShowingAddres (index){
     //     var getindex =AddDoc[index]
         
@@ -191,14 +206,19 @@ const ShitDashboard =()=>{
         newArr[index] = { index, status: 'ACCEPTED', color:"btn btn-success btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
         console.log(newArr)
         setAddData(newArr); // ??
+        /* 
+        ! Change to ACCEPTED when click
+        */
     }
 
     const updateDecline = (index)  => {
-        let newArr = [...AddData]; // copying the old datas array
-        newArr[index] = { index, status: 'REJECTED', color:"btn btn-danger  btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
+        let newArr = [...AddData]; 
+        newArr[index] = { index, status: 'REJECTED', color:"btn btn-danger  btn-lg btn-block mr-3"} 
         console.log(newArr)
         setAddData(newArr); // ??       
-        
+        /* 
+        ! Change to REJECTED when click
+        */
     }
 
     // const Nothin = (index) =>{
@@ -213,10 +233,11 @@ const ShitDashboard =()=>{
         <div className='my-3'>
           <button key={index} className={ item.color } onClick={ ()=>GetIndex (index) }  onMouseOver={()=>BTNAddress (index)} onMouseOut={()=>BTNDefault (index)}>
             { item.status } {/*{index}*/} 
+            /* 
+            ! Shit yellow button
+            */
           </button><br/>
         
-          
-          
 
           {/* <TextField  
             key={index}
@@ -234,6 +255,9 @@ const ShitDashboard =()=>{
           <button key={index} className='btn btn-outline-danger btn-sm' onClick={ ()=>updateDecline(index) } >
             Decline Parcel {/*{index}*/}
           </button><hr/>
+            /* 
+            ! Shit 2 buttons
+            */
         </div> 
       );
 
@@ -244,6 +268,9 @@ const ShitDashboard =()=>{
             // onChange={ ()=> {setAddressza(option.label)}} 
             fullwidth >
                 { option.label }
+                /* 
+                ! Shit dropdow address
+                */
         </MenuItem>)
 
     // const ClosenCreate =(e)=>{  
@@ -280,8 +307,9 @@ const ShitDashboard =()=>{
     };
 
     useEffect(() => {
-        console.log(...AddData)
-        console.log(...AddDoc)
+        // console.log(...AddData)
+        // console.log(...AddDoc)
+        console.log(Gett)
         // console.log({addressza})
         // console.log({addressza2})
     })
@@ -321,7 +349,7 @@ const ShitDashboard =()=>{
                     <DialogTitle 
                     id="form-dialog-title" 
                     className='text-center'>
-                    <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }</h4>
+                    <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <ArchiveIcon/> }</h4>
                     </DialogTitle>
 
                         <TextField required 
@@ -364,7 +392,7 @@ const ShitDashboard =()=>{
                         <DialogTitle 
                         id="form-dialog-title" 
                         className='text-center'>
-                        <h4>Reciever { <ArrowForwardIcon/> }{ <FaceIcon/> }</h4>
+                        <h4>Reciever { <ArchiveIcon/> }{ <ArrowForwardIcon/> }{ <FaceIcon/> }</h4>
                         </DialogTitle>
 
                         <TextField required 
@@ -480,7 +508,7 @@ const ShitDashboard =()=>{
                                                     <DialogTitle 
                                                     id="form-dialog-title" 
                                                     className='text-center'>
-                                                    <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }</h4>
+                                                    <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <ArchiveIcon/> }</h4>
                                                     </DialogTitle>
 
                                                         <TextField required autoFucus
@@ -527,7 +555,7 @@ const ShitDashboard =()=>{
                                                         <DialogTitle 
                                                         id="form-dialog-title" 
                                                         className='text-center'>
-                                                        <h4>Reciever { <ArrowForwardIcon/> }{ <FaceIcon/> }</h4>
+                                                        <h4>Reciever { <ArchiveIcon/> }{ <ArrowForwardIcon/> }{ <FaceIcon/> }</h4>
                                                         </DialogTitle>
 
                                                         <TextField required 
