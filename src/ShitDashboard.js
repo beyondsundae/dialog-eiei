@@ -41,6 +41,7 @@ const ShitDashboard =()=>{
     const [ShowDataxx, setShowDataxx] = useState();
     const [ShowAddressxx, setShowAddressxx] = useState();
     
+    
 
     const [SName, setSName] = useState([]); 
     function SNameChange (e){ setSName(e.target.value) }
@@ -65,7 +66,7 @@ const ShitDashboard =()=>{
     /*
     ! Modal side
     */
-
+    const [GetIDParcel, setGetIDParcel] = useState();
     const [SNameR, setSNameR] =useState();
     const [SPhoneR, setSPhoneR] =useState();
     const [SAddressR, setSAddressR] =useState();
@@ -76,39 +77,40 @@ const ShitDashboard =()=>{
 
     const [PNameR, setPNameR] =useState();
     const [DparcelR, setDparcelR] =useState();
+    
      /*
     ! Right side
     */
 
     function PushDoc (e){
-        var data = AddDoc
-        AddDoc.push({
-            SName:SName,
-            SPhone:SPhone,
-            addressza:addressza,
-            RName:RName,
-            RPhone:RPhone,
-            addressza2:addressza2,
-            PName:PName,
-            Dparcel:Dparcel
-        })
-        setAddDoc(data)
+        // var data = AddDoc
+        // AddDoc.push({
+        //     SName:SName,
+        //     SPhone:SPhone,
+        //     addressza:addressza,
+        //     RName:RName,
+        //     RPhone:RPhone,
+        //     addressza2:addressza2,
+        //     PName:PName,
+        //     Dparcel:Dparcel
+        // })
+        // setAddDoc(data)
 
-        setSName(e.target.value)
-        setSPhone(e.target.value)
-        setAddressza(e.target.value); 
-        setRName(e.target.value)
-        setRPhone(e.target.value)
-        setAddressza2(e.target.value);
-        setPName(e.target.value)
-        setDparcel(e.target.value)
+        // setSName(e.target.value)
+        // setSPhone(e.target.value)
+        // setAddressza(e.target.value); 
+        // setRName(e.target.value)
+        // setRPhone(e.target.value)
+        // setAddressza2(e.target.value);
+        // setPName(e.target.value)
+        // setDparcel(e.target.value)
 
 
         setTimeout(() => {
-            addData();
+            // addData();
             setOpen(false);
             PostShit();
-            }, 0);  
+            }, 500);  
     /*
     ! When submit
     */
@@ -186,10 +188,13 @@ const ShitDashboard =()=>{
     }
 
     function ShowData (item){
+        
         var info ={
                 params: {
                     id:item.Id_parcel
                 }} 
+        setGetIDParcel(item.Id_parcel)
+        
         axios.get('http://localhost:4000/specificdata',info)
             .then(function (response){
                 const dataSpecific = response.data;
@@ -205,40 +210,49 @@ const ShitDashboard =()=>{
                 setRAddressR(item.Receiver_Address),
 
                 setPNameR(item.Parcel_Name),
-                setDparcelR(item.Parcel_Description)
+                setDparcelR(item.Parcel_Description),
                 )
-                
                 setShowDataxx(MapdataSpecific)
-                // const shit = data[]
-                // console.log(shit.color)
-
-                // setGett(data)
-
-        })
-        
-    }
-    function Accept (item){
+        })}
+    
+    function Accept2 (){
         var accept ={
-            id:item.Id_parcel
+            id:GetIDParcel
         }
         axios.put('http://localhost:4000/accept',accept)
             .then(function (response){
-                console.log(item.Id_parcel)
-                ohWow ()
-            })
-        
-    }
-    function Reject (item){
+                ohWow();
+               
+            })}
+    function Reject2 (){
         var reject ={
-            id:item.Id_parcel
+            id:GetIDParcel
         }
         axios.put('http://localhost:4000/reject',reject)
             .then(function (response){
-                console.log(item.status)
-                ohWow ()
-            })
+                ohWow();
+                
+            })}
         
-    }
+    // function Accept (item){
+    //     var accept ={
+    //         id:item.Id_parcel
+    //     }
+    //     axios.put('http://localhost:4000/accept',accept)
+    //         .then(function (response){
+    //             console.log(item.Id_parcel)
+    //             ohWow ()
+    //         })}
+    // function Reject (item){
+    //     var reject ={
+    //         id:item.Id_parcel
+    //     }
+    //     axios.put('http://localhost:4000/reject',reject)
+    //         .then(function (response){
+    //             console.log(item.status)
+    //             ohWow ()
+    //         })}
+    
     function ohWow (){
         axios.get('http://localhost:4000/wholedata')//or both
             .then(function (response){
@@ -246,21 +260,34 @@ const ShitDashboard =()=>{
 
                 const MapdataThree = dataThree.map(( item )=>
                     <div className='my-3'>
+                        
                         <Tooltip TransitionComponent={Zoom} title={item.Receiver_Address} placement="top">
-                        <button key ={item.Id_parcel} className={item.color} onClick={ ()=>{ ShowData( item ) } }>{item.status}</button>
+                            <button 
+                                key ={item.Id_parcel} 
+                                className={item.color} 
+                                onClick={ ()=>{ ShowData( item ) } }>
+                                    {item.status}</button>
                         </Tooltip>
                         
-                        <button key ={item.Id_parcel} className='btn btn-outline-success btn-sm' onClick={ ()=>{ Accept( item ) } }>
-                            Accept Parcel 
+{/*                         
+                        <button 
+                            key ={item.Id_parcel} 
+                            className='btn btn-outline-success btn-sm' 
+                            onClick={ ()=>{ Accept( item ) } }>
+                                Accept Parcel 
                         </button>
-                        <button key ={item.Id_parcel} className='btn btn-outline-danger btn-sm' onClick={ ()=>{ Reject( item ) } }>
-                            Decline Parcel 
-                        </button><hr/>
+                        <button 
+                            key ={item.Id_parcel} 
+                            className='btn btn-outline-danger btn-sm' 
+                            onClick={ ()=>{ Reject( item ) } }>
+                                Decline Parcel 
+                        </button> */}
+                        <hr/>
                         
                     </div>
                     )
                     setOHwow(MapdataThree)
-
+                    
                 
         })
             .catch(function (error) {
@@ -278,78 +305,74 @@ const ShitDashboard =()=>{
                     fullwidth >
                         { item.Address_Name}
                 </MenuItem>)
-
             setShowAddressxx(DropdownAddress)
-        })
-    
+        })}
 
-    }
+    // function GetIndex ( index ){
+    //     var getindex =AddDoc[index]
+    //     // console.log(getindex)
+    //     // console.log(getindex.SName + getindex.SPhone)
 
-    function GetIndex ( index ){
-        var getindex =AddDoc[index]
-        // console.log(getindex)
-        // console.log(getindex.SName + getindex.SPhone)
+    //     setSNameR(getindex.SName)
+    //     setSPhoneR(getindex.SPhone)
+    //     setSAddressR(getindex.addressza)
 
-        setSNameR(getindex.SName)
-        setSPhoneR(getindex.SPhone)
-        setSAddressR(getindex.addressza)
-
-        setRNameR(getindex.RName)
-        setRPhoneR(getindex.RPhone)
-        setRAddressR(getindex.addressza2)
+    //     setRNameR(getindex.RName)
+    //     setRPhoneR(getindex.RPhone)
+    //     setRAddressR(getindex.addressza2)
         
-        setPNameR(getindex.PName)
-        setDparcelR(getindex.Dparcel)
-        /* 
-        ! Data showing rightside
-        */
-    }
+    //     setPNameR(getindex.PName)
+    //     setDparcelR(getindex.Dparcel)
+    //     /* 
+    //     ! Data showing rightside
+    //     */
+    // }
 
 
-    function BTNDefault (index){
-        let newArr = [...AddData]; // copying the old datas array
-        newArr[index] = {  status: 'SENT', color:"btn btn-warning btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
-        setAddData(newArr); // Showing default when hover
-        /* 
-        ! Showing default
-        */
-    }
+    // function BTNDefault (index){
+    //     let newArr = [...AddData]; // copying the old datas array
+    //     newArr[index] = {  status: 'SENT', color:"btn btn-warning btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
+    //     setAddData(newArr); // Showing default when hover
+    //     /* 
+    //     ! Showing default
+    //     */
+    // }
 
-    function BTNAddress (index){
-        var btnbutton = AddDoc[index]
-        let newArr = [...AddData]; // copying the old datas array
-        newArr[index] = {  status: (btnbutton.addressza2), color:"btn btn-warning btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
-        setAddData(newArr); 
-        /* 
-        ! Showing destiantion when hover
-        */
-    } 
+    // function BTNAddress (index){
+    //     var btnbutton = AddDoc[index]
+    //     let newArr = [...AddData]; // copying the old datas array
+    //     newArr[index] = {  status: (btnbutton.addressza2), color:"btn btn-warning btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
+    //     setAddData(newArr); 
+    //     /* 
+    //     ! Showing destiantion when hover
+    //     */
+    // } 
     
 
-    function addData(){
-        // setAddData([...AddData, {DBBoth}])
-        setAddData([...AddData, {status: 'SENT' , color:"btn btn-warning btn-lg btn-block mr-3"}])
-    }
+    // function addData(){
+    //     // setAddData([...AddData, {DBBoth}])
+    //     setAddData([...AddData, {status: 'SENT' , color:"btn btn-warning btn-lg btn-block mr-3"}])
+    // }
       
-    const updateAccept = (index)  => {
-        let newArr = [...AddData]; // copying the old datas array
-        newArr[index] = { status: 'ACCEPTED', color:"btn btn-success btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
-        console.log(newArr)
-        setAddData(newArr); // ??
-        /* 
-        ! Change to ACCEPTED when click
-        */
-    }
+    // const updateAccept = (index)  => {
+    //     let newArr = [...AddData]; // copying the old datas array
+    //     newArr[index] = { status: 'ACCEPTED', color:"btn btn-success btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
+    //     console.log(newArr)
+    //     setAddData(newArr); // ??
+    //     /* 
+    //     ! Change to ACCEPTED when click
+    //     */
+    // }
 
-    const updateDecline = (index)  => {
-        let newArr = [...AddData]; 
-        newArr[index] = { status: 'REJECTED', color:"btn btn-danger  btn-lg btn-block mr-3"} 
-        console.log(newArr)
-        setAddData(newArr); // ??       
-        /* 
-        ! Change to REJECTED when click
-        */
-    }
+    // const updateDecline = (index)  => {
+    //     let newArr = [...AddData]; 
+    //     newArr[index] = { status: 'REJECTED', color:"btn btn-danger  btn-lg btn-block mr-3"} 
+    //     console.log(newArr)
+    //     setAddData(newArr); // ??       
+    //     /* 
+    //     ! Change to REJECTED when click
+    //     */
+    // }
 
     // const AddButton =AddData.map((item,index)=>
         
@@ -431,8 +454,9 @@ const ShitDashboard =()=>{
         // console.log(AddData)
         // console.log(...AddData)
         
-        console.log(DBBoth)
-        console.log(ShowDataxx)
+        // console.log(DBBoth)
+        // console.log(ShowDataxx)
+        console.log(GetIDParcel)
         console.log("end")
         // ohWow();
         
@@ -461,8 +485,7 @@ const ShitDashboard =()=>{
                         Send a parcel <br/>  { <ArchiveIcon/> }{ <ArrowForwardIcon/> }
                     </Button>
                 </Typography>
-                <button onClick={()=>{ohWow()}}>ohWow</button>
-                
+                {/* <button onClick={()=>{ohWow()}}>ohWow</button> */}
                 <Dialog 
                 open={open} 
                 onClose={handleClose} 
@@ -476,7 +499,7 @@ const ShitDashboard =()=>{
                     <h1>Shipping information </h1>
                     </DialogTitle><hr/>
                     <DialogContent>
-            
+                    
                     <DialogTitle 
                     id="form-dialog-title" 
                     className='text-center'>
@@ -626,10 +649,33 @@ const ShitDashboard =()=>{
                         </div>
                     </div>
                         <div class="vl"></div>
-                    <div className='col col-7 m-3' id='boxRight'>
-                    <div id='containerShit' class='border border-success'>
+                        <div className='col col-7 m-3' id='boxRight'>
+                        <div id='containerShit' class='border border-success'>
                                 <div id='center-col' class='text-center'>
                                     <ul class='p-2'>
+                                        <div className='row'>
+                                        <div class="col col-3"></div>
+                                        <div class="col col-3"></div>
+                                            <div className='row col my-5'>
+                                                <div className=''>
+                                                    <button 
+                                                        key ={GetIDParcel} 
+                                                        className='btn btn-outline-danger btn-lg' 
+                                                        onClick={ ()=>{ Reject2() } }
+                                                        >Reject Parcel 
+                                                    </button><br/>
+                                                </div>
+                                            
+                                                <div className='mx-1'>
+                                                    <button 
+                                                        key ={GetIDParcel} 
+                                                        className='btn btn-outline-success btn-lg' 
+                                                        onClick={ ()=>{ Accept2() } }
+                                                        >Accept Parcel
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                             <DialogTitle 
                                             id="form-dialog-title" 
                                             className='text-center'>
@@ -642,7 +688,7 @@ const ShitDashboard =()=>{
                                                     className='text-center'>
                                                     <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <ArchiveIcon/> }</h4>
                                                     </DialogTitle>
-
+                                                        {/* <p>{GetIDParcel}</p> Show Id_parcel */}
                                                         <TextField required autoFucus
                                                         id="nameSender" 
                                                         helperText="Name"
