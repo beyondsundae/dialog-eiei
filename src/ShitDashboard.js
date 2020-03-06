@@ -3,14 +3,16 @@ import './App.css';
 import axios from 'axios';
 
 // import DialogContentText from '@material-ui/core/DialogContentText';
-import Address from './Address';
+// import Address from './Address';
 import "bootstrap/dist/css/bootstrap.css";
 import Card from '@material-ui/core/Card';
+import Zoom from '@material-ui/core/Zoom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DoneIcon from '@material-ui/icons/Done';
 import FaceIcon from '@material-ui/icons/Face';
+import Tooltip from '@material-ui/core/Tooltip';
 import MenuItem from '@material-ui/core/MenuItem';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
@@ -37,6 +39,7 @@ const ShitDashboard =()=>{
     const [DBBoth, setDBBoth] = useState();
     const [OHwow, setOHwow] = useState();
     const [ShowDataxx, setShowDataxx] = useState();
+    const [ShowAddressxx, setShowAddressxx] = useState();
     
 
     const [SName, setSName] = useState([]); 
@@ -190,7 +193,7 @@ const ShitDashboard =()=>{
         axios.get('http://localhost:4000/specificdata',info)
             .then(function (response){
                 const dataSpecific = response.data;
-                console.log(dataSpecific)
+                console.table(dataSpecific)
 
                 const MapdataSpecific = dataSpecific.map((item)=>
                 setSNameR(item.Sender_Name),
@@ -202,10 +205,9 @@ const ShitDashboard =()=>{
                 setRAddressR(item.Receiver_Address),
 
                 setPNameR(item.Parcel_Name),
-                setDparcelR(item.Parcel_Name)
+                setDparcelR(item.Parcel_Description)
                 )
                 
-
                 setShowDataxx(MapdataSpecific)
                 // const shit = data[]
                 // console.log(shit.color)
@@ -244,8 +246,9 @@ const ShitDashboard =()=>{
 
                 const MapdataThree = dataThree.map(( item )=>
                     <div className='my-3'>
+                        <Tooltip TransitionComponent={Zoom} title={item.Receiver_Address} placement="top">
                         <button key ={item.Id_parcel} className={item.color} onClick={ ()=>{ ShowData( item ) } }>{item.status}</button>
-
+                        </Tooltip>
                         
                         <button key ={item.Id_parcel} className='btn btn-outline-success btn-sm' onClick={ ()=>{ Accept( item ) } }>
                             Accept Parcel 
@@ -258,12 +261,28 @@ const ShitDashboard =()=>{
                     )
                     setOHwow(MapdataThree)
 
-                // setDBBoth(dataBoth)
-                // console.log(dataThree)
+                
         })
             .catch(function (error) {
                 console.log(error);
         });
+
+        axios.get('http://localhost:4000/address')
+        .then(function(response){
+            const dataAddress = response.data;
+            const DropdownAddress = dataAddress.map((item) => 
+                <MenuItem 
+                    key={ item.ID_ADDRESS } 
+                    value={ item.Address_Full} 
+                    onChange={ ()=> {setAddressza(item.Address_Name)}} 
+                    fullwidth >
+                        { item.Address_Name}
+                </MenuItem>)
+
+            setShowAddressxx(DropdownAddress)
+        })
+    
+
     }
 
     function GetIndex ( index ){
@@ -362,14 +381,18 @@ const ShitDashboard =()=>{
     //   );
     
 
-    const DropdownAddress = Address.map((option) => 
-        <MenuItem 
-            key={ option.address } 
-            value={ option.address } 
+    // const DropdownAddress = Address.map((option) => 
+    //     <MenuItem 
+    //         key={ option.address } 
+    //         value={ option.address } 
             // onChange={ ()=> {setAddressza(option.label)}} 
-            fullwidth >
-                { option.label }
-        </MenuItem>)
+    //         fullwidth >
+    //             { option.label }
+    //     </MenuItem>)
+
+
+
+
 
     // const ClosenCreate =(e)=>{  
     //     setSName(e.target.value)
@@ -485,7 +508,7 @@ const ShitDashboard =()=>{
                         value={ addressza } 
                         onChange={ handleChange } 
                         fullwidth>
-                            { DropdownAddress }
+                            { ShowAddressxx }
                         </TextField><br/><br/>
                                 <TextField 
                                 id="addresstextarea" 
@@ -527,7 +550,7 @@ const ShitDashboard =()=>{
                         value={ addressza2 } 
                         onChange={ handleChange2 }  
                         fullwidth>
-                            { DropdownAddress }
+                            { ShowAddressxx }
                         </TextField><br/><br/>
                                 <TextField  
                                 id="addresstextarea" 

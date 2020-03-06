@@ -112,6 +112,16 @@ app.get('/both', (req, res)=>{
       });
 })
 
+app.get('/address', (req, res)=>{
+    connection.query("SELECT * FROM Address", function (err, result, fields) {
+        // if (err) throw err;
+            // console.log(result[2]);    
+            res.send(result)
+            console.log("show result both")
+            console.log(result);   
+      });
+})
+
 app.put('/accept', (req, res)=>{
     let id = req.body.id
     connection.query("UPDATE Parcel SET status = 'ACCEPTED', color = 'btn btn-success btn-lg btn-block mr-3' WHERE Id_parcel = "+id, function (err, result, fields) {
