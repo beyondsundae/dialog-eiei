@@ -63,11 +63,22 @@ app.post('/111', (req, res) => {
 
 
 app.get('/wholedata', (req, res)=>{
-    connection.query("SELECT * FROM Parcel", function (err, result, fields) {
+    connection.query("SELECT * FROM Parcel ", function (err, result, fields) {
         // if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
-            console.log("show result")
+            console.log("show result wholedata")
+            console.log(result);   
+      });
+})
+
+app.get('/specificdata', (req, res)=>{
+    let param = req.query.id
+    connection.query("SELECT * FROM Parcel WHERE Id_parcel = "+param, function (err, result, fields) {
+        // if (err) throw err;
+            // console.log(result[2]);    
+            res.send(result)
+            console.log("show result specific")
             console.log(result);   
       });
 })
@@ -77,7 +88,7 @@ app.get('/status', (req, res)=>{
         // if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
-            console.log("show result")
+            console.log("show result status")
             console.log(result);   
       });
 })
@@ -86,7 +97,7 @@ app.get('/color', (req, res)=>{
         // if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
-            console.log("show result")
+            console.log("show result color")
             console.log(result);   
       });
 })
@@ -96,7 +107,7 @@ app.get('/both', (req, res)=>{
         // if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
-            console.log("show result")
+            console.log("show result both")
             console.log(result);   
       });
 })

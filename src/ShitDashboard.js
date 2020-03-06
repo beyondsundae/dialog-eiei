@@ -36,6 +36,8 @@ const ShitDashboard =()=>{
     const [DBColor, setDBColor] = useState();
     const [DBBoth, setDBBoth] = useState();
     const [OHwow, setOHwow] = useState();
+    const [ShowDataxx, setShowDataxx] = useState();
+    
 
     const [SName, setSName] = useState([]); 
     function SNameChange (e){ setSName(e.target.value) }
@@ -181,22 +183,36 @@ const ShitDashboard =()=>{
     }
 
     function ShowData (item){
-        // var accept ={
-        //     id:item.Id_parcel
-        // }
-        axios.get('http://localhost:4000/wholedata')
+        var info ={
+                params: {
+                    id:item.Id_parcel
+                }} 
+        axios.get('http://localhost:4000/specificdata',info)
             .then(function (response){
-                const data = response.data;
-                console.log(data)
+                const dataSpecific = response.data;
+                console.log(dataSpecific)
+
+                const MapdataSpecific = dataSpecific.map((item)=>
+                setSNameR(item.Sender_Name),
+                setSPhoneR(item.Sender_Phone),
+                setSAddressR(item.Sender_Address),
+
+                setRNameR(item.Receiver_Name),
+                setRPhoneR(item.Receiver_Phone),
+                setRAddressR(item.Receiver_Address),
+
+                setPNameR(item.Parcel_Name),
+                setDparcelR(item.Parcel_Name)
+                )
+                
+
+                setShowDataxx(MapdataSpecific)
                 // const shit = data[]
                 // console.log(shit.color)
 
                 // setGett(data)
 
         })
-            .catch(function (error) {
-                console.log(error);
-        });
         
     }
     function Accept (item){
@@ -222,25 +238,25 @@ const ShitDashboard =()=>{
         
     }
     function ohWow (){
-        axios.get('http://localhost:4000/both')
+        axios.get('http://localhost:4000/wholedata')//or both
             .then(function (response){
                 const dataThree = response.data;
 
-                const both = dataThree.map(( item )=>
+                const MapdataThree = dataThree.map(( item )=>
                     <div className='my-3'>
-                        <button key ={item.Id_parcel} className={item.color} onClick={()=>{ShowData(item)}}>{item.status}</button>
+                        <button key ={item.Id_parcel} className={item.color} onClick={ ()=>{ ShowData( item ) } }>{item.status}</button>
 
                         
-                        <button key ={item.Id_parcel} className='btn btn-outline-success btn-sm' onClick={()=>{Accept(item)}}>
+                        <button key ={item.Id_parcel} className='btn btn-outline-success btn-sm' onClick={ ()=>{ Accept( item ) } }>
                             Accept Parcel 
                         </button>
-                        <button key ={item.Id_parcel} className='btn btn-outline-danger btn-sm' onClick={()=>{Reject(item)}}>
+                        <button key ={item.Id_parcel} className='btn btn-outline-danger btn-sm' onClick={ ()=>{ Reject( item ) } }>
                             Decline Parcel 
                         </button><hr/>
                         
                     </div>
                     )
-                    setOHwow(both)
+                    setOHwow(MapdataThree)
 
                 // setDBBoth(dataBoth)
                 // console.log(dataThree)
@@ -393,6 +409,7 @@ const ShitDashboard =()=>{
         // console.log(...AddData)
         
         console.log(DBBoth)
+        console.log(ShowDataxx)
         console.log("end")
         // ohWow();
         
