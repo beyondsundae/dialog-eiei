@@ -22,50 +22,45 @@ import DialogActions from '@material-ui/core/DialogActions';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 const ShitDashboard =()=>{
+    window.onload = function() {
+        ohWow();
+      }
 
     const [AddData, setAddData] = useState([])
     const [AddDoc, setAddDoc] = useState([])
 
     const [open, setOpen] = useState(false);
-
     const [Gett, setGett] = useState();
-    
+
+    const [DBStatus, setDBStatus] = useState();
+    const [DBColor, setDBColor] = useState();
+    const [DBBoth, setDBBoth] = useState();
+    const [OHwow, setOHwow] = useState();
 
     const [SName, setSName] = useState([]); 
-    function SNameChange (e){
-      setSName(e.target.value)
-    }
+    function SNameChange (e){ setSName(e.target.value) }
     const [SPhone, setSPhone] = useState();
-    function SPhonehange (e){
-      setSPhone(e.target.value)
-    }
+    function SPhonehange (e){ setSPhone(e.target.value) }
     const [addressza, setAddressza] = useState();
-    const handleChange = e => {
-      setAddressza(e.target.value);
-    };
-  
+    function handleChange  (e){ setAddressza(e.target.value) }
+      
+    
     const [RName, setRName] = useState();
-    function RNameChange (e){
-      setRName(e.target.value)
-    }
+    function RNameChange (e){ setRName(e.target.value) }  
     const [RPhone, setRPhone] = useState();
-    function RPhoneChange (e){
-      setRPhone(e.target.value)
-    }
+    function RPhoneChange (e){ setRPhone(e.target.value) }
     const [addressza2, setAddressza2] = useState();
-    const handleChange2 = e => {
-      setAddressza2(e.target.value);
-    }
+    const handleChange2 = e => { setAddressza2(e.target.value) }
+     
 
     const [PName, setPName] = useState();
-    function PNameChange (e){
-      setPName(e.target.value)
-    }
+    function PNameChange (e){ setPName(e.target.value) }
     const [Dparcel, setDparcel] = useState();
-    function DparcelChange (e){
-      setDparcel(e.target.value)
-    }
-    
+    function DparcelChange (e){ setDparcel(e.target.value) }
+    /*
+    ! Modal side
+    */
+
     const [SNameR, setSNameR] =useState();
     const [SPhoneR, setSPhoneR] =useState();
     const [SAddressR, setSAddressR] =useState();
@@ -76,20 +71,23 @@ const ShitDashboard =()=>{
 
     const [PNameR, setPNameR] =useState();
     const [DparcelR, setDparcelR] =useState();
+     /*
+    ! Right side
+    */
 
     function PushDoc (e){
-        // var data = AddDoc
-        // AddDoc.push({
-        //     SName:SName,
-        //     SPhone:SPhone,
-        //     addressza:addressza,
-        //     RName:RName,
-        //     RPhone:RPhone,
-        //     addressza2:addressza2,
-        //     PName:PName,
-        //     Dparcel:Dparcel
-        // })
-        // setAddDoc(data)
+        var data = AddDoc
+        AddDoc.push({
+            SName:SName,
+            SPhone:SPhone,
+            addressza:addressza,
+            RName:RName,
+            RPhone:RPhone,
+            addressza2:addressza2,
+            PName:PName,
+            Dparcel:Dparcel
+        })
+        setAddDoc(data)
 
         setSName(e.target.value)
         setSPhone(e.target.value)
@@ -105,12 +103,13 @@ const ShitDashboard =()=>{
             addData();
             setOpen(false);
             PostShit();
-            }, 500);  
-
+            }, 0);  
+    /*
+    ! When submit
+    */
     }
 
 
-    
     function PostShit (){
 
         var formData = {
@@ -131,19 +130,124 @@ const ShitDashboard =()=>{
                 console.log(error);
           });
 
-          axios.get('http://localhost:4000/yyyy')
+          GetData();
+          ohWow ();
+    }
+
+    function GetData (){
+        axios.get('http://localhost:4000/wholedata')
             .then(function (response){
                 const data = response.data;
-                console.log(...data)
-                console.log(data[2])
+                // console.log(response)
+                // const shit = data[]
+                // console.log(shit.color)
 
-                setGett(data)
+                // setGett(data)
+
         })
             .catch(function (error) {
                 console.log(error);
         });
+        /* 
+        ! Get Data
+        */
+       axios.get('http://localhost:4000/status')
+            .then(function (response){
+                const dataStatus = response.data;
+                setDBStatus(dataStatus)
+                console.log(dataStatus)
+        })
+            .catch(function (error) {
+                console.log(error);
+        });
+        axios.get('http://localhost:4000/color')
+            .then(function (response){
+                const dataColor = response.data;
+                setDBColor(dataColor)
+                console.log(dataColor)
+        })
+            .catch(function (error) {
+                console.log(error);
+        });
+        axios.get('http://localhost:4000/both')
+            .then(function (response){
+                const dataBoth = response.data;
+                setDBBoth(dataBoth)
+                console.log(DBBoth)
+        })
+            .catch(function (error) {
+                console.log(error);
+        });
+    }
 
+    function ShowData (item){
+        // var accept ={
+        //     id:item.Id_parcel
+        // }
+        axios.get('http://localhost:4000/wholedata')
+            .then(function (response){
+                const data = response.data;
+                console.log(data)
+                // const shit = data[]
+                // console.log(shit.color)
 
+                // setGett(data)
+
+        })
+            .catch(function (error) {
+                console.log(error);
+        });
+        
+    }
+    function Accept (item){
+        var accept ={
+            id:item.Id_parcel
+        }
+        axios.put('http://localhost:4000/accept',accept)
+            .then(function (response){
+                console.log(item.Id_parcel)
+                ohWow ()
+            })
+        
+    }
+    function Reject (item){
+        var reject ={
+            id:item.Id_parcel
+        }
+        axios.put('http://localhost:4000/reject',reject)
+            .then(function (response){
+                console.log(item.status)
+                ohWow ()
+            })
+        
+    }
+    function ohWow (){
+        axios.get('http://localhost:4000/both')
+            .then(function (response){
+                const dataThree = response.data;
+
+                const both = dataThree.map(( item )=>
+                    <div className='my-3'>
+                        <button key ={item.Id_parcel} className={item.color} onClick={()=>{ShowData(item)}}>{item.status}</button>
+
+                        
+                        <button key ={item.Id_parcel} className='btn btn-outline-success btn-sm' onClick={()=>{Accept(item)}}>
+                            Accept Parcel 
+                        </button>
+                        <button key ={item.Id_parcel} className='btn btn-outline-danger btn-sm' onClick={()=>{Reject(item)}}>
+                            Decline Parcel 
+                        </button><hr/>
+                        
+                    </div>
+                    )
+                    setOHwow(both)
+
+                // setDBBoth(dataBoth)
+                // console.log(dataThree)
+        })
+            .catch(function (error) {
+                console.log(error);
+        });
     }
 
     function GetIndex ( index ){
@@ -185,25 +289,16 @@ const ShitDashboard =()=>{
         ! Showing destiantion when hover
         */
     } 
-
- 
-    // function ShowingAddres (index){
-    //     var getindex =AddDoc[index]
-        
-    //     return(<p>{getindex}</p>)
-         
-       
-    // }
-    
     
 
     function addData(){
+        // setAddData([...AddData, {DBBoth}])
         setAddData([...AddData, {status: 'SENT' , color:"btn btn-warning btn-lg btn-block mr-3"}])
     }
       
     const updateAccept = (index)  => {
         let newArr = [...AddData]; // copying the old datas array
-        newArr[index] = { index, status: 'ACCEPTED', color:"btn btn-success btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
+        newArr[index] = { status: 'ACCEPTED', color:"btn btn-success btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
         console.log(newArr)
         setAddData(newArr); // ??
         /* 
@@ -213,7 +308,7 @@ const ShitDashboard =()=>{
 
     const updateDecline = (index)  => {
         let newArr = [...AddData]; 
-        newArr[index] = { index, status: 'REJECTED', color:"btn btn-danger  btn-lg btn-block mr-3"} 
+        newArr[index] = { status: 'REJECTED', color:"btn btn-danger  btn-lg btn-block mr-3"} 
         console.log(newArr)
         setAddData(newArr); // ??       
         /* 
@@ -221,45 +316,35 @@ const ShitDashboard =()=>{
         */
     }
 
-    // const Nothin = (index) =>{
-    //     let newArr = [...AddData]; // copying the old datas array
-    //     newArr[index] = { index, item:false, status: 'SENT'} // replace e.target.value with whatever you want to change it to
-    //     console.log(newArr)
-    //     setAddData(newArr);
-    // }
+    // const AddButton =AddData.map((item,index)=>
+        
+    //     <div className='my-3'>
+    //       <button key={index} className={ item.color } onClick={ ()=>GetIndex (index) }  onMouseOver={()=>BTNAddress (index)} onMouseOut={()=>BTNDefault (index)}>
+    //         { item.status } 
+           
+    //       </button><br/>
+         
+
+    //       {/* <TextField  
+    //         key={index}
+    //         id="addresstextarea" 
+    //         helperText="Address"
+    //         className='col col-11 float-right' 
+    //         variant="outlined"  
+    //         multiline rows="4" 
+    //         InputProps={{readOnly: true, }} 
+    //         value={ btnbutton.addressza2 }/> */}
+
+    //       <button key={index} className='btn btn-outline-success btn-sm' onClick={ ()=>updateAccept(index) }>
+    //         Accept Parcel {/*{index}*/}
+    //       </button>
+    //       <button key={index} className='btn btn-outline-danger btn-sm' onClick={ ()=>updateDecline(index) } >
+    //         Decline Parcel {/*{index}*/}
+    //       </button><hr/>
+            
+    //     </div> 
+    //   );
     
-    const AddButton =AddData.map((item,index)=>
-        
-        <div className='my-3'>
-          <button key={index} className={ item.color } onClick={ ()=>GetIndex (index) }  onMouseOver={()=>BTNAddress (index)} onMouseOut={()=>BTNDefault (index)}>
-            { item.status } {/*{index}*/} 
-            /* 
-            ! Shit yellow button
-            */
-          </button><br/>
-        
-
-          {/* <TextField  
-            key={index}
-            id="addresstextarea" 
-            helperText="Address"
-            className='col col-11 float-right' 
-            variant="outlined"  
-            multiline rows="4" 
-            InputProps={{readOnly: true, }} 
-            value={ btnbutton.addressza2 }/> */}
-
-          <button key={index} className='btn btn-outline-success btn-sm' onClick={ ()=>updateAccept(index) }>
-            Accept Parcel {/*{index}*/}
-          </button>
-          <button key={index} className='btn btn-outline-danger btn-sm' onClick={ ()=>updateDecline(index) } >
-            Decline Parcel {/*{index}*/}
-          </button><hr/>
-            /* 
-            ! Shit 2 buttons
-            */
-        </div> 
-      );
 
     const DropdownAddress = Address.map((option) => 
         <MenuItem 
@@ -268,9 +353,6 @@ const ShitDashboard =()=>{
             // onChange={ ()=> {setAddressza(option.label)}} 
             fullwidth >
                 { option.label }
-                /* 
-                ! Shit dropdow address
-                */
         </MenuItem>)
 
     // const ClosenCreate =(e)=>{  
@@ -307,9 +389,17 @@ const ShitDashboard =()=>{
     };
 
     useEffect(() => {
+        // console.log(AddData)
         // console.log(...AddData)
+        
+        console.log(DBBoth)
+        console.log("end")
+        // ohWow();
+        
         // console.log(...AddDoc)
-        console.log(Gett)
+        // GetData();
+        // console.log(Gett)
+        
         // console.log({addressza})
         // console.log({addressza2})
     })
@@ -331,6 +421,7 @@ const ShitDashboard =()=>{
                         Send a parcel <br/>  { <ArchiveIcon/> }{ <ArrowForwardIcon/> }
                     </Button>
                 </Typography>
+                <button onClick={()=>{ohWow()}}>ohWow</button>
                 
                 <Dialog 
                 open={open} 
@@ -488,7 +579,8 @@ const ShitDashboard =()=>{
                         <div id='containerShit' class='border border-success'>
                                 <div id='center-col' class='text-center'>
                                     <ul class='p-2'>
-                                        {AddButton}
+                                        {/* {AddButton} */}
+                                        {OHwow}
                                     </ul>
                                 </div>
                         </div>

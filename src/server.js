@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({extended : true}));
 
 app.use(cors({
     origin:"*",
-    methods:['POST','GET'],
+    methods:['POST','GET','PUT'],
     credentials:true
 }))  
 
@@ -37,9 +37,9 @@ connection.connect(function(err){
 
 
 // connection.query("SELECT * FROM Address", function (err, result, fields) {
-//     // if (err) throw err;
+    // if (err) throw err;
 //         console.log(result[2]);    
-//         // console.log(result);   
+        // console.log(result);   
 //   });
 
 // app.get('/', (req, res) => {
@@ -48,7 +48,7 @@ connection.connect(function(err){
 // app.get('/111', (req, res) => {
 //     var sql = "INSERT INTO Address (ID_Address, Address_Name, Address_Full) VALUES ('9', 'eieiei', 'test')";
 //         connection.query(sql, function (err, result) {
-//             // if (err) throw err;
+            // if (err) throw err;
 //             console.log("1 record inserted")})})
 
 
@@ -62,8 +62,8 @@ app.post('/111', (req, res) => {
             console.log("1 record inserted")})})
 
 
-app.get('/yyyy', (req, res)=>{
-    connection.query("SELECT Id_parcel FROM Parcel", function (err, result, fields) {
+app.get('/wholedata', (req, res)=>{
+    connection.query("SELECT * FROM Parcel", function (err, result, fields) {
         // if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
@@ -72,6 +72,57 @@ app.get('/yyyy', (req, res)=>{
       });
 })
 
+app.get('/status', (req, res)=>{
+    connection.query("SELECT status FROM Parcel", function (err, result, fields) {
+        // if (err) throw err;
+            // console.log(result[2]);    
+            res.send(result)
+            console.log("show result")
+            console.log(result);   
+      });
+})
+app.get('/color', (req, res)=>{
+    connection.query("SELECT color FROM Parcel", function (err, result, fields) {
+        // if (err) throw err;
+            // console.log(result[2]);    
+            res.send(result)
+            console.log("show result")
+            console.log(result);   
+      });
+})
+
+app.get('/both', (req, res)=>{
+    connection.query("SELECT status, color, Id_parcel FROM Parcel", function (err, result, fields) {
+        // if (err) throw err;
+            // console.log(result[2]);    
+            res.send(result)
+            console.log("show result")
+            console.log(result);   
+      });
+})
+
+app.put('/accept', (req, res)=>{
+    let id = req.body.id
+    connection.query("UPDATE Parcel SET status = 'ACCEPTED', color = 'btn btn-success btn-lg btn-block mr-3' WHERE Id_parcel = "+id, function (err, result, fields) {
+        // if (err) throw err;
+            // console.log(result[2]);    
+            res.send(result)
+            console.log("show result")
+            console.log(result);   
+            
+      });
+})
+
+app.put('/reject', (req, res)=>{
+    let id = req.body.id
+    connection.query("UPDATE Parcel SET status = 'REJECTED', color = 'btn btn-danger btn-lg btn-block mr-3' WHERE Id_parcel =" +id, function (err, result, fields) {
+        // if (err) throw err;
+            // console.log(result[2]);    
+            res.send(result)
+            console.log("show result")
+            console.log(result);   
+      });
+})
 
 app.post('/PostParcel',(req, res) => {
     console.log("insertingrs done")
@@ -83,7 +134,9 @@ app.post('/PostParcel',(req, res) => {
         Receiver_Phone: req.body.RPhone, 
         Receiver_Address: req.body.addressza2, 
         Parcel_Name: req.body.PName, 
-        Parcel_Description: req.body.Dparcel};
+        Parcel_Description: req.body.Dparcel,
+        status:"SENT",
+        color:"btn btn-warning btn-lg btn-block mr-3"};
 
     let sql = "INSERT INTO Parcel SET ?";
         connection.query(sql, data,(err, results) => {
