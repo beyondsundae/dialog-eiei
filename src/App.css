@@ -6,10 +6,10 @@
   height: 1000px;
 }
 #shitDialog2{
+  
   margin: auto;
   width: 800px;
   height: 1000px;
-  border:1px solid red;
 }
 
 #ShitAllofPage{
@@ -38,7 +38,7 @@
   height:auto;
 }/*GoldenBox*/
 
-.vl {
+.verticalLine {
   margin-top:2em;
   border-left: 3px solid blueviolet;
   height: 55em;
@@ -56,4 +56,12 @@
 
 #parcelH1{
   margin-top:20px;
+}
+#AlertButton{
+  cursor: pointer;
+  margin: 4px
+}
+
+#ShitTooltip{
+  font-Size: "4em";
 }

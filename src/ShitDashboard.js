@@ -7,6 +7,7 @@ import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.css";
 import Card from '@material-ui/core/Card';
 import Zoom from '@material-ui/core/Zoom';
+import Alert from '@material-ui/lab/Alert';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -16,6 +17,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import MenuItem from '@material-ui/core/MenuItem';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
+import AlertTitle from '@material-ui/lab/AlertTitle';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import Typography from '@material-ui/core/Typography';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -23,10 +25,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import { withStyles} from "@material-ui/core/styles";
 
 const ShitDashboard =()=>{
     window.onload = function() {
         ohWow();
+        TimeRanger();
       }
 
     const [AddData, setAddData] = useState([])
@@ -45,6 +49,8 @@ const ShitDashboard =()=>{
     const [OHwow, setOHwow] = useState();
     const [ShowDataxx, setShowDataxx] = useState();
     const [ShowAddressxx, setShowAddressxx] = useState();
+    const [DateTime, setDateTime] = useState();
+    const [SmallAddress, setSmallAddress] = useState();
     
     
 
@@ -136,7 +142,10 @@ const ShitDashboard =()=>{
             RPhone:RPhone,
             addressza2:addressza2,
             PName:PName,
-            Dparcel:Dparcel}
+            Dparcel:Dparcel,
+            DateTime:DateTime
+        }
+
 
         axios.post('http://localhost:4000/PostParcel', formData)
             .then(function (response) {
@@ -147,6 +156,7 @@ const ShitDashboard =()=>{
           });
 
           GetData();
+          TimeRanger();
           ohWow ();
     }
 
@@ -268,13 +278,23 @@ const ShitDashboard =()=>{
     function ShowHover (item){
         const DAddress = item.Receiver_Address
         const ParcelShit = item.Parcel_Name
-        const ParcelDesShit = item.Parcel_Description
+        const TimeRanger = item.Date_Time
         return (
-            <>
-             <p className='text-center'>{DAddress}</p>
-             <p className='text-center'>{ParcelShit}</p>
-             <p className='text-center'>{ParcelDesShit}</p>
-            </>)}
+            <p>
+             <p>Destination:____{DAddress}</p>
+             <p>Parcel:_____{ParcelShit}</p>
+             <p>Send Time:____{TimeRanger}</p>
+            </p>)}
+
+    function ShortAddress(item){
+        const addressShort = item.Receiver_Address
+        const Shortaddress = addressShort.split('-')[0]
+        setSmallAddress(Shortaddress)
+        console.log(SmallAddress)
+        return(
+        <strong>{Shortaddress}</strong>)
+        
+    }
 
     function ohWow (){
         axios.get('http://localhost:4000/wholedata')//or both
@@ -284,13 +304,21 @@ const ShitDashboard =()=>{
                 const MapdataThree = dataThree.map(( item )=>
                     <div className='my-3'>
                         
-                        <Tooltip TransitionComponent={Zoom} title={ShowHover (item)} placement="top">
+                        <ShitTooltip TransitionComponent={Zoom} title={ShowHover (item)} placement="top" id='ShitTooltip'>
                             <button 
                                 key ={item.Id_parcel} 
                                 className={item.color} 
                                 onClick={ ()=>{ ShowData( item ) } }>
-                                    <strong>{item.status}</strong></button>
-                        </Tooltip>
+                                    <strong>{ShortAddress(item)}</strong><br/>
+                                    <strong>{item.status}</strong><br/>
+                                    <strong>{item.Parcel_Name}</strong><br/>
+                                    <strong>{item.Date_Time}</strong><br/>
+                                    
+                                    
+                                    
+                            </button>
+                        </ShitTooltip>
+                        
                         
                     {/*     
                         <button 
@@ -334,6 +362,16 @@ const ShitDashboard =()=>{
         /*
             !Dropdowm shit
         */
+
+        function TimeRanger(){
+            var today = new Date(); 
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var time = today.getHours() + ":" + today.getMinutes() 
+            var dateTime = date+' '+time;
+            setDateTime(dateTime)
+            console.log(DateTime)
+
+        }
 
     // function GetIndex ( index ){
     //     var getindex =AddDoc[index]
@@ -498,6 +536,12 @@ const ShitDashboard =()=>{
         Reject()
         setOpenconfirmReject(false);
     };
+    const ShitTooltip = withStyles({
+        tooltip: {
+          fontSize: "1em",
+          maxWidth: 700
+        }
+      })(Tooltip);
     useEffect(() => {
         // console.log(AddData)
         // console.log(...AddData)
@@ -534,6 +578,8 @@ const ShitDashboard =()=>{
                     </Button>
                 </Typography>
                 {/* <button onClick={()=>{ohWow()}}>ohWow</button> */}
+                <button onClick={()=>{TimeRanger()}}>Time</button>
+                
                 <Dialog 
                 open={open} 
                 onClose={handleClose} 
@@ -696,7 +742,7 @@ const ShitDashboard =()=>{
                                 </div>
                         </div>
                     </div>
-                        <div class="vl"></div>
+                        <div class="verticalLine"></div>
                         <div className='col col-7 m-3' id='boxRight'>
                         <div id='containerShit' class='border border-success'>
                                 <div id='center-col' class='text-center'>
@@ -704,23 +750,24 @@ const ShitDashboard =()=>{
                                         <div className='row'>
                                         <div class="col col-2"></div>
                                         <div class="col col-3"></div>
-                                            <div className='row col my-5'>
-                                                <div className=''>
-                                                    <button 
+                                            <div className='row col my-2'>
+                                                <div className='row'>
+                                                    <Alert 
                                                         key ={GetIDParcel} 
-                                                        className='btn btn-outline-danger btn-lg' 
-                                                        onClick={ ()=>{ handleClickOpenConfirmReject() } }
-                                                        >Reject Parcel 
-                                                    </button><br/>
-                                                </div>
-                                            
-                                                <div className='mx-1'>
-                                                    <button 
+                                                        id='AlertButton'
+                                                        severity="error"
+                                                        href='#'
+                                                        onClick={ ()=>{ handleClickOpenConfirmReject() } }>
+                                                        <AlertTitle>Reject Parcel</AlertTitle>
+                                                    </Alert>
+                                                    <Alert 
                                                         key ={GetIDParcel} 
-                                                        className='btn btn-outline-success btn-lg' 
-                                                        onClick={ ()=>{ handleClickOpenConfirmAccept() } }
-                                                        >Accept Parcel
-                                                    </button>
+                                                        id='AlertButton'
+                                                        severity="success"
+                                                        href='#'
+                                                        onClick={ ()=>{ handleClickOpenConfirmAccept() } }>
+                                                        <AlertTitle>Accept Parcel</AlertTitle>
+                                                    </Alert>
                                                 </div>
 
                                                 {/* <div className='mx-1'>
@@ -865,7 +912,7 @@ const ShitDashboard =()=>{
                                     </ul>
                                 </div>
                         </div>
-                                <Dialog 
+                                <Dialog fullWidth
                                 open={OpenconfirmAccept} onClose={handleClickCloseConfirmAccept} 
                                 aria-labelledby="form-dialog-title" id='shitDialog2'>
                                     <DialogTitle id="form-dialog-title">Parcel confirmation</DialogTitle>
@@ -883,17 +930,21 @@ const ShitDashboard =()=>{
                                     />
                                     </DialogContent>
                                     <DialogActions>
-                                    <Button onClick={handleClickCloseConfirmAccept} color="primary">
-                                        Cancel
-                                    </Button>
-                                    <Button onClick={handleClickCloseConfirmAcceptWihtAccept} color="primary">
-                                        ACCEPT
-                                    </Button>
+                                    <Alert 
+                                        id='AlertButton' 
+                                        severity="error" 
+                                        
+                                        onClick={handleClickCloseConfirmAccept}><AlertTitle>Cancel</AlertTitle></Alert>
+                                    <Alert 
+                                        id='AlertButton' 
+                                        severity="success" 
+                                        variant="filled"
+                                        onClick={handleClickCloseConfirmAcceptWihtAccept}><AlertTitle>ACCEPT</AlertTitle></Alert>
                                     </DialogActions>
                                 </Dialog>
 
 
-                                <Dialog 
+                                <Dialog fullWidth
                                 open={OpenconfirmReject} onClose={handleClickCloseConfirmReject} 
                                 aria-labelledby="form-dialog-title" id='shitDialog2'>
                             <DialogTitle id="form-dialog-title">Parcel confirmation</DialogTitle>
@@ -911,12 +962,16 @@ const ShitDashboard =()=>{
                             /> */}
                             </DialogContent>
                             <DialogActions>
-                            <Button onClick={handleClickCloseConfirmReject} color="primary">
-                                Cancel
-                            </Button>
-                            <Button onClick={handleClickCloseConfirmRejectWihtReject} color="primary">
-                                REJECT
-                            </Button>
+                            <Alert 
+                                id='AlertButton' 
+                                severity="error" 
+                                
+                                onClick={handleClickCloseConfirmReject}><AlertTitle>Cancel</AlertTitle></Alert>
+                            <Alert 
+                                id='AlertButton' 
+                                severity="error" 
+                                variant="filled"
+                                onClick={handleClickCloseConfirmRejectWihtReject}><AlertTitle>REJECT</AlertTitle></Alert>
                             </DialogActions>
                         </Dialog>
                     

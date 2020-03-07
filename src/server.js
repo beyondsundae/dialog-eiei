@@ -156,6 +156,7 @@ app.post('/PostParcel',(req, res) => {
         Receiver_Address: req.body.addressza2, 
         Parcel_Name: req.body.PName, 
         Parcel_Description: req.body.Dparcel,
+        Date_Time: req.body.DateTime,
         status:"SENT",
         color:"alert alert-warning btn-block mr-3"};
 
