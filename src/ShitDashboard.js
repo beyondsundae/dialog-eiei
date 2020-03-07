@@ -22,6 +22,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import DialogContentText from '@material-ui/core/DialogContentText';
 
 const ShitDashboard =()=>{
     window.onload = function() {
@@ -32,6 +33,10 @@ const ShitDashboard =()=>{
     const [AddDoc, setAddDoc] = useState([])
 
     const [open, setOpen] = useState(false);
+    const [openconfirm, setOpenconfirm] = useState(false);
+    const [OpenconfirmAccept, setOpenconfirmAccept] = useState(false);
+    const [OpenconfirmReject, setOpenconfirmReject] = useState(false);
+    
     const [Gett, setGett] = useState();
 
     const [DBStatus, setDBStatus] = useState();
@@ -56,7 +61,10 @@ const ShitDashboard =()=>{
     const [RPhone, setRPhone] = useState();
     function RPhoneChange (e){ setRPhone(e.target.value) }
     const [addressza2, setAddressza2] = useState();
-    const handleChange2 = e => { setAddressza2(e.target.value) }
+    const handleChange2 = e => { 
+        setAddressza2(e.target.value) 
+        
+    }
      
 
     const [PName, setPName] = useState();
@@ -110,6 +118,7 @@ const ShitDashboard =()=>{
             // addData();
             setOpen(false);
             PostShit();
+            window.location.reload(false);
             }, 500);  
     /*
     ! When submit
@@ -215,7 +224,7 @@ const ShitDashboard =()=>{
                 setShowDataxx(MapdataSpecific)
         })}
     
-    function Accept2 (){
+    function Accept (){
         var accept ={
             id:GetIDParcel
         }
@@ -224,7 +233,7 @@ const ShitDashboard =()=>{
                 ohWow();
                
             })}
-    function Reject2 (){
+    function Reject (){
         var reject ={
             id:GetIDParcel
         }
@@ -233,6 +242,9 @@ const ShitDashboard =()=>{
                 ohWow();
                 
             })}
+
+
+        
         
     // function Accept (item){
     //     var accept ={
@@ -253,6 +265,17 @@ const ShitDashboard =()=>{
     //             ohWow ()
     //         })}
     
+    function ShowHover (item){
+        const DAddress = item.Receiver_Address
+        const ParcelShit = item.Parcel_Name
+        const ParcelDesShit = item.Parcel_Description
+        return (
+            <>
+             <p className='text-center'>{DAddress}</p>
+             <p className='text-center'>{ParcelShit}</p>
+             <p className='text-center'>{ParcelDesShit}</p>
+            </>)}
+
     function ohWow (){
         axios.get('http://localhost:4000/wholedata')//or both
             .then(function (response){
@@ -261,15 +284,15 @@ const ShitDashboard =()=>{
                 const MapdataThree = dataThree.map(( item )=>
                     <div className='my-3'>
                         
-                        <Tooltip TransitionComponent={Zoom} title={item.Receiver_Address} placement="top">
+                        <Tooltip TransitionComponent={Zoom} title={ShowHover (item)} placement="top">
                             <button 
                                 key ={item.Id_parcel} 
                                 className={item.color} 
                                 onClick={ ()=>{ ShowData( item ) } }>
-                                    {item.status}</button>
+                                    <strong>{item.status}</strong></button>
                         </Tooltip>
                         
-{/*                         
+                    {/*     
                         <button 
                             key ={item.Id_parcel} 
                             className='btn btn-outline-success btn-sm' 
@@ -301,12 +324,16 @@ const ShitDashboard =()=>{
                 <MenuItem 
                     key={ item.ID_ADDRESS } 
                     value={ item.Address_Full} 
-                    onChange={ ()=> {setAddressza(item.Address_Name)}} 
+                    onChange={ ()=> { setAddressza(item.Address_Name) }} 
                     fullwidth >
                         { item.Address_Name}
                 </MenuItem>)
             setShowAddressxx(DropdownAddress)
+            
         })}
+        /*
+            !Dropdowm shit
+        */
 
     // function GetIndex ( index ){
     //     var getindex =AddDoc[index]
@@ -450,6 +477,27 @@ const ShitDashboard =()=>{
         setOpen(false);
     };
 
+    const handleClickOpenConfirmAccept = () => {
+        setOpenconfirmAccept(true);
+    };
+    const handleClickCloseConfirmAccept = () => {
+        setOpenconfirmAccept(false);
+    };
+    const handleClickCloseConfirmAcceptWihtAccept= () => {
+        Accept()
+        setOpenconfirmAccept(false);
+    };
+
+    const handleClickOpenConfirmReject = () => {
+        setOpenconfirmReject(true);
+    };
+    const handleClickCloseConfirmReject = () => {
+        setOpenconfirmReject(false);
+    };
+    const handleClickCloseConfirmRejectWihtReject= () => {
+        Reject()
+        setOpenconfirmReject(false);
+    };
     useEffect(() => {
         // console.log(AddData)
         // console.log(...AddData)
@@ -464,8 +512,8 @@ const ShitDashboard =()=>{
         // GetData();
         // console.log(Gett)
         
-        // console.log({addressza})
-        // console.log({addressza2})
+    
+        
     })
 
     
@@ -654,14 +702,14 @@ const ShitDashboard =()=>{
                                 <div id='center-col' class='text-center'>
                                     <ul class='p-2'>
                                         <div className='row'>
-                                        <div class="col col-3"></div>
+                                        <div class="col col-2"></div>
                                         <div class="col col-3"></div>
                                             <div className='row col my-5'>
                                                 <div className=''>
                                                     <button 
                                                         key ={GetIDParcel} 
                                                         className='btn btn-outline-danger btn-lg' 
-                                                        onClick={ ()=>{ Reject2() } }
+                                                        onClick={ ()=>{ handleClickOpenConfirmReject() } }
                                                         >Reject Parcel 
                                                     </button><br/>
                                                 </div>
@@ -670,10 +718,19 @@ const ShitDashboard =()=>{
                                                     <button 
                                                         key ={GetIDParcel} 
                                                         className='btn btn-outline-success btn-lg' 
-                                                        onClick={ ()=>{ Accept2() } }
+                                                        onClick={ ()=>{ handleClickOpenConfirmAccept() } }
                                                         >Accept Parcel
                                                     </button>
                                                 </div>
+
+                                                {/* <div className='mx-1'>
+                                                    <button 
+                                                        key ={GetIDParcel} 
+                                                        className='btn btn-outline-success btn-lg' 
+                                                        onClick={ ()=>{ handleClickOpenConfirm() } }
+                                                        >Accept Parcel
+                                                    </button>
+                                                </div> */}
                                             </div>
                                         </div>
                                             <DialogTitle 
@@ -688,7 +745,7 @@ const ShitDashboard =()=>{
                                                     className='text-center'>
                                                     <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <ArchiveIcon/> }</h4>
                                                     </DialogTitle>
-                                                        {/* <p>{GetIDParcel}</p> Show Id_parcel */}
+                                                        <p>{GetIDParcel}</p> 
                                                         <TextField required autoFucus
                                                         id="nameSender" 
                                                         helperText="Name"
@@ -808,6 +865,60 @@ const ShitDashboard =()=>{
                                     </ul>
                                 </div>
                         </div>
+                                <Dialog 
+                                open={OpenconfirmAccept} onClose={handleClickCloseConfirmAccept} 
+                                aria-labelledby="form-dialog-title" id='shitDialog2'>
+                                    <DialogTitle id="form-dialog-title">Parcel confirmation</DialogTitle>
+                                    <DialogContent>
+                                    <DialogContentText>
+                                        To accept parcel please enter your name and click "ACCEPT".
+                                    </DialogContentText>
+                                    <TextField
+                                        autoFocus
+                                        margin="dense"
+                                        id="name"
+                                        label="Name"
+                                        type="email"
+                                        fullWidth
+                                    />
+                                    </DialogContent>
+                                    <DialogActions>
+                                    <Button onClick={handleClickCloseConfirmAccept} color="primary">
+                                        Cancel
+                                    </Button>
+                                    <Button onClick={handleClickCloseConfirmAcceptWihtAccept} color="primary">
+                                        ACCEPT
+                                    </Button>
+                                    </DialogActions>
+                                </Dialog>
+
+
+                                <Dialog 
+                                open={OpenconfirmReject} onClose={handleClickCloseConfirmReject} 
+                                aria-labelledby="form-dialog-title" id='shitDialog2'>
+                            <DialogTitle id="form-dialog-title">Parcel confirmation</DialogTitle>
+                            <DialogContent>
+                            <DialogContentText>
+                                Click "REJECT" to reject parcel.
+                            </DialogContentText>
+                            {/* <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Name"
+                                type="email"
+                                fullWidth
+                            /> */}
+                            </DialogContent>
+                            <DialogActions>
+                            <Button onClick={handleClickCloseConfirmReject} color="primary">
+                                Cancel
+                            </Button>
+                            <Button onClick={handleClickCloseConfirmRejectWihtReject} color="primary">
+                                REJECT
+                            </Button>
+                            </DialogActions>
+                        </Dialog>
                     
                     </div>
                 </div>         

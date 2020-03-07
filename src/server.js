@@ -63,7 +63,7 @@ app.post('/111', (req, res) => {
 
 
 app.get('/wholedata', (req, res)=>{
-    connection.query("SELECT * FROM Parcel ", function (err, result, fields) {
+    connection.query("SELECT * FROM Parcel ORDER BY Id_parcel DESC", function (err, result, fields) {
         // if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
@@ -74,7 +74,7 @@ app.get('/wholedata', (req, res)=>{
 
 app.get('/specificdata', (req, res)=>{
     let param = req.query.id
-    connection.query("SELECT * FROM Parcel WHERE Id_parcel = "+param, function (err, result, fields) {
+    connection.query("SELECT * FROM Parcel WHERE Id_parcel = "+ param , function (err, result, fields) {
         // if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
@@ -124,7 +124,7 @@ app.get('/address', (req, res)=>{
 
 app.put('/accept', (req, res)=>{
     let id = req.body.id
-    connection.query("UPDATE Parcel SET status = 'ACCEPTED', color = 'btn btn-success btn-lg btn-block mr-3' WHERE Id_parcel = "+id, function (err, result, fields) {
+    connection.query("UPDATE Parcel SET status = 'ACCEPTED', color = 'alert alert-success btn-block mr-3' WHERE Id_parcel = "+id, function (err, result, fields) {
         // if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
@@ -136,7 +136,7 @@ app.put('/accept', (req, res)=>{
 
 app.put('/reject', (req, res)=>{
     let id = req.body.id
-    connection.query("UPDATE Parcel SET status = 'REJECTED', color = 'btn btn-danger btn-lg btn-block mr-3' WHERE Id_parcel =" +id, function (err, result, fields) {
+    connection.query("UPDATE Parcel SET status = 'REJECTED', color = 'alert alert-danger btn-block mr-3' WHERE Id_parcel =" +id, function (err, result, fields) {
         // if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
@@ -157,7 +157,7 @@ app.post('/PostParcel',(req, res) => {
         Parcel_Name: req.body.PName, 
         Parcel_Description: req.body.Dparcel,
         status:"SENT",
-        color:"btn btn-warning btn-lg btn-block mr-3"};
+        color:"alert alert-warning btn-block mr-3"};
 
     let sql = "INSERT INTO Parcel SET ?";
         connection.query(sql, data,(err, results) => {

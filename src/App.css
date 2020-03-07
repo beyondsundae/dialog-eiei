@@ -5,6 +5,12 @@
   width: 800px;
   height: 1000px;
 }
+#shitDialog2{
+  margin: auto;
+  width: 800px;
+  height: 1000px;
+  border:1px solid red;
+}
 
 #ShitAllofPage{
   background-color: none;
@@ -28,7 +34,8 @@
 }/*RightBox*/
 
 #shitCard{
-  height:60em;
+  /* height:68em; */
+  height:auto;
 }/*GoldenBox*/
 
 .vl {
