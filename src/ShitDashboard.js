@@ -752,22 +752,26 @@ const ShitDashboard =()=>{
                                         <div class="col col-3"></div>
                                             <div className='row col my-2'>
                                                 <div className='row'>
-                                                    <Alert 
-                                                        key ={GetIDParcel} 
-                                                        id='AlertButton'
-                                                        severity="error"
-                                                        href='#'
-                                                        onClick={ ()=>{ handleClickOpenConfirmReject() } }>
-                                                        <AlertTitle>Reject Parcel</AlertTitle>
-                                                    </Alert>
-                                                    <Alert 
-                                                        key ={GetIDParcel} 
-                                                        id='AlertButton'
-                                                        severity="success"
-                                                        href='#'
-                                                        onClick={ ()=>{ handleClickOpenConfirmAccept() } }>
-                                                        <AlertTitle>Accept Parcel</AlertTitle>
-                                                    </Alert>
+                                                    <div>
+                                                        <Alert 
+                                                            key ={GetIDParcel} 
+                                                            id='AlertButton'
+                                                            severity="error"
+                                                            href='#'
+                                                            onClick={ ()=>{ handleClickOpenConfirmReject() } }>
+                                                            <AlertTitle>Reject Parcel</AlertTitle>
+                                                        </Alert>
+                                                    </div>
+                                                    <div>
+                                                        <Alert 
+                                                            key ={GetIDParcel} 
+                                                            id='AlertButton'
+                                                            severity="success"
+                                                            href='#'
+                                                            onClick={ ()=>{ handleClickOpenConfirmAccept() } }>
+                                                            <AlertTitle>Accept Parcel</AlertTitle>
+                                                        </Alert>
+                                                    </div>
                                                 </div>
 
                                                 {/* <div className='mx-1'>
@@ -792,7 +796,7 @@ const ShitDashboard =()=>{
                                                     className='text-center'>
                                                     <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <ArchiveIcon/> }</h4>
                                                     </DialogTitle>
-                                                        <p>{GetIDParcel}</p> 
+                                                                <p>{GetIDParcel}</p> 
                                                         <TextField required autoFucus
                                                         id="nameSender" 
                                                         helperText="Name"
