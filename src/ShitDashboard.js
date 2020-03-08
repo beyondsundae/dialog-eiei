@@ -5,6 +5,7 @@ import axios from 'axios';
 // import DialogContentText from '@material-ui/core/DialogContentText';
 // import Address from './Address';
 import "bootstrap/dist/css/bootstrap.css";
+import { FaBoxOpen } from "react-icons/fa";
 import Card from '@material-ui/core/Card';
 import Zoom from '@material-ui/core/Zoom';
 import Alert from '@material-ui/lab/Alert';
@@ -30,14 +31,9 @@ import { withStyles} from "@material-ui/core/styles";
 const ShitDashboard =()=>{
     window.onload = function() {
         ohWow();
-        TimeRanger();
-      }
-
-    const [AddData, setAddData] = useState([])
-    const [AddDoc, setAddDoc] = useState([])
-
+        TimeRanger();}
+      
     const [open, setOpen] = useState(false);
-    const [openconfirm, setOpenconfirm] = useState(false);
     const [OpenconfirmAccept, setOpenconfirmAccept] = useState(false);
     const [OpenconfirmReject, setOpenconfirmReject] = useState(false);
     
@@ -96,29 +92,7 @@ const ShitDashboard =()=>{
     ! Right side
     */
 
-    function PushDoc (e){
-        // var data = AddDoc
-        // AddDoc.push({
-        //     SName:SName,
-        //     SPhone:SPhone,
-        //     addressza:addressza,
-        //     RName:RName,
-        //     RPhone:RPhone,
-        //     addressza2:addressza2,
-        //     PName:PName,
-        //     Dparcel:Dparcel
-        // })
-        // setAddDoc(data)
-
-        // setSName(e.target.value)
-        // setSPhone(e.target.value)
-        // setAddressza(e.target.value); 
-        // setRName(e.target.value)
-        // setRPhone(e.target.value)
-        // setAddressza2(e.target.value);
-        // setPName(e.target.value)
-        // setDparcel(e.target.value)
-
+    function PushDoc (){
 
         setTimeout(() => {
             // addData();
@@ -146,7 +120,6 @@ const ShitDashboard =()=>{
             DateTime:DateTime
         }
 
-
         axios.post('http://localhost:4000/PostParcel', formData)
             .then(function (response) {
                 console.log(response);
@@ -164,11 +137,6 @@ const ShitDashboard =()=>{
         axios.get('http://localhost:4000/wholedata')
             .then(function (response){
                 const data = response.data;
-                // console.log(response)
-                // const shit = data[]
-                // console.log(shit.color)
-
-                // setGett(data)
 
         })
             .catch(function (error) {
@@ -253,27 +221,6 @@ const ShitDashboard =()=>{
                 
             })}
 
-
-        
-        
-    // function Accept (item){
-    //     var accept ={
-    //         id:item.Id_parcel
-    //     }
-    //     axios.put('http://localhost:4000/accept',accept)
-    //         .then(function (response){
-    //             console.log(item.Id_parcel)
-    //             ohWow ()
-    //         })}
-    // function Reject (item){
-    //     var reject ={
-    //         id:item.Id_parcel
-    //     }
-    //     axios.put('http://localhost:4000/reject',reject)
-    //         .then(function (response){
-    //             console.log(item.status)
-    //             ohWow ()
-    //         })}
     
     function ShowHover (item){
         const DAddress = item.Receiver_Address
@@ -309,30 +256,14 @@ const ShitDashboard =()=>{
                                 key ={item.Id_parcel} 
                                 className={item.color} 
                                 onClick={ ()=>{ ShowData( item ) } }>
+                                    <div className='text-left'>
                                     <strong>{ShortAddress(item)}</strong><br/>
-                                    <strong>{item.status}</strong><br/>
-                                    <strong>{item.Parcel_Name}</strong><br/>
-                                    <strong>{item.Date_Time}</strong><br/>
-                                    
-                                    
-                                    
+                                    <strong>{'Status:___ ' }{ item.status }{'___'}</strong><br/>
+                                    <strong>{'Parcel:___ '}{ item.Parcel_Name }{'___'}</strong><br/>
+                                    <strong>{'Send Time:___ '}{item.Date_Time}{'___'}</strong><br/>
+                                    </div>
                             </button>
                         </ShitTooltip>
-                        
-                        
-                    {/*     
-                        <button 
-                            key ={item.Id_parcel} 
-                            className='btn btn-outline-success btn-sm' 
-                            onClick={ ()=>{ Accept( item ) } }>
-                                Accept Parcel 
-                        </button>
-                        <button 
-                            key ={item.Id_parcel} 
-                            className='btn btn-outline-danger btn-sm' 
-                            onClick={ ()=>{ Reject( item ) } }>
-                                Decline Parcel 
-                        </button> */}
                         <hr/>
                         
                     </div>
@@ -373,146 +304,12 @@ const ShitDashboard =()=>{
 
         }
 
-    // function GetIndex ( index ){
-    //     var getindex =AddDoc[index]
-    //     // console.log(getindex)
-    //     // console.log(getindex.SName + getindex.SPhone)
-
-    //     setSNameR(getindex.SName)
-    //     setSPhoneR(getindex.SPhone)
-    //     setSAddressR(getindex.addressza)
-
-    //     setRNameR(getindex.RName)
-    //     setRPhoneR(getindex.RPhone)
-    //     setRAddressR(getindex.addressza2)
-        
-    //     setPNameR(getindex.PName)
-    //     setDparcelR(getindex.Dparcel)
-    //     /* 
-    //     ! Data showing rightside
-    //     */
-    // }
-
-
-    // function BTNDefault (index){
-    //     let newArr = [...AddData]; // copying the old datas array
-    //     newArr[index] = {  status: 'SENT', color:"btn btn-warning btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
-    //     setAddData(newArr); // Showing default when hover
-    //     /* 
-    //     ! Showing default
-    //     */
-    // }
-
-    // function BTNAddress (index){
-    //     var btnbutton = AddDoc[index]
-    //     let newArr = [...AddData]; // copying the old datas array
-    //     newArr[index] = {  status: (btnbutton.addressza2), color:"btn btn-warning btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
-    //     setAddData(newArr); 
-    //     /* 
-    //     ! Showing destiantion when hover
-    //     */
-    // } 
-    
-
-    // function addData(){
-    //     // setAddData([...AddData, {DBBoth}])
-    //     setAddData([...AddData, {status: 'SENT' , color:"btn btn-warning btn-lg btn-block mr-3"}])
-    // }
-      
-    // const updateAccept = (index)  => {
-    //     let newArr = [...AddData]; // copying the old datas array
-    //     newArr[index] = { status: 'ACCEPTED', color:"btn btn-success btn-lg btn-block mr-3"} // replace e.target.value with whatever you want to change it to
-    //     console.log(newArr)
-    //     setAddData(newArr); // ??
-    //     /* 
-    //     ! Change to ACCEPTED when click
-    //     */
-    // }
-
-    // const updateDecline = (index)  => {
-    //     let newArr = [...AddData]; 
-    //     newArr[index] = { status: 'REJECTED', color:"btn btn-danger  btn-lg btn-block mr-3"} 
-    //     console.log(newArr)
-    //     setAddData(newArr); // ??       
-    //     /* 
-    //     ! Change to REJECTED when click
-    //     */
-    // }
-
-    // const AddButton =AddData.map((item,index)=>
-        
-    //     <div className='my-3'>
-    //       <button key={index} className={ item.color } onClick={ ()=>GetIndex (index) }  onMouseOver={()=>BTNAddress (index)} onMouseOut={()=>BTNDefault (index)}>
-    //         { item.status } 
-           
-    //       </button><br/>
-         
-
-    //       {/* <TextField  
-    //         key={index}
-    //         id="addresstextarea" 
-    //         helperText="Address"
-    //         className='col col-11 float-right' 
-    //         variant="outlined"  
-    //         multiline rows="4" 
-    //         InputProps={{readOnly: true, }} 
-    //         value={ btnbutton.addressza2 }/> */}
-
-    //       <button key={index} className='btn btn-outline-success btn-sm' onClick={ ()=>updateAccept(index) }>
-    //         Accept Parcel {/*{index}*/}
-    //       </button>
-    //       <button key={index} className='btn btn-outline-danger btn-sm' onClick={ ()=>updateDecline(index) } >
-    //         Decline Parcel {/*{index}*/}
-    //       </button><hr/>
-            
-    //     </div> 
-    //   );
-    
-
-    // const DropdownAddress = Address.map((option) => 
-    //     <MenuItem 
-    //         key={ option.address } 
-    //         value={ option.address } 
-            // onChange={ ()=> {setAddressza(option.label)}} 
-    //         fullwidth >
-    //             { option.label }
-    //     </MenuItem>)
-
-
-
-
-
-    // const ClosenCreate =(e)=>{  
-    //     setSName(e.target.value)
-    //     setSPhone(e.target.value)
-    //     setAddressza(e.target.value); 
-    //     setRName(e.target.value)
-    //     setRPhone(e.target.value)
-    //     setAddressza2(e.target.value);
-    //     setPName(e.target.value)
-    //     setDparcel(e.target.value)
-
-    //     console.log("SenderName", SName)
-    //     console.log("SenderPhone", SPhone)
-    //     console.log("SenderAddress", addressza)
-    //     console.log("ReceiverName", RName)
-    //     console.log("ReceiverPhone", RPhone)
-    //     console.log("Address2", addressza2)
-    //     console.log("ReceiverPhone", PName)
-    //     console.log("DescriptionParcel", Dparcel)
-        
-
-    //     setTimeout(() => {
-    //     addData();
-    //     setOpen(false);
-    //     }, 500);
-    // }
-
     const handleClickOpen = () => {
         setOpen(true);
     };
     const handleClose = () => {
         setOpen(false);
+        window.location.reload(false);
     };
 
     const handleClickOpenConfirmAccept = () => {
@@ -555,30 +352,30 @@ const ShitDashboard =()=>{
         // console.log(...AddDoc)
         // GetData();
         // console.log(Gett)
-        
-    
-        
     })
 
     
  
-
     return(
         <div class='owwDashboard'>
             
-            <div className='container border border-info'>
+            <div className='container border border-danger '>
                 <Typography variant="subtitle1" gutterBottom>
-                    <h1 class='text-center' id='parcelH1'>Parcel registration</h1>
-                    <Button 
-                    variant="contained" 
-                    size="large" 
-                    color="primary" 
-                    onClick={handleClickOpen}>
-                        Send a parcel <br/>  { <ArchiveIcon/> }{ <ArrowForwardIcon/> }
-                    </Button>
+                    <div class=' text-center pt-5' id='parcelH1'>
+                        <h1>Parcel registration <h1><FaBoxOpen/></h1></h1>
+                            <div className='text-left '>
+                                <button 
+                                className='alert alert-primary btn-lg col col-3 ml-3'
+                                onClick={handleClickOpen}>
+                                    Send a parcel   { <FaBoxOpen/> }{ <ArrowForwardIcon/> }
+                                </button>
+                            </div>
+                    </div>
                 </Typography>
+                {/* <div class="horizonLine"></div> */}
+                
                 {/* <button onClick={()=>{ohWow()}}>ohWow</button> */}
-                <button onClick={()=>{TimeRanger()}}>Time</button>
+                {/* <button onClick={()=>{TimeRanger()}}>Time</button> */}
                 
                 <Dialog 
                 open={open} 
@@ -597,7 +394,7 @@ const ShitDashboard =()=>{
                     <DialogTitle 
                     id="form-dialog-title" 
                     className='text-center'>
-                    <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <ArchiveIcon/> }</h4>
+                    <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <FaBoxOpen/> }</h4>
                     </DialogTitle>
 
                         <TextField required 
@@ -640,7 +437,7 @@ const ShitDashboard =()=>{
                         <DialogTitle 
                         id="form-dialog-title" 
                         className='text-center'>
-                        <h4>Reciever { <ArchiveIcon/> }{ <ArrowForwardIcon/> }{ <FaceIcon/> }</h4>
+                        <h4>Reciever { <FaBoxOpen/> }{ <ArrowForwardIcon/> }{ <FaceIcon/> }</h4>
                         </DialogTitle>
 
                         <TextField required 
@@ -682,7 +479,7 @@ const ShitDashboard =()=>{
                         <DialogTitle 
                         id="form-dialog-title" 
                         className='text-center'>
-                        <h4>Pracel information { <ArchiveIcon/> } </h4>
+                        <h4>Pracel information { <FaBoxOpen/> } </h4>
                         </DialogTitle>
 
                         <TextField required 
@@ -729,11 +526,11 @@ const ShitDashboard =()=>{
                     </DialogActions>
                 </Dialog>
 
-            <Card variant="outlined " className='my-5' id='shitCard'>
+            <Card variant="outlined " className='my-2' id='shitCard'>
             
                 <div className='containter row pl-2'>
                     <div className='col col-4 m-3 mb-5 ' id='boxLeft'>
-                        <div id='containerShit' class='border border-success'>
+                        <div id='containerShit' class='border-top'>
                                 <div id='center-col' class='text-center'>
                                     <ul class='p-2'>
                                         {/* {AddButton} */}
@@ -744,7 +541,7 @@ const ShitDashboard =()=>{
                     </div>
                         <div class="verticalLine"></div>
                         <div className='col col-7 m-3' id='boxRight'>
-                        <div id='containerShit' class='border border-success'>
+                        <div id='containerShit' class='border-top'>
                                 <div id='center-col' class='text-center'>
                                     <ul class='p-2'>
                                         <div className='row'>
@@ -773,15 +570,6 @@ const ShitDashboard =()=>{
                                                         </Alert>
                                                     </div>
                                                 </div>
-
-                                                {/* <div className='mx-1'>
-                                                    <button 
-                                                        key ={GetIDParcel} 
-                                                        className='btn btn-outline-success btn-lg' 
-                                                        onClick={ ()=>{ handleClickOpenConfirm() } }
-                                                        >Accept Parcel
-                                                    </button>
-                                                </div> */}
                                             </div>
                                         </div>
                                             <DialogTitle 
@@ -794,9 +582,9 @@ const ShitDashboard =()=>{
                                                     <DialogTitle 
                                                     id="form-dialog-title" 
                                                     className='text-center'>
-                                                    <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <ArchiveIcon/> }</h4>
+                                                    <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <FaBoxOpen/> }</h4>
                                                     </DialogTitle>
-                                                                <p>{GetIDParcel}</p> 
+                                    {/* <p>{GetIDParcel}</p>  */}
                                                         <TextField required autoFucus
                                                         id="nameSender" 
                                                         helperText="Name"
@@ -816,17 +604,6 @@ const ShitDashboard =()=>{
                                                         InputProps={{readOnly: true, }}
                                                         fullWidth/><br/><br/>
 
-                                                        {/* <TextField required 
-                                                        id="addressdropdown" 
-                                                        helperText="Address"
-                                                        className='col col-12 ' 
-                                                        select 
-                                                        value={ addressza } 
-                                                        onChange={ handleChange } 
-                                                        fullwidth>
-                                                            { DropdownAddress }
-                                                        </TextField><br/><br/> */}
-
                                                         <TextField 
                                                         id="addresstextarea" 
                                                         helperText="Address"
@@ -841,7 +618,7 @@ const ShitDashboard =()=>{
                                                         <DialogTitle 
                                                         id="form-dialog-title" 
                                                         className='text-center'>
-                                                        <h4>Reciever { <ArchiveIcon/> }{ <ArrowForwardIcon/> }{ <FaceIcon/> }</h4>
+                                                        <h4>Reciever { <FaBoxOpen/> }{ <ArrowForwardIcon/> }{ <FaceIcon/> }</h4>
                                                         </DialogTitle>
 
                                                         <TextField required 
@@ -863,18 +640,6 @@ const ShitDashboard =()=>{
                                                         InputProps={{readOnly: true, }}
                                                         fullWidth/><br/><br/>
 
-                                                        {/* <TextField required 
-                                                        id="addressdropdown" 
-                                                        helperText="Address"
-                                                        className='col col-12 ' 
-                                                        select label="Address" 
-                                                        value={ addressza2 } 
-                                                        onChange={ handleChange2}  
-                                                        
-                                                        fullwidth>
-                                                            { DropdownAddress }
-                                                        </TextField><br/><br/> */}
-
                                                         <TextField  
                                                         id="addresstextarea" 
                                                         helperText="Address"
@@ -889,7 +654,7 @@ const ShitDashboard =()=>{
                                                         <DialogTitle 
                                                         id="form-dialog-title" 
                                                         className='text-center'>
-                                                        <h4>Pracel information { <ArchiveIcon/> } </h4>
+                                                        <h4>Pracel information { <FaBoxOpen/> } </h4>
                                                         </DialogTitle>
 
                                                         <TextField required 

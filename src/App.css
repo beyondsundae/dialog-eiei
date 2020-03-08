@@ -40,9 +40,16 @@
 
 .verticalLine {
   margin-top:2em;
-  border-left: 3px solid blueviolet;
-  height: 55em;
+  margin-bottom:2em;
+  border-left: 3px solid rgb(11, 41, 94);
+  height: auto;
 }/*VertLine*/
+/* .horizonLine{
+  margin-top:2em;
+  border-left: 1px solid rgb(11, 41, 94);
+  width: auto;
+  border:3px solid rgb(11, 41, 94)
+}HoriLine */
 
 #center-col{
   flex: 1;
@@ -56,6 +63,13 @@
 
 #parcelH1{
   margin-top:20px;
+  color:white;
+  background-color: rgb(11, 41, 94);
+  border-radius: 2px 2px 50px;
+}
+.DoubleBox{
+   border:1px solid rgb(83, 76, 76);
+   border-radius: 2px;
 }
 #AlertButton{
   cursor: pointer;
