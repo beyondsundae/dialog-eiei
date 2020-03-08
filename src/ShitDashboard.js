@@ -36,8 +36,6 @@ const ShitDashboard =()=>{
     const [open, setOpen] = useState(false);
     const [OpenconfirmAccept, setOpenconfirmAccept] = useState(false);
     const [OpenconfirmReject, setOpenconfirmReject] = useState(false);
-    
-    const [Gett, setGett] = useState();
 
     const [DBStatus, setDBStatus] = useState();
     const [DBColor, setDBColor] = useState();
@@ -357,15 +355,15 @@ const ShitDashboard =()=>{
     
  
     return(
-        <div class='owwDashboard'>
+        <div class=''>
             
-            <div className='container border border-danger '>
-                <Typography variant="subtitle1" gutterBottom>
-                    <div class=' text-center pt-5' id='parcelH1'>
-                        <h1>Parcel registration <h1><FaBoxOpen/></h1></h1>
-                            <div className='text-left '>
+            <div className='container col col-sm-7'>
+                <Typography variant="subtitle1" gutterBottom className='col col-sm-12'>
+                    <div class='col col-sm-12 text-center pt-5' id='parcelH1'>
+                        <h1 className='col col-sm-12'>Parcel registration <h1><FaBoxOpen/></h1></h1>
+                            <div className='text-left col col-sm-12'>
                                 <button 
-                                className='alert alert-primary btn-lg col col-3 ml-3'
+                                className='alert alert-primary btn-lg col col-sm-3'
                                 onClick={handleClickOpen}>
                                     Send a parcel   { <FaBoxOpen/> }{ <ArrowForwardIcon/> }
                                 </button>
@@ -378,6 +376,7 @@ const ShitDashboard =()=>{
                 {/* <button onClick={()=>{TimeRanger()}}>Time</button> */}
                 
                 <Dialog 
+                class='container col col-sm-5'
                 open={open} 
                 onClose={handleClose} 
                 aria-labelledby="form-dialog-title" 
@@ -529,7 +528,7 @@ const ShitDashboard =()=>{
             <Card variant="outlined " className='my-2' id='shitCard'>
             
                 <div className='containter row pl-2'>
-                    <div className='col col-4 m-3 mb-5 ' id='boxLeft'>
+                    <div className='col col-sm-4 m-3 mb-5 ' id='boxLeft'>
                         <div id='containerShit' class='border-top'>
                                 <div id='center-col' class='text-center'>
                                     <ul class='p-2'>
@@ -540,7 +539,7 @@ const ShitDashboard =()=>{
                         </div>
                     </div>
                         <div class="verticalLine"></div>
-                        <div className='col col-7 m-3' id='boxRight'>
+                        <div className='col col-sm-7 m-3' id='boxRight'>
                         <div id='containerShit' class='border-top'>
                                 <div id='center-col' class='text-center'>
                                     <ul class='p-2'>

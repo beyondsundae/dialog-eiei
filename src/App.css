@@ -1,4 +1,7 @@
-
+#ShitAllofPage{
+  background-color: none;
+  height:auto;
+}
 
 #shitDialog{
   margin: auto;
@@ -12,14 +15,9 @@
   height: 1000px;
 }
 
-#ShitAllofPage{
-  background-color: none;
-  height:auto;
-}
+/* .owwDashboard{
 
-.owwDashboard{
-  border:1px solid red;
-}
+} */
 
 #kuy{
   margin-top: 100px;
