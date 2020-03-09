@@ -2,17 +2,20 @@
   background-color: none;
   height:auto;
 }
+#shitUI{
+  margin:auto;
+  height:auto;
+}
 
 #shitDialog{
   margin: auto;
-  width: 800px;
-  height: 1000px;
+  /* width: 800px; */
+  height: auto;
 }
 #shitDialog2{
   
   margin: auto;
-  width: 800px;
-  height: 1000px;
+  height: auto;
 }
 
 /* .owwDashboard{

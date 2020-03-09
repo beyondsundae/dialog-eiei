@@ -124,26 +124,25 @@ app.get('/address', (req, res)=>{
 
 app.put('/accept', (req, res)=>{
     let id = req.body.id
-    connection.query("UPDATE Parcel SET status = 'ACCEPTED', color = 'alert alert-success btn-block mr-3' WHERE Id_parcel = "+id, function (err, result, fields) {
+    let RRName = req.body.RRName
+    connection.query("UPDATE Parcel SET status = 'ACCEPTED', Real_Receiver_Name = ?, color = 'alert alert-success btn-block mr-3' WHERE Id_parcel = "+id,[RRName], function (err, result, fields) {
         // if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
             console.log("show result")
-            console.log(result);   
-            
-      });
-})
+            console.log(result);});})   
 
 app.put('/reject', (req, res)=>{
     let id = req.body.id
-    connection.query("UPDATE Parcel SET status = 'REJECTED', color = 'alert alert-danger btn-block mr-3' WHERE Id_parcel =" +id, function (err, result, fields) {
+    let RRName = "Rejected"
+    connection.query("UPDATE Parcel SET status = 'REJECTED', Real_Receiver_Name = ?, color = 'alert alert-danger btn-block mr-3' WHERE Id_parcel =" +id,[RRName], function (err, result, fields) {
         // if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
             console.log("show result")
-            console.log(result);   
-      });
-})
+            console.log(result);});})   
+      
+
 
 app.post('/PostParcel',(req, res) => {
     console.log("insertingrs done")
@@ -158,7 +157,8 @@ app.post('/PostParcel',(req, res) => {
         Parcel_Description: req.body.Dparcel,
         Date_Time: req.body.DateTime,
         status:"SENT",
-        color:"alert alert-warning btn-block mr-3"};
+        color:"alert alert-warning btn-block mr-3",
+        Real_Receiver_name:"Unknow"};
 
     let sql = "INSERT INTO Parcel SET ?";
         connection.query(sql, data,(err, results) => {

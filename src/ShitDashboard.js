@@ -5,7 +5,7 @@ import axios from 'axios';
 // import DialogContentText from '@material-ui/core/DialogContentText';
 // import Address from './Address';
 import "bootstrap/dist/css/bootstrap.css";
-import { FaBoxOpen } from "react-icons/fa";
+import { FaBoxOpen, FaReceipt, FaInfoCircle} from "react-icons/fa";
 import Card from '@material-ui/core/Card';
 import Zoom from '@material-ui/core/Zoom';
 import Alert from '@material-ui/lab/Alert';
@@ -19,7 +19,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
 import AlertTitle from '@material-ui/lab/AlertTitle';
-import ArchiveIcon from '@material-ui/icons/Archive';
 import Typography from '@material-ui/core/Typography';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -61,16 +60,17 @@ const ShitDashboard =()=>{
     const [RPhone, setRPhone] = useState();
     function RPhoneChange (e){ setRPhone(e.target.value) }
     const [addressza2, setAddressza2] = useState();
-    const handleChange2 = e => { 
-        setAddressza2(e.target.value) 
+    const handleChange2 = e => { setAddressza2(e.target.value) }
         
-    }
-     
-
+    
     const [PName, setPName] = useState();
     function PNameChange (e){ setPName(e.target.value) }
     const [Dparcel, setDparcel] = useState();
     function DparcelChange (e){ setDparcel(e.target.value) }
+    
+    const [RRName, setRRName] = useState();
+    function RRNameChange (e){ setRRName(e.target.value) }
+
     /*
     ! Modal side
     */
@@ -85,12 +85,14 @@ const ShitDashboard =()=>{
 
     const [PNameR, setPNameR] =useState();
     const [DparcelR, setDparcelR] =useState();
+
+    const [RRNameR, setRRNameR] = useState();
     
      /*
     ! Right side
     */
 
-    function PushDoc (){
+    function PushParcel (){
 
         setTimeout(() => {
             // addData();
@@ -128,7 +130,17 @@ const ShitDashboard =()=>{
 
           GetData();
           TimeRanger();
-          ohWow ();
+          
+          if (SName==null||SName=="", SPhone==null||SPhone=="", addressza==null||addressza=="", RName==null||RName=="",
+          RPhone==null||RPhone=="", addressza2==null||addressza2=="", PName==null||PName=="", Dparcel==null||Dparcel=="") {
+            return(alert('Please fill all information.'));}
+
+            if (SName!==null&&SName!=="", SPhone!==null&&!SPhone=="", addressza!==null&&addressza!=="", RName!==null&&RName!=="",
+            RPhone!==null&&RPhone!=="", addressza2!==null&&addressza2!=="", PName!==null&&PName!=="", Dparcel!==null&&Dparcel!=="") {
+              return(alert('Your mom gay'));}
+              
+          
+         
     }
 
     function GetData (){
@@ -196,27 +208,25 @@ const ShitDashboard =()=>{
 
                 setPNameR(item.Parcel_Name),
                 setDparcelR(item.Parcel_Description),
+                setRRNameR(item.Real_Receiver_Name)
                 )
                 setShowDataxx(MapdataSpecific)
         })}
     
     function Accept (){
         var accept ={
-            id:GetIDParcel
-        }
+            id:GetIDParcel,
+            RRName:RRName}
         axios.put('http://localhost:4000/accept',accept)
             .then(function (response){
-                ohWow();
-               
+                ohWow();  
             })}
     function Reject (){
         var reject ={
-            id:GetIDParcel
-        }
+            id:GetIDParcel}
         axios.put('http://localhost:4000/reject',reject)
             .then(function (response){
                 ohWow();
-                
             })}
 
     
@@ -317,8 +327,10 @@ const ShitDashboard =()=>{
         setOpenconfirmAccept(false);
     };
     const handleClickCloseConfirmAcceptWihtAccept= () => {
-        Accept()
+        Accept();
         setOpenconfirmAccept(false);
+        window.location.reload(false);
+        alert("receiver : "+ RRName)
     };
 
     const handleClickOpenConfirmReject = () => {
@@ -328,8 +340,9 @@ const ShitDashboard =()=>{
         setOpenconfirmReject(false);
     };
     const handleClickCloseConfirmRejectWihtReject= () => {
-        Reject()
+        Reject();
         setOpenconfirmReject(false);
+        window.location.reload(false);
     };
     const ShitTooltip = withStyles({
         tooltip: {
@@ -355,9 +368,9 @@ const ShitDashboard =()=>{
     
  
     return(
-        <div class=''>
+        <div class='' id='shitUI'>
             
-            <div className='container col col-sm-7'>
+            <div className='container col col-sm-7 ' id='shitUI'>
                 <Typography variant="subtitle1" gutterBottom className='col col-sm-12'>
                     <div class='col col-sm-12 text-center pt-5' id='parcelH1'>
                         <h1 className='col col-sm-12'>Parcel registration <h1><FaBoxOpen/></h1></h1>
@@ -370,13 +383,11 @@ const ShitDashboard =()=>{
                             </div>
                     </div>
                 </Typography>
-                {/* <div class="horizonLine"></div> */}
-                
                 {/* <button onClick={()=>{ohWow()}}>ohWow</button> */}
                 {/* <button onClick={()=>{TimeRanger()}}>Time</button> */}
                 
                 <Dialog 
-                class='container col col-sm-5'
+                class='container col col-sm-4'
                 open={open} 
                 onClose={handleClose} 
                 aria-labelledby="form-dialog-title" 
@@ -404,7 +415,8 @@ const ShitDashboard =()=>{
                         type="text"
                         onChange={ SNameChange }
                         fullWidth/><br/><br/>
-                                <TextField required 
+                                <TextField 
+                                required
                                 id="phoneSender" 
                                 label="Phone Number" 
                                 variant="outlined" 
@@ -514,7 +526,7 @@ const ShitDashboard =()=>{
                     </Button>
 
                     <Button 
-                    onClick={ PushDoc } 
+                    onClick={ PushParcel } 
                     variant="contained" 
                     size="large" 
                     color="primary" >
@@ -525,11 +537,14 @@ const ShitDashboard =()=>{
                     </DialogActions>
                 </Dialog>
 
+
+
             <Card variant="outlined " className='my-2' id='shitCard'>
-            
-                <div className='containter row pl-2'>
-                    <div className='col col-sm-4 m-3 mb-5 ' id='boxLeft'>
+                <div className='containter row pl-2'>       
+                    <div className='col col-sm-4 m-3 mb-5 my-1' id='boxLeft'>
+                        <div><h2 className='text-center'>Status <FaInfoCircle/></h2></div>
                         <div id='containerShit' class='border-top'>
+                        
                                 <div id='center-col' class='text-center'>
                                     <ul class='p-2'>
                                         {/* {AddButton} */}
@@ -539,12 +554,13 @@ const ShitDashboard =()=>{
                         </div>
                     </div>
                         <div class="verticalLine"></div>
-                        <div className='col col-sm-7 m-3' id='boxRight'>
+                        <div className='col col-sm-7 m-3 my-1' id='boxRight'>
+                        <h2 className='text-center'>information <FaReceipt/></h2>
                         <div id='containerShit' class='border-top'>
                                 <div id='center-col' class='text-center'>
                                     <ul class='p-2'>
                                         <div className='row'>
-                                        <div class="col col-2"></div>
+                                        <div class="col col-3"></div>
                                         <div class="col col-3"></div>
                                             <div className='row col my-2'>
                                                 <div className='row'>
@@ -553,7 +569,6 @@ const ShitDashboard =()=>{
                                                             key ={GetIDParcel} 
                                                             id='AlertButton'
                                                             severity="error"
-                                                            href='#'
                                                             onClick={ ()=>{ handleClickOpenConfirmReject() } }>
                                                             <AlertTitle>Reject Parcel</AlertTitle>
                                                         </Alert>
@@ -563,7 +578,6 @@ const ShitDashboard =()=>{
                                                             key ={GetIDParcel} 
                                                             id='AlertButton'
                                                             severity="success"
-                                                            href='#'
                                                             onClick={ ()=>{ handleClickOpenConfirmAccept() } }>
                                                             <AlertTitle>Accept Parcel</AlertTitle>
                                                         </Alert>
@@ -574,6 +588,7 @@ const ShitDashboard =()=>{
                                             <DialogTitle 
                                             id="form-dialog-title" 
                                             className='text-center'>
+                                                 <h4 className='alert alert-primary'>Receiver: {RRNameR}</h4>
                                             <h1>Shipping information </h1>
                                             </DialogTitle><hr/>
 
@@ -584,6 +599,7 @@ const ShitDashboard =()=>{
                                                     <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <FaBoxOpen/> }</h4>
                                                     </DialogTitle>
                                     {/* <p>{GetIDParcel}</p>  */}
+                                    
                                                         <TextField required autoFucus
                                                         id="nameSender" 
                                                         helperText="Name"
@@ -674,28 +690,30 @@ const ShitDashboard =()=>{
                                                         type="text"
                                                         onChange={ DparcelChange }
                                                         multiline rows="4" />
-
                                             </DialogContent>
-  
                                     </ul>
                                 </div>
                         </div>
+
+
+
                                 <Dialog fullWidth
                                 open={OpenconfirmAccept} onClose={handleClickCloseConfirmAccept} 
                                 aria-labelledby="form-dialog-title" id='shitDialog2'>
                                     <DialogTitle id="form-dialog-title">Parcel confirmation</DialogTitle>
                                     <DialogContent>
-                                    <DialogContentText>
-                                        To accept parcel please enter your name and click "ACCEPT".
-                                    </DialogContentText>
-                                    <TextField
-                                        autoFocus
-                                        margin="dense"
-                                        id="name"
-                                        label="Name"
-                                        type="email"
-                                        fullWidth
-                                    />
+                                        <DialogContentText>
+                                            To accept parcel please enter your name and click "ACCEPT".
+                                        </DialogContentText>
+                                            <TextField
+                                                autoFocus
+                                                margin="dense"
+                                                id="name"
+                                                label="Name"
+                                                value={ RRName }
+                                                type="text"
+                                                onChange={ RRNameChange }
+                                                fullWidth/>
                                     </DialogContent>
                                     <DialogActions>
                                     <Alert 
