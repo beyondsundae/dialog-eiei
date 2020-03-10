@@ -30,21 +30,17 @@ import { withStyles} from "@material-ui/core/styles";
 const ShitDashboard =()=>{
     window.onload = function() {
         ohWow();
-        TimeRanger();}
+        TimeRanger();
+    }
       
     const [open, setOpen] = useState(false);
     const [OpenconfirmAccept, setOpenconfirmAccept] = useState(false);
     const [OpenconfirmReject, setOpenconfirmReject] = useState(false);
 
-    const [DBStatus, setDBStatus] = useState();
-    const [DBColor, setDBColor] = useState();
-    const [DBBoth, setDBBoth] = useState();
     const [OHwow, setOHwow] = useState();
-    const [ShowDataxx, setShowDataxx] = useState();
     const [ShowAddressxx, setShowAddressxx] = useState();
     const [DateTime, setDateTime] = useState();
-    const [SmallAddress, setSmallAddress] = useState();
-    
+    const [TinyAdderess, setTinyAdderess] = useState();
     
 
     const [SName, setSName] = useState([]); 
@@ -70,10 +66,10 @@ const ShitDashboard =()=>{
     
     const [RRName, setRRName] = useState();
     function RRNameChange (e){ setRRName(e.target.value) }
-
     /*
     ! Modal side
     */
+
     const [GetIDParcel, setGetIDParcel] = useState();
     const [SNameR, setSNameR] =useState();
     const [SPhoneR, setSPhoneR] =useState();
@@ -92,13 +88,18 @@ const ShitDashboard =()=>{
     ! Right side
     */
 
+    const ShitTooltip = withStyles({
+        tooltip: {
+          fontSize: "1em",
+          maxWidth: 700
+        }
+      })(Tooltip);
+
     function PushParcel (){
 
         setTimeout(() => {
-            // addData();
             setOpen(false);
             PostShit();
-            window.location.reload(false);
             }, 500);  
     /*
     ! When submit
@@ -106,7 +107,7 @@ const ShitDashboard =()=>{
     }
 
 
-    function PostShit (){
+    function PostShit (e){
 
         var formData = {
             SName:SName,
@@ -128,61 +129,25 @@ const ShitDashboard =()=>{
                 console.log(error);
           });
 
-          GetData();
           TimeRanger();
-          
+          // eslint-disable-next-line
           if (SName==null||SName=="", SPhone==null||SPhone=="", addressza==null||addressza=="", RName==null||RName=="",
+          // eslint-disable-next-line
           RPhone==null||RPhone=="", addressza2==null||addressza2=="", PName==null||PName=="", Dparcel==null||Dparcel=="") {
-            return(alert('Please fill all information.'));}
-
+            return(alert('Please fill all information.')
+            );}
+            // eslint-disable-next-line
             if (SName!==null&&SName!=="", SPhone!==null&&!SPhone=="", addressza!==null&&addressza!=="", RName!==null&&RName!=="",
+            // eslint-disable-next-line
             RPhone!==null&&RPhone!=="", addressza2!==null&&addressza2!=="", PName!==null&&PName!=="", Dparcel!==null&&Dparcel!=="") {
-              return(alert('Your mom gay'));}
-              
-          
-         
-    }
-
-    function GetData (){
-        axios.get('http://localhost:4000/wholedata')
-            .then(function (response){
-                const data = response.data;
-
-        })
-            .catch(function (error) {
-                console.log(error);
-        });
-        /* 
-        ! Get Data
+                return(alert('Your mom gay'),
+                window.location.reload(false)
+                );}
+        }
+        /*
+            !When post data
         */
-       axios.get('http://localhost:4000/status')
-            .then(function (response){
-                const dataStatus = response.data;
-                setDBStatus(dataStatus)
-                console.log(dataStatus)
-        })
-            .catch(function (error) {
-                console.log(error);
-        });
-        axios.get('http://localhost:4000/color')
-            .then(function (response){
-                const dataColor = response.data;
-                setDBColor(dataColor)
-                console.log(dataColor)
-        })
-            .catch(function (error) {
-                console.log(error);
-        });
-        axios.get('http://localhost:4000/both')
-            .then(function (response){
-                const dataBoth = response.data;
-                setDBBoth(dataBoth)
-                console.log(DBBoth)
-        })
-            .catch(function (error) {
-                console.log(error);
-        });
-    }
+
 
     function ShowData (item){
         
@@ -197,21 +162,22 @@ const ShitDashboard =()=>{
                 const dataSpecific = response.data;
                 console.table(dataSpecific)
 
-                const MapdataSpecific = dataSpecific.map((item)=>
-                setSNameR(item.Sender_Name),
-                setSPhoneR(item.Sender_Phone),
-                setSAddressR(item.Sender_Address),
+                dataSpecific.map((item)=>
+                    setSNameR(item.Sender_Name),
+                    setSPhoneR(item.Sender_Phone),
+                    setSAddressR(item.Sender_Address),
 
-                setRNameR(item.Receiver_Name),
-                setRPhoneR(item.Receiver_Phone),
-                setRAddressR(item.Receiver_Address),
+                    setRNameR(item.Receiver_Name),
+                    setRPhoneR(item.Receiver_Phone),
+                    setRAddressR(item.Receiver_Address),
 
-                setPNameR(item.Parcel_Name),
-                setDparcelR(item.Parcel_Description),
-                setRRNameR(item.Real_Receiver_Name)
-                )
-                setShowDataxx(MapdataSpecific)
-        })}
+                    setPNameR(item.Parcel_Name),
+                    setDparcelR(item.Parcel_Description),
+                    setRRNameR(item.Real_Receiver_Name)
+        )})}
+        /*
+            !Get Right-side data
+        */
     
     function Accept (){
         var accept ={
@@ -220,14 +186,20 @@ const ShitDashboard =()=>{
         axios.put('http://localhost:4000/accept',accept)
             .then(function (response){
                 ohWow();  
-            })}
+        })}
+        /*
+            !When Accept
+        */
     function Reject (){
         var reject ={
             id:GetIDParcel}
         axios.put('http://localhost:4000/reject',reject)
             .then(function (response){
                 ohWow();
-            })}
+        })}
+        /*
+            !When Reject
+        */
 
     
     function ShowHover (item){
@@ -239,17 +211,36 @@ const ShitDashboard =()=>{
              <p>Destination:____{DAddress}</p>
              <p>Parcel:_____{ParcelShit}</p>
              <p>Send Time:____{TimeRanger}</p>
-            </p>)}
+            </p>
+        )}
+        /*
+            !When Hover
+        */
 
     function ShortAddress(item){
         const addressShort = item.Receiver_Address
         const Shortaddress = addressShort.split('-')[0]
-        setSmallAddress(Shortaddress)
-        console.log(SmallAddress)
+        // console.log(SmallAddress)
+        setTinyAdderess(Shortaddress)
+
         return(
-        <strong>{Shortaddress}</strong>)
-        
-    }
+            <strong>{Shortaddress}</strong>
+        )}
+        /*
+            !Short Address
+        */
+
+    function TimeRanger(){
+        var today = new Date(); 
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() 
+        var dateTime = date+' '+time;
+        setDateTime(dateTime)
+        // console.log(dateTime)
+        }
+        /*
+            !Time Ranger function
+        */
 
     function ohWow (){
         axios.get('http://localhost:4000/wholedata')//or both
@@ -276,13 +267,14 @@ const ShitDashboard =()=>{
                         
                     </div>
                     )
-                    setOHwow(MapdataThree)
-                    
-                
+                    setOHwow(MapdataThree)       
         })
             .catch(function (error) {
                 console.log(error);
         });
+        /*
+        !Get Left-side data
+        */
 
         axios.get('http://localhost:4000/address')
         .then(function(response){
@@ -296,21 +288,12 @@ const ShitDashboard =()=>{
                         { item.Address_Name}
                 </MenuItem>)
             setShowAddressxx(DropdownAddress)
-            
         })}
         /*
             !Dropdowm shit
         */
 
-        function TimeRanger(){
-            var today = new Date(); 
-            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-            var time = today.getHours() + ":" + today.getMinutes() 
-            var dateTime = date+' '+time;
-            setDateTime(dateTime)
-            console.log(DateTime)
 
-        }
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -319,9 +302,18 @@ const ShitDashboard =()=>{
         setOpen(false);
         window.location.reload(false);
     };
+    /*
+        !Open-Close Dialog
+    */
 
     const handleClickOpenConfirmAccept = () => {
-        setOpenconfirmAccept(true);
+        // eslint-disable-next-line
+        if (RNameR==null||RNameR==""||RRNameR==undefined){
+            alert("please select parcel ");
+        }
+        else if (RNameR!==null||RNameR!==""||RRNameR!==undefined){
+            setOpenconfirmAccept(true);
+        }
     };
     const handleClickCloseConfirmAccept = () => {
         setOpenconfirmAccept(false);
@@ -330,11 +322,20 @@ const ShitDashboard =()=>{
         Accept();
         setOpenconfirmAccept(false);
         window.location.reload(false);
-        alert("receiver : "+ RRName)
+        alert("Receiver : "+ RRName)
     };
+    /*
+        !Open-Close-Submit Accept Dialog
+    */
 
     const handleClickOpenConfirmReject = () => {
-        setOpenconfirmReject(true);
+        // eslint-disable-next-line
+        if (RNameR==null||RNameR==""||RRNameR==undefined){
+            alert("please select parcel ");
+        }
+        else if (RNameR!==null||RNameR!==""||RRNameR!==undefined){
+            setOpenconfirmReject(true);
+        }
     };
     const handleClickCloseConfirmReject = () => {
         setOpenconfirmReject(false);
@@ -343,32 +344,21 @@ const ShitDashboard =()=>{
         Reject();
         setOpenconfirmReject(false);
         window.location.reload(false);
+        alert(" This Parcel is rejected ")
     };
-    const ShitTooltip = withStyles({
-        tooltip: {
-          fontSize: "1em",
-          maxWidth: 700
-        }
-      })(Tooltip);
+    /*
+        !Open-Close-Submit Reject Dialog
+    */
+
     useEffect(() => {
-        // console.log(AddData)
-        // console.log(...AddData)
-        
-        // console.log(DBBoth)
-        // console.log(ShowDataxx)
         console.log(GetIDParcel)
-        console.log("end")
-        // ohWow();
-        
-        // console.log(...AddDoc)
-        // GetData();
-        // console.log(Gett)
+        console.log(RNameR)
     })
 
-    
- 
+//  {/************************************************ Interface ***********************************************************/} 
     return(
-        <div class='' id='shitUI'>
+
+        <container fixed class='' id='shitUI'>
             
             <div className='container col col-sm-7 ' id='shitUI'>
                 <Typography variant="subtitle1" gutterBottom className='col col-sm-12'>
@@ -383,9 +373,10 @@ const ShitDashboard =()=>{
                             </div>
                     </div>
                 </Typography>
-                {/* <button onClick={()=>{ohWow()}}>ohWow</button> */}
-                {/* <button onClick={()=>{TimeRanger()}}>Time</button> */}
-                
+        {/* <button onClick={()=>{ohWow()}}>ohWow</button> */}
+        {/* <button onClick={()=>{TimeRanger()}}>Time</button> */}
+    {/************************************************ Dialog ***********************************************************/} 
+
                 <Dialog 
                 class='container col col-sm-4'
                 open={open} 
@@ -536,8 +527,7 @@ const ShitDashboard =()=>{
 
                     </DialogActions>
                 </Dialog>
-
-
+  {/**************************************************** Data both side *******************************************************/}
 
             <Card variant="outlined " className='my-2' id='shitCard'>
                 <div className='containter row pl-2'>       
@@ -694,8 +684,7 @@ const ShitDashboard =()=>{
                                     </ul>
                                 </div>
                         </div>
-
-
+  {/********************************************** Appect-Reject Dialog *************************************************************/}
 
                                 <Dialog fullWidth
                                 open={OpenconfirmAccept} onClose={handleClickCloseConfirmAccept} 
@@ -703,7 +692,10 @@ const ShitDashboard =()=>{
                                     <DialogTitle id="form-dialog-title">Parcel confirmation</DialogTitle>
                                     <DialogContent>
                                         <DialogContentText>
-                                            To accept parcel please enter your name and click "ACCEPT".
+                                            To accept parcel please enter your <strong>Name</strong> and click <strong>"ACCEPT"</strong>.
+                                        </DialogContentText>
+                                        <DialogContentText>
+                                            Do you want to accept <strong>{PNameR}</strong> from <strong>{TinyAdderess}</strong> ?
                                         </DialogContentText>
                                             <TextField
                                                 autoFocus
@@ -736,7 +728,7 @@ const ShitDashboard =()=>{
                             <DialogTitle id="form-dialog-title">Parcel confirmation</DialogTitle>
                             <DialogContent>
                             <DialogContentText>
-                                Click "REJECT" to reject parcel.
+                                Click <strong>"REJECT"</strong> to reject parcel.
                             </DialogContentText>
                             {/* <TextField
                                 autoFocus
@@ -765,9 +757,8 @@ const ShitDashboard =()=>{
                 </div>         
             </Card>
             </div>
-        </div>
+        </container>
     )
 
 }
-
 export default ShitDashboard

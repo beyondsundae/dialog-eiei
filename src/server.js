@@ -34,7 +34,10 @@ connection.connect(function(err){
     //         if (err) throw err;
     //         console.log("1 record inserted")})
 });
-
+process.on('uncaughtException', function(err) {         
+    // restart app here
+    console.log("shit i got error")
+  });
 
 // connection.query("SELECT * FROM Address", function (err, result, fields) {
     // if (err) throw err;
@@ -52,19 +55,20 @@ connection.connect(function(err){
 //             console.log("1 record inserted")})})
 
 
-app.get('/get',(req,res)=>{
-    res.send('heeelll')
-})
+// app.get('/get',(req,res)=>{
+//     res.send('heeelll')
+// })
+
 app.post('/111', (req, res) => {
     var sql = "INSERT INTO Parcel (Sender_Name, Sender_Phone, Sender_Address, Receiver_Name, Receiver_Phone, Receiver_Address, Parcel_Name, Parcel_Description) VALUES ('xweasassaddrxxx', '12aa314', 'test', 'test', '12314', 'test', 'test', 'test')";
         connection.query(sql, function (err, result) {
-            // if (err) throw err;
+            if (err) throw err;
             console.log("1 record inserted")})})
 
 
 app.get('/wholedata', (req, res)=>{
     connection.query("SELECT * FROM Parcel ORDER BY Id_parcel DESC", function (err, result, fields) {
-        // if (err) throw err;
+        if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
             console.log("show result wholedata")
@@ -75,7 +79,7 @@ app.get('/wholedata', (req, res)=>{
 app.get('/specificdata', (req, res)=>{
     let param = req.query.id
     connection.query("SELECT * FROM Parcel WHERE Id_parcel = "+ param , function (err, result, fields) {
-        // if (err) throw err;
+        if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
             console.log("show result specific")
@@ -85,7 +89,7 @@ app.get('/specificdata', (req, res)=>{
 
 app.get('/status', (req, res)=>{
     connection.query("SELECT status FROM Parcel", function (err, result, fields) {
-        // if (err) throw err;
+        if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
             console.log("show result status")
@@ -94,7 +98,7 @@ app.get('/status', (req, res)=>{
 })
 app.get('/color', (req, res)=>{
     connection.query("SELECT color FROM Parcel", function (err, result, fields) {
-        // if (err) throw err;
+        if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
             console.log("show result color")
@@ -104,21 +108,21 @@ app.get('/color', (req, res)=>{
 
 app.get('/both', (req, res)=>{
     connection.query("SELECT status, color, Id_parcel FROM Parcel", function (err, result, fields) {
-        // if (err) throw err;
+        if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
-            console.log("show result both")
-            console.log(result);   
+            // console.log("show result both")
+            // console.log(result);   
       });
 })
 
 app.get('/address', (req, res)=>{
     connection.query("SELECT * FROM Address", function (err, result, fields) {
-        // if (err) throw err;
+        if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
-            console.log("show result both")
-            console.log(result);   
+            // console.log("show result both")
+            // console.log(result);   
       });
 })
 
@@ -126,7 +130,7 @@ app.put('/accept', (req, res)=>{
     let id = req.body.id
     let RRName = req.body.RRName
     connection.query("UPDATE Parcel SET status = 'ACCEPTED', Real_Receiver_Name = ?, color = 'alert alert-success btn-block mr-3' WHERE Id_parcel = "+id,[RRName], function (err, result, fields) {
-        // if (err) throw err;
+        if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
             console.log("show result")
@@ -136,7 +140,7 @@ app.put('/reject', (req, res)=>{
     let id = req.body.id
     let RRName = "Rejected"
     connection.query("UPDATE Parcel SET status = 'REJECTED', Real_Receiver_Name = ?, color = 'alert alert-danger btn-block mr-3' WHERE Id_parcel =" +id,[RRName], function (err, result, fields) {
-        // if (err) throw err;
+        if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
             console.log("show result")
@@ -162,8 +166,7 @@ app.post('/PostParcel',(req, res) => {
 
     let sql = "INSERT INTO Parcel SET ?";
         connection.query(sql, data,(err, results) => {
-        
-        // if(err) throw err;
+        if(err) throw err;
         
     });
     });
