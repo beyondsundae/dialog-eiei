@@ -42,29 +42,35 @@ const ShitDashboard =()=>{
     const [DateTime, setDateTime] = useState();
     const [TinyAdderess, setTinyAdderess] = useState();
 
+
     const [SName, setSName] = useState([]); 
-    function SNameChange (e){ setSName(e.target.value) }
+    function SNameChange (e){ 
+        setSName(e.target.value) }
     const [SPhone, setSPhone] = useState();
-    function SPhonehange (e){ setSPhone(e.target.value) }
-    const [addressza, setAddressza] = useState();
-    function handleChange  (e){ setAddressza(e.target.value) }
+    function SPhonehange (e){ 
+        setSPhone(e.target.value) }
+    const [Addressza, setAddressza] = useState();
       
     
     const [RName, setRName] = useState();
-    function RNameChange (e){ setRName(e.target.value) }  
+    function RNameChange (e){ 
+        setRName(e.target.value) }  
     const [RPhone, setRPhone] = useState();
-    function RPhoneChange (e){ setRPhone(e.target.value) }
-    const [addressza2, setAddressza2] = useState();
-    const handleChange2 = e => { setAddressza2(e.target.value) }
+    function RPhoneChange (e){ 
+        setRPhone(e.target.value) }
+    const [Addressza2, setAddressza2] = useState();
         
     
     const [PName, setPName] = useState();
-    function PNameChange (e){ setPName(e.target.value) }
+    function PNameChange (e){ 
+        setPName(e.target.value) }
     const [Dparcel, setDparcel] = useState();
-    function DparcelChange (e){ setDparcel(e.target.value) }
+    function DparcelChange (e){ 
+        setDparcel(e.target.value) }
     
     const [RRName, setRRName] = useState();
-    function RRNameChange (e){ setRRName(e.target.value) }
+    function RRNameChange (e){ 
+        setRRName(e.target.value) }
     /*
     ! Modal side
     */
@@ -111,16 +117,16 @@ const ShitDashboard =()=>{
         var formData = {
             SName:SName,
             SPhone:SPhone,
-            addressza:addressza,
+            Addressza:Addressza,
             RName:RName,
             RPhone:RPhone,
-            addressza2:addressza2,
+            Addressza2:Addressza2,
             PName:PName,
             Dparcel:Dparcel,
             DateTime:DateTime
         }
 
-        axios.post('http://localhost:4000/PostParcel', formData)
+        axios.post('http://10.0.99.206:4000/PostParcel', formData)
             .then(function (response) {
                 console.log(response);
           })
@@ -130,15 +136,15 @@ const ShitDashboard =()=>{
 
           TimeRanger();
           // eslint-disable-next-line
-          if (SName==null||SName=="", SPhone==null||SPhone=="", addressza==null||addressza=="", RName==null||RName=="",
+          if (SName==null||SName=="", SPhone==null||SPhone=="", Addressza==null||Addressza=="", RName==null||RName=="",
           // eslint-disable-next-line
-          RPhone==null||RPhone=="", addressza2==null||addressza2=="", PName==null||PName=="", Dparcel==null||Dparcel=="") {
+          RPhone==null||RPhone=="", Addressza2==null||Addressza2=="", PName==null||PName=="", Dparcel==null||Dparcel=="") {
             return(alert('Please fill all information.')
             );}
             // eslint-disable-next-line
-            if (SName!==null&&SName!=="", SPhone!==null&&!SPhone=="", addressza!==null&&addressza!=="", RName!==null&&RName!=="",
+            if (SName!==null&&SName!=="", SPhone!==null&&!SPhone=="", Addressza!==null&&Addressza!=="", RName!==null&&RName!=="",
             // eslint-disable-next-line
-            RPhone!==null&&RPhone!=="", addressza2!==null&&addressza2!=="", PName!==null&&PName!=="", Dparcel!==null&&Dparcel!=="") {
+            RPhone!==null&&RPhone!=="", Addressza2!==null&&Addressza2!=="", PName!==null&&PName!=="", Dparcel!==null&&Dparcel!=="") {
                 return(alert('Your mom gay'),
                 window.location.reload(false)
                 );}
@@ -156,7 +162,7 @@ const ShitDashboard =()=>{
                 }} 
         setGetIDParcel(item.Id_parcel)
         
-        axios.get('http://localhost:4000/specificdata',info)
+        axios.get('http://10.0.99.206:4000/specificdata',info)
             .then(function (response){
                 const dataSpecific = response.data;
                 console.table(dataSpecific)
@@ -182,7 +188,7 @@ const ShitDashboard =()=>{
         var accept ={
             id:GetIDParcel,
             RRName:RRName}
-        axios.put('http://localhost:4000/accept',accept)
+        axios.put('http://10.0.99.206:4000/accept',accept)
             .then(function (response){
                 ohWow();  
         })}
@@ -192,7 +198,7 @@ const ShitDashboard =()=>{
     function Reject (){
         var reject ={
             id:GetIDParcel}
-        axios.put('http://localhost:4000/reject',reject)
+        axios.put('http://10.0.99.206:4000/reject',reject)
             .then(function (response){
                 ohWow();
         })}
@@ -242,11 +248,11 @@ const ShitDashboard =()=>{
         */
 
     function ohWow (){
-        axios.get('http://localhost:4000/wholedata')//or both
+        axios.get('http://10.0.99.206:4000/wholedata')//or both
             .then(function (response){
                 const dataThree = response.data;
-
                 const MapdataThree = dataThree.map(( item )=>
+
                     <div className='my-3'>
                         
                         <ShitTooltip TransitionComponent={Zoom} title={ShowHover (item)} placement="top" id='ShitTooltip'>
@@ -275,10 +281,17 @@ const ShitDashboard =()=>{
         !Get Left-side data
         */
 
-        axios.get('http://localhost:4000/address')
+       Menu();
+    }
+        /*
+            !Dropdowm shit
+        */
+
+    const Menu =()=>{
+        axios.get('http://10.0.99.206:4000/address')
         .then(function(response){
             const dataAddress = response.data;
-            const DropdownAddress = dataAddress.map((item) => 
+            const DropdownAddress = dataAddress.map((item) =>
                 <MenuItem 
                     key={ item.ID_ADDRESS } 
                     value={ item.Address_Full} 
@@ -286,13 +299,11 @@ const ShitDashboard =()=>{
                     fullwidth >
                         { item.Address_Name}
                 </MenuItem>)
-            setShowAddressxx(DropdownAddress)
-        })}
-        /*
-            !Dropdowm shit
-        */
-
-
+                // <p>{item.Address_Name}</p>)
+                
+                setShowAddressxx(DropdownAddress)}
+               )
+    }
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -365,6 +376,7 @@ const ShitDashboard =()=>{
     useEffect(() => {
         console.log(GetIDParcel)
         console.log(RNameR)
+        console.log(ShowAddressxx)
     })
 
 //  {/************************************************ Interface ***********************************************************/} 
@@ -431,12 +443,12 @@ const ShitDashboard =()=>{
                         <TextField required 
                         id="addressdropdown" 
                         className='col col-12 ' 
-                        select 
-                        label="Address" 
-                        value={ addressza } 
-                        onChange={ handleChange } 
+                        select label="Address" 
+                        value={ Addressza } 
+                        onChange={ (e)=>{ setAddressza(e.target.value) } } 
                         fullwidth>
-                            { ShowAddressxx }
+                            {ShowAddressxx}
+        
                         </TextField><br/><br/>
                                 <TextField 
                                 id="addresstextarea" 
@@ -444,7 +456,7 @@ const ShitDashboard =()=>{
                                 variant="outlined"  
                                 multiline rows="4" 
                                 InputProps={{readOnly: true, }} 
-                                value={ addressza }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
+                                value={ Addressza }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
 
 
 
@@ -475,8 +487,8 @@ const ShitDashboard =()=>{
                         id="addressdropdown" 
                         className='col col-12 ' 
                         select label="Address" 
-                        value={ addressza2 } 
-                        onChange={ handleChange2 }  
+                        value={ Addressza2 } 
+                        onChange={ (e)=>{ setAddressza2(e.target.value) } }  
                         fullwidth>
                             { ShowAddressxx }
                         </TextField><br/><br/>
@@ -486,7 +498,7 @@ const ShitDashboard =()=>{
                                 variant="outlined"  
                                 multiline rows="4" 
                                 InputProps={{readOnly: true, }} 
-                                value={ addressza2 }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
+                                value={ Addressza2 }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
 
                     
 

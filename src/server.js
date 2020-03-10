@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({extended : true}));
 
 app.use(cors({
     origin:"*",
-    methods:['POST','GET','PUT'],
+    methods:['POST','GET','PUT','DELETE'],
     credentials:true
 }))  
 
@@ -55,9 +55,9 @@ process.on('uncaughtException', function(err) {
 //             console.log("1 record inserted")})})
 
 
-// app.get('/get',(req,res)=>{
-//     res.send('heeelll')
-// })
+app.get('/',(req,res)=>{
+    res.send('heeelll')
+})
 
 app.post('/111', (req, res) => {
     var sql = "INSERT INTO Parcel (Sender_Name, Sender_Phone, Sender_Address, Receiver_Name, Receiver_Phone, Receiver_Address, Parcel_Name, Parcel_Description) VALUES ('xweasassaddrxxx', '12aa314', 'test', 'test', '12314', 'test', 'test', 'test')";

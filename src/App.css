@@ -31,7 +31,7 @@
 }/*LeftBox*/
 
 #boxRight{
-  height:77vh;
+  height:auto;
 }/*RightBox*/
 
 #shitCard{
@@ -59,7 +59,7 @@
 #containerShit{
   display: flex;
   flex-direction: row;
-  height: 77vh;
+  height: auto;
 }/*ScrollBox*/
 
 #parcelH1{
