@@ -41,7 +41,6 @@ const ShitDashboard =()=>{
     const [ShowAddressxx, setShowAddressxx] = useState();
     const [DateTime, setDateTime] = useState();
     const [TinyAdderess, setTinyAdderess] = useState();
-    
 
     const [SName, setSName] = useState([]); 
     function SNameChange (e){ setSName(e.target.value) }
@@ -200,8 +199,8 @@ const ShitDashboard =()=>{
         /*
             !When Reject
         */
-
     
+
     function ShowHover (item){
         const DAddress = item.Receiver_Address
         const ParcelShit = item.Parcel_Name
@@ -294,7 +293,6 @@ const ShitDashboard =()=>{
         */
 
 
-
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -309,10 +307,17 @@ const ShitDashboard =()=>{
     const handleClickOpenConfirmAccept = () => {
         // eslint-disable-next-line
         if (RNameR==null||RNameR==""||RRNameR==undefined){
-            alert("please select parcel ");
+            alert("Please select parcel first");
         }
         else if (RNameR!==null||RNameR!==""||RRNameR!==undefined){
-            setOpenconfirmAccept(true);
+            // eslint-disable-next-line
+            if(RRNameR=="Unknow"){
+                setOpenconfirmAccept(true);
+           }
+           // eslint-disable-next-line
+           else if(RRNameR!=="Unknow"){
+               alert("You are alreay action to this")
+           }
         }
     };
     const handleClickCloseConfirmAccept = () => {
@@ -331,10 +336,17 @@ const ShitDashboard =()=>{
     const handleClickOpenConfirmReject = () => {
         // eslint-disable-next-line
         if (RNameR==null||RNameR==""||RRNameR==undefined){
-            alert("please select parcel ");
+            alert("Please select parcel first");
         }
         else if (RNameR!==null||RNameR!==""||RRNameR!==undefined){
-            setOpenconfirmReject(true);
+            // eslint-disable-next-line
+            if(RRNameR=="Unknow"){
+                 setOpenconfirmReject(true);
+            }
+            // eslint-disable-next-line
+            else if(RRNameR!=="Unknow"){
+                alert("You alreay action this")
+            }
         }
     };
     const handleClickCloseConfirmReject = () => {
@@ -360,13 +372,13 @@ const ShitDashboard =()=>{
 
         <container fixed class='' id='shitUI'>
             
-            <div className='container col col-sm-7 ' id='shitUI'>
+            <div className='container col col-sm-7 col-md-12 col-xl-8' id='shitUI'>
                 <Typography variant="subtitle1" gutterBottom className='col col-sm-12'>
                     <div class='col col-sm-12 text-center pt-5' id='parcelH1'>
-                        <h1 className='col col-sm-12'>Parcel registration <h1><FaBoxOpen/></h1></h1>
-                            <div className='text-left col col-sm-12'>
+                        <h1 className='col col-sm-12 col-md-12 col-xl-12'>Parcel registration <h1><FaBoxOpen/></h1></h1>
+                            <div className='text-left col col-sm-12 col-md-12 col-xl-4'>
                                 <button 
-                                className='alert alert-primary btn-lg col col-sm-3'
+                                className='alert alert-primary btn-lg col col-sm-3 col-md-4 col-xl-8'
                                 onClick={handleClickOpen}>
                                     Send a parcel   { <FaBoxOpen/> }{ <ArrowForwardIcon/> }
                                 </button>
@@ -378,7 +390,7 @@ const ShitDashboard =()=>{
     {/************************************************ Dialog ***********************************************************/} 
 
                 <Dialog 
-                class='container col col-sm-4'
+                class='container col col-sm-4 col-md-12 col-xl-8'
                 open={open} 
                 onClose={handleClose} 
                 aria-labelledby="form-dialog-title" 
@@ -730,6 +742,10 @@ const ShitDashboard =()=>{
                             <DialogContentText>
                                 Click <strong>"REJECT"</strong> to reject parcel.
                             </DialogContentText>
+                            <DialogContentText>
+                            Do you want to accept <strong>{PNameR}</strong> from <strong>{TinyAdderess}</strong> ?
+                            </DialogContentText>
+                            
                             {/* <TextField
                                 autoFocus
                                 margin="dense"

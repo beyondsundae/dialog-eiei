@@ -36,7 +36,7 @@ connection.connect(function(err){
 });
 process.on('uncaughtException', function(err) {         
     // restart app here
-    console.log("shit i got error")
+    console.log("shit i got an error, nevermind i will restart now ")
   });
 
 // connection.query("SELECT * FROM Address", function (err, result, fields) {
@@ -71,8 +71,8 @@ app.get('/wholedata', (req, res)=>{
         if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
-            console.log("show result wholedata")
-            console.log(result);   
+            // console.log("show result wholedata")
+            // console.log(result);   
       });
 })
 
@@ -82,8 +82,8 @@ app.get('/specificdata', (req, res)=>{
         if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
-            console.log("show result specific")
-            console.log(result);   
+            // console.log("show result specific")
+            // console.log(result);   
       });
 })
 
@@ -92,8 +92,8 @@ app.get('/status', (req, res)=>{
         if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
-            console.log("show result status")
-            console.log(result);   
+            // console.log("show result status")
+            // console.log(result);   
       });
 })
 app.get('/color', (req, res)=>{
@@ -133,8 +133,9 @@ app.put('/accept', (req, res)=>{
         if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
-            console.log("show result")
-            console.log(result);});})   
+            // console.log("show result")
+            // console.log(result);
+        });})   
 
 app.put('/reject', (req, res)=>{
     let id = req.body.id
@@ -143,8 +144,9 @@ app.put('/reject', (req, res)=>{
         if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
-            console.log("show result")
-            console.log(result);});})   
+            // console.log("show result")
+            // console.log(result);
+        });})   
       
 
 
@@ -162,7 +164,8 @@ app.post('/PostParcel',(req, res) => {
         Date_Time: req.body.DateTime,
         status:"SENT",
         color:"alert alert-warning btn-block mr-3",
-        Real_Receiver_name:"Unknow"};
+        Real_Receiver_name:"Unknow"
+        };
 
     let sql = "INSERT INTO Parcel SET ?";
         connection.query(sql, data,(err, results) => {
