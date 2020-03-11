@@ -126,7 +126,7 @@ const ShitDashboard =()=>{
             DateTime:DateTime
         }
 
-        axios.post('http://localhost:4000/PostParcel', formData)
+        axios.post('http://10.0.99.206:4000/PostParcel', formData)
             .then(function (response) {
                 console.log(response);
           })
@@ -139,13 +139,13 @@ const ShitDashboard =()=>{
           if (SName==null||SName=="", SPhone==null||SPhone=="", Addressza==null||Addressza=="", RName==null||RName=="",
           // eslint-disable-next-line
           RPhone==null||RPhone=="", Addressza2==null||Addressza2=="", PName==null||PName=="", Dparcel==null||Dparcel=="") {
-            return(alert('Please fill all information.')
+            return(alert('กรุณากรอกข้อมูลให้ครบ')
             );}
             // eslint-disable-next-line
             if (SName!==null&&SName!=="", SPhone!==null&&!SPhone=="", Addressza!==null&&Addressza!=="", RName!==null&&RName!=="",
             // eslint-disable-next-line
             RPhone!==null&&RPhone!=="", Addressza2!==null&&Addressza2!=="", PName!==null&&PName!=="", Dparcel!==null&&Dparcel!=="") {
-                return(alert('Your mom gay'),
+                return(alert('กรอกข้อมูลสำเร็จ'),
                 window.location.reload(false)
                 );}
         }
@@ -162,7 +162,7 @@ const ShitDashboard =()=>{
                 }} 
         setGetIDParcel(item.Id_parcel)
         
-        axios.get('http://localhost:4000/specificdata',info)
+        axios.get('http://10.0.99.206:4000/specificdata',info)
             .then(function (response){
                 const dataSpecific = response.data;
                 console.table(dataSpecific)
@@ -188,7 +188,7 @@ const ShitDashboard =()=>{
         var accept ={
             id:GetIDParcel,
             RRName:RRName}
-        axios.put('http://localhost:4000/accept',accept)
+        axios.put('http://10.0.99.206:4000/accept',accept)
             .then(function (response){
                 ohWow();  
         })}
@@ -198,7 +198,7 @@ const ShitDashboard =()=>{
     function Reject (){
         var reject ={
             id:GetIDParcel}
-        axios.put('http://localhost:4000/reject',reject)
+        axios.put('http://10.0.99.206:4000/reject',reject)
             .then(function (response){
                 ohWow();
         })}
@@ -213,9 +213,9 @@ const ShitDashboard =()=>{
         const TimeRanger = item.Date_Time
         return (
             <p>
-             <p>Destination:____{DAddress}</p>
-             <p>Parcel:_____{ParcelShit}</p>
-             <p>Send Time:____{TimeRanger}</p>
+             <p>สาขาปลายทาง:____{DAddress}</p>
+             <p>พัสดุ:_____{ParcelShit}</p>
+             <p>วันเวลาที่ส่ง:____{TimeRanger}</p>
             </p>
         )}
         /*
@@ -248,7 +248,7 @@ const ShitDashboard =()=>{
         */
 
     function ohWow (){
-        axios.get('http://localhost:4000/wholedata')//or both
+        axios.get('http://10.0.99.206:4000/wholedata')//or both
             .then(function (response){
                 const dataThree = response.data;
                 const MapdataThree = dataThree.map(( item )=>
@@ -262,9 +262,9 @@ const ShitDashboard =()=>{
                                 onClick={ ()=>{ ShowData( item ) } }>
                                     <div className='text-left'>
                                     <strong>{ShortAddress(item)}</strong><br/>
-                                    <strong>{'Status:___ ' }{ item.status }{'___'}</strong><br/>
-                                    <strong>{'Parcel:___ '}{ item.Parcel_Name }{'___'}</strong><br/>
-                                    <strong>{'Send Time:___ '}{item.Date_Time}{'___'}</strong><br/>
+                                    <strong>{'สถานะพัสดุ:___ ' }{ item.status }{'___'}</strong><br/>
+                                    <strong>{'พัสดุ:___ '}{ item.Parcel_Name }{'___'}</strong><br/>
+                                    <strong>{'วันเวลาที่สุง:___ '}{item.Date_Time}{'___'}</strong><br/>
                                     </div>
                             </button>
                         </ShitTooltip>
@@ -288,7 +288,7 @@ const ShitDashboard =()=>{
         */
 
     const Menu =()=>{
-        axios.get('http://localhost:4000/address')
+        axios.get('http://10.0.99.206:4000/address')
         .then(function(response){
             const dataAddress = response.data;
             const DropdownAddress = dataAddress.map((item) =>
@@ -318,7 +318,7 @@ const ShitDashboard =()=>{
     const handleClickOpenConfirmAccept = () => {
         // eslint-disable-next-line
         if (RNameR==null||RNameR==""||RRNameR==undefined){
-            alert("Please select parcel first");
+            alert("กรุณาเลือกพัสดุ");
         }
         else if (RNameR!==null||RNameR!==""||RRNameR!==undefined){
             // eslint-disable-next-line
@@ -327,7 +327,7 @@ const ShitDashboard =()=>{
            }
            // eslint-disable-next-line
            else if(RRNameR!=="Unknow"){
-               alert("You are alreay action to this")
+               alert("คุณได้กดรับ/ปฏิเสธพัสดุไปเเล้ว")
            }
         }
     };
@@ -338,7 +338,7 @@ const ShitDashboard =()=>{
         Accept();
         setOpenconfirmAccept(false);
         window.location.reload(false);
-        alert("Receiver : "+ RRName)
+        alert("ผู้รับคือ : "+ RRName)
     };
     /*
         !Open-Close-Submit Accept Dialog
@@ -347,7 +347,7 @@ const ShitDashboard =()=>{
     const handleClickOpenConfirmReject = () => {
         // eslint-disable-next-line
         if (RNameR==null||RNameR==""||RRNameR==undefined){
-            alert("Please select parcel first");
+            alert("กรุณาเลือกพัสดุ");
         }
         else if (RNameR!==null||RNameR!==""||RRNameR!==undefined){
             // eslint-disable-next-line
@@ -356,7 +356,7 @@ const ShitDashboard =()=>{
             }
             // eslint-disable-next-line
             else if(RRNameR!=="Unknow"){
-                alert("You alreay action this")
+                alert("คุณได้กดรับ/ปฏิเสธพัสดุไปเเล้ว")
             }
         }
     };
@@ -367,7 +367,7 @@ const ShitDashboard =()=>{
         Reject();
         setOpenconfirmReject(false);
         window.location.reload(false);
-        alert(" This Parcel is rejected ")
+        alert(" พัสดุนี้ถูกปฏิเสธ ")
     };
     /*
         !Open-Close-Submit Reject Dialog
@@ -387,12 +387,12 @@ const ShitDashboard =()=>{
             <div className='container col col-sm-7 col-md-12 col-xl-8' id='shitUI'>
                 <Typography variant="subtitle1" gutterBottom className='col col-sm-12'>
                     <div class='col col-sm-12 text-center pt-5' id='parcelH1'>
-                        <h1 className='col col-sm-12 col-md-12 col-xl-12'>Parcel registration <h1><FaBoxOpen/></h1></h1>
+                        <h1 className='col col-sm-12 col-md-12 col-xl-12'>ระบบส่ง-รับ พัสดุ <h1><FaBoxOpen/></h1></h1>
                             <div className='text-left col col-sm-12 col-md-12 col-xl-4'>
                                 <button 
                                 className='alert alert-primary btn-lg col col-sm-3 col-md-4 col-xl-8'
                                 onClick={handleClickOpen}>
-                                    Send a parcel   { <FaBoxOpen/> }{ <ArrowForwardIcon/> }
+                                    ส่งพัสดุ   { <FaBoxOpen/> }{ <ArrowForwardIcon/> }
                                 </button>
                             </div>
                     </div>
@@ -411,20 +411,20 @@ const ShitDashboard =()=>{
                 id='shitDialog'>
                     <DialogTitle 
                     id="form-dialog-title" 
-                    className='text-center'>
-                    <h1>Shipping information </h1>
+                    className='text-center mt-3'>
+                    <h1>ข้อมูลพัสดุที่ส่ง </h1>
                     </DialogTitle><hr/>
                     <DialogContent>
                     
                     <DialogTitle 
                     id="form-dialog-title" 
                     className='text-center'>
-                    <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <FaBoxOpen/> }</h4>
+                    <h4>ผู้ส่ง { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <FaBoxOpen/> }</h4>
                     </DialogTitle>
-
-                        <TextField required 
+                        <form>
+                        <TextField required  
                         id="nameSender" 
-                        label="Name" 
+                        label="ชื่อผู้ส่ง" 
                         variant="outlined" 
                         value={ SName }
                         type="text"
@@ -433,7 +433,7 @@ const ShitDashboard =()=>{
                         <TextField 
                         required
                         id="phoneSender" 
-                        label="Phone Number" 
+                        label="เบอร์โทรผู้ส่ง" 
                         variant="outlined" 
                         value={SPhone}
                         type="text"
@@ -443,7 +443,7 @@ const ShitDashboard =()=>{
                         <TextField required 
                         id="addressdropdown" 
                         className='col col-12 ' 
-                        select label="Address" 
+                        select label="ที่อยู่สาขาต้นทาง" 
                         value={ Addressza } 
                         onChange={ (e)=>{ setAddressza(e.target.value) } } 
                         fullwidth>
@@ -463,12 +463,12 @@ const ShitDashboard =()=>{
                         <DialogTitle 
                         id="form-dialog-title" 
                         className='text-center'>
-                        <h4>Reciever { <FaBoxOpen/> }{ <ArrowForwardIcon/> }{ <FaceIcon/> }</h4>
+                        <h4>ผู้รับ { <FaBoxOpen/> }{ <ArrowForwardIcon/> }{ <FaceIcon/> }</h4>
                         </DialogTitle>
 
                         <TextField required 
                         id="nameSender" 
-                        label="Name" 
+                        label="ชื่อผู้รับ" 
                         variant="outlined" 
                         value={RName}
                         type="text"
@@ -476,7 +476,7 @@ const ShitDashboard =()=>{
                         fullWidth/><br/><br/>
                         <TextField required 
                         id="phoneSender" 
-                        label="Phone Number" 
+                        label="เบอร์โทรผู้รับ" 
                         variant="outlined" 
                         value={RPhone}
                         type="text"
@@ -486,7 +486,7 @@ const ShitDashboard =()=>{
                         <TextField required 
                         id="addressdropdown" 
                         className='col col-12 ' 
-                        select label="Address" 
+                        select label="ที่อยู่สาขาปลายทาง" 
                         value={ Addressza2 } 
                         onChange={ (e)=>{ setAddressza2(e.target.value) } }  
                         fullwidth>
@@ -505,12 +505,12 @@ const ShitDashboard =()=>{
                         <DialogTitle 
                         id="form-dialog-title" 
                         className='text-center'>
-                        <h4>Pracel information { <FaBoxOpen/> } </h4>
+                        <h4>ข้อมูลของพัสดุ { <FaBoxOpen/> } </h4>
                         </DialogTitle>
 
                         <TextField required 
                         id="namePracel" 
-                        label="Pracel" 
+                        label="พัสดุ" 
                         variant="outlined" 
                         value={PName}
                         type="text"
@@ -519,14 +519,14 @@ const ShitDashboard =()=>{
                                     
                         <TextField required 
                         id="detailpraceltextarea" 
-                        label="Description" 
+                        label="รายละเอียดของพัสดุ" 
                         className='col col-11 float-right' 
                         variant="outlined"  
                         value={Dparcel}
                         type="text"
                         onChange={ DparcelChange }
                         multiline rows="4" />
-
+                        </form>
                     </DialogContent>
                     
                     <DialogActions>
@@ -537,7 +537,7 @@ const ShitDashboard =()=>{
                     ize="large" 
                     color="secondary">
                     {<DeleteIcon />}
-                        Cancel
+                        ยกเลิก
                     </Button>
 
                     <Button 
@@ -546,7 +546,7 @@ const ShitDashboard =()=>{
                     size="large" 
                     color="primary" >
                     {<DoneIcon/>}
-                        Submit
+                        ส่งพัสดุ
                     </Button>
 
                     </DialogActions>
@@ -556,7 +556,7 @@ const ShitDashboard =()=>{
             <Card elevation={5} variant="outlined " className='my-2' id='shitCard'>
                 <div className='containter row pl-2'>       
                     <div className='col col-sm-4 m-3 mb-5 my-1' id='boxLeft'>
-                        <div><h2 className='text-center'>Status <FaInfoCircle/></h2></div>
+                        <div><h2 className='text-center'>สถานะพัสดุ <FaInfoCircle/></h2></div>
                         <div id='containerShit' class='border-top'>
                         
                                 <div id='center-col' class='text-center'>
@@ -569,7 +569,7 @@ const ShitDashboard =()=>{
                     </div>
                         <div class="verticalLine"></div>
                         <div className='col col-sm-7 m-3 my-1' id='boxRight'>
-                        <h2 className='text-center'>information <FaReceipt/></h2>
+                        <h2 className='text-center'>ข้อมูลพัสดุ <FaReceipt/></h2>
                         <div id='containerShit' class='border-top'>
                                 <div id='center-col' class='text-center'>
                                     <ul class='p-2'>
@@ -584,7 +584,7 @@ const ShitDashboard =()=>{
                                                             id='AlertButton'
                                                             severity="error"
                                                             onClick={ ()=>{ handleClickOpenConfirmReject() } }>
-                                                            <AlertTitle>Reject Parcel</AlertTitle>
+                                                            <AlertTitle>ปฏิเสธพัสดุ</AlertTitle>
                                                         </Alert>
                                                     </div>
                                                     <div>
@@ -593,7 +593,7 @@ const ShitDashboard =()=>{
                                                             id='AlertButton'
                                                             severity="success"
                                                             onClick={ ()=>{ handleClickOpenConfirmAccept() } }>
-                                                            <AlertTitle>Accept Parcel</AlertTitle>
+                                                            <AlertTitle>รับพัสดุ</AlertTitle>
                                                         </Alert>
                                                     </div>
                                                 </div>
@@ -614,7 +614,12 @@ const ShitDashboard =()=>{
                                                     </DialogTitle>
                                     {/* <p>{GetIDParcel}</p>  */}
                                     
-                                                        <TextField required autoFucus
+                                                        
+
+
+                                                        
+                                                        <TextField 
+                                                        required 
                                                         id="nameSender" 
                                                         helperText="Name"
                                                         variant="outlined" 
@@ -693,6 +698,7 @@ const ShitDashboard =()=>{
                                                         value={ PNameR }
                                                         type="text"
                                                         onChange={ PNameChange }
+                                                        InputProps={{readOnly: true, }}
                                                         fullWidth/><br/><br/>
                                                                     
                                                         <TextField required 
@@ -703,7 +709,9 @@ const ShitDashboard =()=>{
                                                         value={ DparcelR }
                                                         type="text"
                                                         onChange={ DparcelChange }
+                                                        InputProps={{readOnly: true, }}
                                                         multiline rows="4" />
+                                                        
                                             </DialogContent>
                                     </ul>
                                 </div>
@@ -713,19 +721,17 @@ const ShitDashboard =()=>{
                                 <Dialog fullWidth
                                 open={OpenconfirmAccept} onClose={handleClickCloseConfirmAccept} 
                                 aria-labelledby="form-dialog-title" id='shitDialog2'>
-                                    <DialogTitle id="form-dialog-title">Parcel confirmation</DialogTitle>
+                                    <DialogTitle id="form-dialog-title">การยืนยันรับพัสดุ</DialogTitle>
                                     <DialogContent>
                                         <DialogContentText>
-                                            To accept parcel please enter your <strong>Name</strong> and click <strong>"ACCEPT"</strong>.
+                                            หากต้องการที่จะรับ <strong>{PNameR}</strong> จาก <strong>{TinyAdderess}</strong> โปรดกรอกชื่อเเละกดปุ่ม <strong>"ยืนยัน"</strong>.
                                         </DialogContentText>
-                                        <DialogContentText>
-                                            Do you want to accept <strong>{PNameR}</strong> from <strong>{TinyAdderess}</strong> ?
-                                        </DialogContentText>
+                                        
                                             <TextField
                                                 autoFocus
                                                 margin="dense"
                                                 id="name"
-                                                label="Name"
+                                                label="ชื่อผู้รับ"
                                                 value={ RRName }
                                                 type="text"
                                                 onChange={ RRNameChange }
@@ -736,12 +742,12 @@ const ShitDashboard =()=>{
                                         id='AlertButton' 
                                         severity="error" 
                                         
-                                        onClick={handleClickCloseConfirmAccept}><AlertTitle>Cancel</AlertTitle></Alert>
+                                        onClick={handleClickCloseConfirmAccept}><AlertTitle>ยกเลิก</AlertTitle></Alert>
                                     <Alert 
                                         id='AlertButton' 
                                         severity="success" 
                                         variant="filled"
-                                        onClick={handleClickCloseConfirmAcceptWihtAccept}><AlertTitle>ACCEPT</AlertTitle></Alert>
+                                        onClick={handleClickCloseConfirmAcceptWihtAccept}><AlertTitle>ยืนยัน</AlertTitle></Alert>
                                     </DialogActions>
                                 </Dialog>
 
@@ -749,14 +755,15 @@ const ShitDashboard =()=>{
                                 <Dialog fullWidth
                                 open={OpenconfirmReject} onClose={handleClickCloseConfirmReject} 
                                 aria-labelledby="form-dialog-title" id='shitDialog2'>
-                            <DialogTitle id="form-dialog-title">Parcel confirmation</DialogTitle>
+                            <DialogTitle id="form-dialog-title">การยืนยันปฏิเสธพัสดุ</DialogTitle>
                             <DialogContent>
                             <DialogContentText>
-                                Click <strong>"REJECT"</strong> to reject parcel.
+                            หากตั้งการปฏิเสธ <strong>{PNameR}</strong> จาก <strong>{TinyAdderess}</strong> 
                             </DialogContentText>
                             <DialogContentText>
-                            Do you want to accept <strong>{PNameR}</strong> from <strong>{TinyAdderess}</strong> ?
+                                กด <strong>"ยืนยัน"</strong> เพื่อปฏิเสธพัสดุ
                             </DialogContentText>
+                            
                             
                             {/* <TextField
                                 autoFocus
@@ -772,12 +779,12 @@ const ShitDashboard =()=>{
                                 id='AlertButton' 
                                 severity="error" 
                                 
-                                onClick={handleClickCloseConfirmReject}><AlertTitle>Cancel</AlertTitle></Alert>
+                                onClick={handleClickCloseConfirmReject}><AlertTitle>ยกเลิก</AlertTitle></Alert>
                             <Alert 
                                 id='AlertButton' 
                                 severity="error" 
                                 variant="filled"
-                                onClick={handleClickCloseConfirmRejectWihtReject}><AlertTitle>REJECT</AlertTitle></Alert>
+                                onClick={handleClickCloseConfirmRejectWihtReject}><AlertTitle>ยืนยัน</AlertTitle></Alert>
                             </DialogActions>
                         </Dialog>
                     

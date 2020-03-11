@@ -129,7 +129,7 @@ app.get('/address', (req, res)=>{
 app.put('/accept', (req, res)=>{
     let id = req.body.id
     let RRName = req.body.RRName
-    connection.query("UPDATE Parcel SET status = 'ACCEPTED', Real_Receiver_Name = ?, color = 'alert alert-success btn-block mr-3' WHERE Id_parcel = "+id,[RRName], function (err, result, fields) {
+    connection.query("UPDATE Parcel SET status = 'รับแล้ว', Real_Receiver_Name = ?, color = 'alert alert-success btn-block mr-3' WHERE Id_parcel = "+id,[RRName], function (err, result, fields) {
         if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
@@ -140,7 +140,7 @@ app.put('/accept', (req, res)=>{
 app.put('/reject', (req, res)=>{
     let id = req.body.id
     let RRName = "Rejected"
-    connection.query("UPDATE Parcel SET status = 'REJECTED', Real_Receiver_Name = ?, color = 'alert alert-danger btn-block mr-3' WHERE Id_parcel =" +id,[RRName], function (err, result, fields) {
+    connection.query("UPDATE Parcel SET status = 'ถูกปฏิเสธ', Real_Receiver_Name = ?, color = 'alert alert-danger btn-block mr-3' WHERE Id_parcel =" +id,[RRName], function (err, result, fields) {
         if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
@@ -162,7 +162,7 @@ app.post('/PostParcel',(req, res) => {
         Parcel_Name: req.body.PName, 
         Parcel_Description: req.body.Dparcel,
         Date_Time: req.body.DateTime,
-        status:"SENT",
+        status:"ส่งเเล้ว",
         color:"alert alert-warning btn-block mr-3",
         Real_Receiver_name:"Unknow"
         };
