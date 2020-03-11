@@ -110,7 +110,7 @@ const ShitDashboard =()=>{
     ! When submit
     */
     }
-
+    
 
     function PostShit (e){
 
@@ -126,7 +126,7 @@ const ShitDashboard =()=>{
             DateTime:DateTime
         }
 
-        axios.post('http://10.0.99.206:4000/PostParcel', formData)
+        axios.post('http://localhost:4000/PostParcel', formData)
             .then(function (response) {
                 console.log(response);
           })
@@ -162,7 +162,7 @@ const ShitDashboard =()=>{
                 }} 
         setGetIDParcel(item.Id_parcel)
         
-        axios.get('http://10.0.99.206:4000/specificdata',info)
+        axios.get('http://localhost:4000/specificdata',info)
             .then(function (response){
                 const dataSpecific = response.data;
                 console.table(dataSpecific)
@@ -188,7 +188,7 @@ const ShitDashboard =()=>{
         var accept ={
             id:GetIDParcel,
             RRName:RRName}
-        axios.put('http://10.0.99.206:4000/accept',accept)
+        axios.put('http://localhost:4000/accept',accept)
             .then(function (response){
                 ohWow();  
         })}
@@ -198,7 +198,7 @@ const ShitDashboard =()=>{
     function Reject (){
         var reject ={
             id:GetIDParcel}
-        axios.put('http://10.0.99.206:4000/reject',reject)
+        axios.put('http://localhost:4000/reject',reject)
             .then(function (response){
                 ohWow();
         })}
@@ -248,7 +248,7 @@ const ShitDashboard =()=>{
         */
 
     function ohWow (){
-        axios.get('http://10.0.99.206:4000/wholedata')//or both
+        axios.get('http://localhost:4000/wholedata')//or both
             .then(function (response){
                 const dataThree = response.data;
                 const MapdataThree = dataThree.map(( item )=>
@@ -288,7 +288,7 @@ const ShitDashboard =()=>{
         */
 
     const Menu =()=>{
-        axios.get('http://10.0.99.206:4000/address')
+        axios.get('http://localhost:4000/address')
         .then(function(response){
             const dataAddress = response.data;
             const DropdownAddress = dataAddress.map((item) =>
@@ -383,7 +383,7 @@ const ShitDashboard =()=>{
     return(
 
         <container fixed class='' id='shitUI'>
-            
+
             <div className='container col col-sm-7 col-md-12 col-xl-8' id='shitUI'>
                 <Typography variant="subtitle1" gutterBottom className='col col-sm-12'>
                     <div class='col col-sm-12 text-center pt-5' id='parcelH1'>
@@ -430,15 +430,15 @@ const ShitDashboard =()=>{
                         type="text"
                         onChange={ SNameChange }
                         fullWidth/><br/><br/>
-                                <TextField 
-                                required
-                                id="phoneSender" 
-                                label="Phone Number" 
-                                variant="outlined" 
-                                value={SPhone}
-                                type="text"
-                                onChange={ SPhonehange }
-                                fullWidth/><br/><br/>
+                        <TextField 
+                        required
+                        id="phoneSender" 
+                        label="Phone Number" 
+                        variant="outlined" 
+                        value={SPhone}
+                        type="text"
+                        onChange={ SPhonehange }
+                        fullWidth/><br/><br/>
 
                         <TextField required 
                         id="addressdropdown" 
@@ -450,13 +450,13 @@ const ShitDashboard =()=>{
                             {ShowAddressxx}
         
                         </TextField><br/><br/>
-                                <TextField 
+                                <TextField disabled
                                 id="addresstextarea" 
                                 className='col col-11 float-right' 
                                 variant="outlined"  
-                                multiline rows="4" 
+                                multiline rows="2" 
                                 InputProps={{readOnly: true, }} 
-                                value={ Addressza }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
+                                value={ Addressza }/><br/><br/><br/><hr/>
 
 
 
@@ -474,14 +474,14 @@ const ShitDashboard =()=>{
                         type="text"
                         onChange={ RNameChange }
                         fullWidth/><br/><br/>
-                                <TextField required 
-                                id="phoneSender" 
-                                label="Phone Number" 
-                                variant="outlined" 
-                                value={RPhone}
-                                type="text"
-                                onChange={ RPhoneChange }
-                                fullWidth/><br/><br/>
+                        <TextField required 
+                        id="phoneSender" 
+                        label="Phone Number" 
+                        variant="outlined" 
+                        value={RPhone}
+                        type="text"
+                        onChange={ RPhoneChange }
+                        fullWidth/><br/><br/>
 
                         <TextField required 
                         id="addressdropdown" 
@@ -492,13 +492,13 @@ const ShitDashboard =()=>{
                         fullwidth>
                             { ShowAddressxx }
                         </TextField><br/><br/>
-                                <TextField  
+                                <TextField  disabled
                                 id="addresstextarea" 
                                 className='col col-11 float-right' 
                                 variant="outlined"  
-                                multiline rows="4" 
+                                multiline rows="2" 
                                 InputProps={{readOnly: true, }} 
-                                value={ Addressza2 }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
+                                value={ Addressza2 }/><br/><br/><br/><hr/>
 
                     
 
@@ -553,7 +553,7 @@ const ShitDashboard =()=>{
                 </Dialog>
   {/**************************************************** Data both side *******************************************************/}
 
-            <Card variant="outlined " className='my-2' id='shitCard'>
+            <Card elevation={5} variant="outlined " className='my-2' id='shitCard'>
                 <div className='containter row pl-2'>       
                     <div className='col col-sm-4 m-3 mb-5 my-1' id='boxLeft'>
                         <div><h2 className='text-center'>Status <FaInfoCircle/></h2></div>
@@ -633,14 +633,14 @@ const ShitDashboard =()=>{
                                                         InputProps={{readOnly: true, }}
                                                         fullWidth/><br/><br/>
 
-                                                        <TextField 
+                                                        <TextField disabled
                                                         id="addresstextarea" 
                                                         helperText="Address"
                                                         className='col col-11 float-right' 
                                                         variant="outlined"  
-                                                        multiline rows="4" 
+                                                        multiline rows="2" 
                                                         InputProps={{readOnly: true, }} 
-                                                        value={ SAddressR }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
+                                                        value={ SAddressR }/><br/><br/><br/><hr/>
 
 
 
@@ -669,14 +669,14 @@ const ShitDashboard =()=>{
                                                         InputProps={{readOnly: true, }}
                                                         fullWidth/><br/><br/>
 
-                                                        <TextField  
+                                                        <TextField  disabled
                                                         id="addresstextarea" 
                                                         helperText="Address"
                                                         className='col col-11 float-right' 
                                                         variant="outlined"  
-                                                        multiline rows="4" 
+                                                        multiline rows="2" 
                                                         InputProps={{readOnly: true, }} 
-                                                        value={ RAddressR }/><br/><br/><br/><br/><br/><br/><br/><br/><hr/>
+                                                        value={ RAddressR }/><br/><br/><br/><hr/>
 
                                                     
 

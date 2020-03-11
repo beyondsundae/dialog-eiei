@@ -155,10 +155,10 @@ app.post('/PostParcel',(req, res) => {
     let data = {
         Sender_Name: req.body.SName, 
         Sender_Phone: req.body.SPhone, 
-        Sender_Address: req.body.addressza, 
+        Sender_Address: req.body.Addressza, 
         Receiver_Name: req.body.RName, 
         Receiver_Phone: req.body.RPhone, 
-        Receiver_Address: req.body.addressza2, 
+        Receiver_Address: req.body.Addressza2, 
         Parcel_Name: req.body.PName, 
         Parcel_Description: req.body.Dparcel,
         Date_Time: req.body.DateTime,
