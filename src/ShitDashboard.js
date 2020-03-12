@@ -9,11 +9,22 @@ import { FaBoxOpen, FaReceipt, FaInfoCircle} from "react-icons/fa";
 import Card from '@material-ui/core/Card';
 import Zoom from '@material-ui/core/Zoom';
 import Alert from '@material-ui/lab/Alert';
+import List from '@material-ui/core/List';
+import Switch from '@material-ui/core/Switch';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import moment from 'moment'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import ImageIcon from '@material-ui/icons/Image';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DoneIcon from '@material-ui/icons/Done';
 import FaceIcon from '@material-ui/icons/Face';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
+import Select from '@material-ui/core/Select';
 import Tooltip from '@material-ui/core/Tooltip';
 import MenuItem from '@material-ui/core/MenuItem';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -22,14 +33,18 @@ import AlertTitle from '@material-ui/lab/AlertTitle';
 import Typography from '@material-ui/core/Typography';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
+import Collapse from "@material-ui/core/Collapse";
 import DialogActions from '@material-ui/core/DialogActions';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { withStyles} from "@material-ui/core/styles";
 
 const ShitDashboard =()=>{
     window.onload = function() {
         ohWow();
+        OhSend();
+        OhResponse();
         TimeRanger();
     }
       
@@ -38,9 +53,19 @@ const ShitDashboard =()=>{
     const [OpenconfirmReject, setOpenconfirmReject] = useState(false);
 
     const [OHwow, setOHwow] = useState();
+    const [OHsend, setOHsend] = useState();
+    const [OHresponse, setOHresponse] = useState();
     const [ShowAddressxx, setShowAddressxx] = useState();
     const [DateTime, setDateTime] = useState();
     const [TinyAdderess, setTinyAdderess] = useState();
+    const [checked, setChecked] = React.useState(false);
+const[opencl,setOpencl] = React.useState(checked?true :false)
+    const handleChangeXX = (index) => {
+      setChecked(!checked);
+      console.log(index)
+      console.log(checked)
+    };
+    
 
 
     const [SName, setSName] = useState([]); 
@@ -100,8 +125,8 @@ const ShitDashboard =()=>{
         }
       })(Tooltip);
 
-    function PushParcel (){
-
+    function PushParcel (e){
+        e.preventDefault()
         setTimeout(() => {
             setOpen(false);
             PostShit();
@@ -126,7 +151,7 @@ const ShitDashboard =()=>{
             DateTime:DateTime
         }
 
-        axios.post('http://10.0.99.206:4000/PostParcel', formData)
+        axios.post('http://localhost:4000/PostParcel', formData)
             .then(function (response) {
                 console.log(response);
           })
@@ -135,12 +160,7 @@ const ShitDashboard =()=>{
           });
 
           TimeRanger();
-          // eslint-disable-next-line
-          if (SName==null||SName=="", SPhone==null||SPhone=="", Addressza==null||Addressza=="", RName==null||RName=="",
-          // eslint-disable-next-line
-          RPhone==null||RPhone=="", Addressza2==null||Addressza2=="", PName==null||PName=="", Dparcel==null||Dparcel=="") {
-            return(alert('กรุณากรอกข้อมูลให้ครบ')
-            );}
+          
             // eslint-disable-next-line
             if (SName!==null&&SName!=="", SPhone!==null&&!SPhone=="", Addressza!==null&&Addressza!=="", RName!==null&&RName!=="",
             // eslint-disable-next-line
@@ -162,7 +182,8 @@ const ShitDashboard =()=>{
                 }} 
         setGetIDParcel(item.Id_parcel)
         
-        axios.get('http://10.0.99.206:4000/specificdata',info)
+        
+        axios.get('http://localhost:4000/specificdata',info)
             .then(function (response){
                 const dataSpecific = response.data;
                 console.table(dataSpecific)
@@ -178,17 +199,20 @@ const ShitDashboard =()=>{
 
                     setPNameR(item.Parcel_Name),
                     setDparcelR(item.Parcel_Description),
-                    setRRNameR(item.Real_Receiver_Name)
+                    setRRNameR(item.Real_Receiver_Name),
+                    // setExCo(item.ExCo)
         )})}
+        // console.log(RRNameR)
+        
         /*
-            !Get Right-side data
+            !Get data to state
         */
     
     function Accept (){
         var accept ={
             id:GetIDParcel,
             RRName:RRName}
-        axios.put('http://10.0.99.206:4000/accept',accept)
+        axios.put('http://localhost:4000/accept',accept)
             .then(function (response){
                 ohWow();  
         })}
@@ -198,14 +222,13 @@ const ShitDashboard =()=>{
     function Reject (){
         var reject ={
             id:GetIDParcel}
-        axios.put('http://10.0.99.206:4000/reject',reject)
+        axios.put('http://localhost:4000/reject',reject)
             .then(function (response){
                 ohWow();
         })}
         /*
             !When Reject
         */
-    
 
     function ShowHover (item){
         const DAddress = item.Receiver_Address
@@ -213,9 +236,9 @@ const ShitDashboard =()=>{
         const TimeRanger = item.Date_Time
         return (
             <p>
-             <p>สาขาปลายทาง:____{DAddress}</p>
-             <p>พัสดุ:_____{ParcelShit}</p>
-             <p>วันเวลาที่ส่ง:____{TimeRanger}</p>
+             <p>{'สาขาปลายทาง: '+' '}{DAddress}</p>
+             <p>{'พัสดุ:'+' '}{ParcelShit}</p>
+             <p>{'วันเวลาที่ส่ง:'+' '}{TimeRanger}</p>
             </p>
         )}
         /*
@@ -234,21 +257,159 @@ const ShitDashboard =()=>{
         /*
             !Short Address
         */
-
+    const Menu =()=>{
+        axios.get('http://localhost:4000/address')
+        .then(function(response){
+            const dataAddress = response.data;
+            const DropdownAddress = dataAddress.map((item) =>
+                <MenuItem 
+                    key={ item.ID_ADDRESS } 
+                    value={ item.Address_Full} 
+                    onChange={ ()=> { setAddressza(item.Address_Name) }} 
+                    fullwidth >
+                        { item.Address_Name}
+                </MenuItem>)
+                // <p>{item.Address_Name}</p>)
+                
+                setShowAddressxx(DropdownAddress)}
+               )
+        }
+        /*
+            !Dropdown Address
+        */
     function TimeRanger(){
-        var today = new Date(); 
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() 
-        var dateTime = date+' '+time;
-        setDateTime(dateTime)
-        // console.log(dateTime)
+        var DateTime = moment().format('ll') +' '+moment().format('LT');
+        setDateTime(DateTime)
+        console.log(DateTime)
         }
         /*
             !Time Ranger function
         */
+    function SelectAccept(item){
+        ShowData (item);
+        handleClickOpenConfirmAccept();
+        }
+         /*
+            !ClickToAccept
+        */
+
+    function OhSend (){
+        axios.get('http://localhost:4000/OhSend')//or both
+            .then(function (response){
+                const dataThree = response.data;
+                const MapdataThree = dataThree.map(( item,index )=>
+                
+                    
+                <div className='my-3'>
+                        
+                            <List>
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            <ImageIcon />
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText key ={item.Id_parcel} onClick={ ()=>{ ShowData (item) } } id='shitCardSend'>
+                                            <strong>{ShortAddress(item)}</strong><br/>
+                                            <strong>{'สถานะพัสดุ:'+' '}</strong>{ item.status }<br/>
+                                            <strong>{'พัสดุ:'+' '}</strong>{ item.Parcel_Name }<br/>
+                                            <strong>{'วันเวลาที่ส่ง:'+' '}</strong>{item.Date_Time}<br/><br/>
+
+                                            
+                                            <strong>{'ชื่อผู้ส่ง:'+' '}</strong>{item.Sender_Name}<br/>
+                                            <strong>{'เบอร์โทรผู้ส่ง:'+' '}</strong>{item.Sender_Phone}<br/>
+                                            <strong>{'สาขาที่ส่ง:'+' '}</strong>{item.Sender_Address}<br/>
+                                            <strong>{'ชื่อผู้รับ:'+' '}</strong>{item.Receiver_Name}<br/>
+                                            <strong>{'บอร์โทรผู้รับ:'+' '}</strong>{item.Receiver_Phone}<br/>
+                                            <strong>{'สาขาที่รับ:'+' '}</strong>{item.Receiver_Address}<br/>
+                                            <strong>{'พัสดุ:'+' '}</strong>{item.Parcel_Name}<br/>
+                                            <strong>{'รายละเอียดพัสดุ:'+' '}</strong>{item.Parcel_Description}<br/>
+                                            <strong>{'ผู้ลงชื่อรับพัสดุ:'+' '}</strong>{item.Real_Receiver_Name}<br/>
+
+                                            <div className='row'>
+                                        <div class="col col-3"></div>
+                                        <div class="col col-3"></div>
+                                            <div className='row col my-2'>
+                                                <div className='row'>
+                                                    <div>
+                                                        <Alert 
+                                                            key ={item.Id_parcel} 
+                                                            id='AlertButton'
+                                                            severity="success"
+                                                            onClick={ ()=>{ SelectAccept(item) } }>
+                                                            <AlertTitle>รับพัสดุ</AlertTitle>
+                                                        </Alert>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+               
+                                    </ListItemText>
+                                </ListItem> 
+
+                            </List>
+
+                <hr/>         
+            </div>
+            )
+                    
+                    setOHsend(MapdataThree)       
+        })
+            .catch(function (error) {
+                console.log(error);
+        });
+    }
+
+    function OhResponse(){
+        axios.get('http://localhost:4000/OhResponse')//or both
+            .then(function (response){
+                const dataThree = response.data;
+                const MapdataThree = dataThree.map(( item )=>
+
+                    <div className='my-3'>
+                        
+                        <ShitTooltip TransitionComponent={Zoom} title={ShowHover (item)} placement="top" id='ShitTooltip'>
+                            
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar>
+                                        <ImageIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                
+                                <ListItemText  key ={item.Id_parcel} >
+                                        <strong>{ShortAddress(item)}</strong><br/>
+                                        <strong>{'สถานะพัสดุ:'+' '}</strong>{ item.status }<br/>
+                                        <strong>{'พัสดุ:'+' '}</strong>{ item.Parcel_Name }<br/>
+                                        <strong>{'วันเวลาที่ส่ง:'+' '}</strong>{item.Date_Time}<br/>
+
+                                        <strong>{'ชื่อผู้ส่ง:'+' '}</strong>{item.Sender_Name}<br/>
+                                        <strong>{'เบอร์โทรผู้ส่ง:'+' '}</strong>{item.Sender_Phone}<br/>
+                                        <strong>{'สาขาที่ส่ง:'+' '}</strong>{item.Sender_Address}<br/>
+                                        <strong>{'ชื่อผู้รับ:'+' '}</strong>{item.Receiver_Name}<br/>
+                                        <strong>{'บอร์โทรผู้รับ:'+' '}</strong>{item.Receiver_Phone}<br/>
+                                        <strong>{'สาขาที่รับ:'+' '}</strong>{item.Receiver_Address}<br/>
+                                        <strong>{'พัสดุ:'+' '}</strong>{item.Parcel_Name}<br/>
+                                        <strong>{'รายละเอียดพัสดุ:'+' '}</strong>{item.Parcel_Description}<br/>
+                                        <strong>{'ผู้ลงชื่อรับพัสดุ:'+' '}</strong>{item.Real_Receiver_Name}<br/>
+
+                                        
+                                </ListItemText>
+                            </ListItem>
+                        </ShitTooltip>
+                        <hr/>
+                        
+                    </div>
+                    )
+                    setOHresponse(MapdataThree)       
+        })
+            .catch(function (error) {
+                console.log(error);
+        });
+    }
 
     function ohWow (){
-        axios.get('http://10.0.99.206:4000/wholedata')//or both
+        axios.get('http://localhost:4000/wholedata')//or both
             .then(function (response){
                 const dataThree = response.data;
                 const MapdataThree = dataThree.map(( item )=>
@@ -262,9 +423,9 @@ const ShitDashboard =()=>{
                                 onClick={ ()=>{ ShowData( item ) } }>
                                     <div className='text-left'>
                                     <strong>{ShortAddress(item)}</strong><br/>
-                                    <strong>{'สถานะพัสดุ:___ ' }{ item.status }{'___'}</strong><br/>
-                                    <strong>{'พัสดุ:___ '}{ item.Parcel_Name }{'___'}</strong><br/>
-                                    <strong>{'วันเวลาที่สุง:___ '}{item.Date_Time}{'___'}</strong><br/>
+                                    <strong>{'สถานะพัสดุ:'+' ' }{ item.status }</strong><br/>
+                                    <strong>{'พัสดุ:'+' '}{ item.Parcel_Name }</strong><br/>
+                                    <strong>{'วันเวลาที่สุง:'+' '}{item.Date_Time}</strong><br/>
                                     </div>
                             </button>
                         </ShitTooltip>
@@ -283,27 +444,9 @@ const ShitDashboard =()=>{
 
        Menu();
     }
-        /*
-            !Dropdowm shit
-        */
+     
 
-    const Menu =()=>{
-        axios.get('http://10.0.99.206:4000/address')
-        .then(function(response){
-            const dataAddress = response.data;
-            const DropdownAddress = dataAddress.map((item) =>
-                <MenuItem 
-                    key={ item.ID_ADDRESS } 
-                    value={ item.Address_Full} 
-                    onChange={ ()=> { setAddressza(item.Address_Name) }} 
-                    fullwidth >
-                        { item.Address_Name}
-                </MenuItem>)
-                // <p>{item.Address_Name}</p>)
-                
-                setShowAddressxx(DropdownAddress)}
-               )
-    }
+    
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -316,20 +459,7 @@ const ShitDashboard =()=>{
     */
 
     const handleClickOpenConfirmAccept = () => {
-        // eslint-disable-next-line
-        if (RNameR==null||RNameR==""||RRNameR==undefined){
-            alert("กรุณาเลือกพัสดุ");
-        }
-        else if (RNameR!==null||RNameR!==""||RRNameR!==undefined){
-            // eslint-disable-next-line
-            if(RRNameR=="Unknow"){
-                setOpenconfirmAccept(true);
-           }
-           // eslint-disable-next-line
-           else if(RRNameR!=="Unknow"){
-               alert("คุณได้กดรับ/ปฏิเสธพัสดุไปเเล้ว")
-           }
-        }
+            setOpenconfirmAccept(true);
     };
     const handleClickCloseConfirmAccept = () => {
         setOpenconfirmAccept(false);
@@ -374,26 +504,35 @@ const ShitDashboard =()=>{
     */
 
     useEffect(() => {
-        console.log(GetIDParcel)
-        console.log(RNameR)
-        console.log(ShowAddressxx)
+        // console.log(GetIDParcel)
+        // console.log(RNameR)
+        // console.log(ShowAddressxx) 
     })
 
 //  {/************************************************ Interface ***********************************************************/} 
     return(
-
+        
         <container fixed class='' id='shitUI'>
-
+        
             <div className='container col col-sm-7 col-md-12 col-xl-8' id='shitUI'>
                 <Typography variant="subtitle1" gutterBottom className='col col-sm-12'>
                     <div class='col col-sm-12 text-center pt-5' id='parcelH1'>
                         <h1 className='col col-sm-12 col-md-12 col-xl-12'>ระบบส่ง-รับ พัสดุ <h1><FaBoxOpen/></h1></h1>
                             <div className='text-left col col-sm-12 col-md-12 col-xl-4'>
-                                <button 
-                                className='alert alert-primary btn-lg col col-sm-3 col-md-4 col-xl-8'
-                                onClick={handleClickOpen}>
-                                    ส่งพัสดุ   { <FaBoxOpen/> }{ <ArrowForwardIcon/> }
-                                </button>
+                            <Card 
+                                elevation={5} 
+                                variant="outlined " 
+                                className='my-5' 
+                                onClick={handleClickOpen}
+                                id='shitCardxx'>
+                                    <h2 className='text-center my-3'>Wow</h2>
+                                    <div class='horizonLine2'/>
+                                    
+                                    <br/>
+                                    <h2 className='m-4'>ส่งพัสดุ   { <FaBoxOpen/> }{ <ArrowForwardIcon/> }</h2>
+                                   
+                                </Card>
+                                
                             </div>
                     </div>
                 </Typography>
@@ -421,7 +560,10 @@ const ShitDashboard =()=>{
                     className='text-center'>
                     <h4>ผู้ส่ง { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <FaBoxOpen/> }</h4>
                     </DialogTitle>
-                        <form>
+                        <form
+                        id="SEND"
+                        name="SEND"
+                        onSubmit={ PushParcel }>
                         <TextField required  
                         id="nameSender" 
                         label="ชื่อผู้ส่ง" 
@@ -429,7 +571,9 @@ const ShitDashboard =()=>{
                         value={ SName }
                         type="text"
                         onChange={ SNameChange }
-                        fullWidth/><br/><br/>
+                        fullWidth/>
+                        <br/><br/>
+
                         <TextField 
                         required
                         id="phoneSender" 
@@ -440,7 +584,7 @@ const ShitDashboard =()=>{
                         onChange={ SPhonehange }
                         fullWidth/><br/><br/>
 
-                        <TextField required 
+                        <Select required 
                         id="addressdropdown" 
                         className='col col-12 ' 
                         select label="ที่อยู่สาขาต้นทาง" 
@@ -449,7 +593,7 @@ const ShitDashboard =()=>{
                         fullwidth>
                             {ShowAddressxx}
         
-                        </TextField><br/><br/>
+                        </Select><br/><br/>
                                 <TextField disabled
                                 id="addresstextarea" 
                                 className='col col-11 float-right' 
@@ -483,7 +627,7 @@ const ShitDashboard =()=>{
                         onChange={ RPhoneChange }
                         fullWidth/><br/><br/>
 
-                        <TextField required 
+                        <Select required 
                         id="addressdropdown" 
                         className='col col-12 ' 
                         select label="ที่อยู่สาขาปลายทาง" 
@@ -491,7 +635,7 @@ const ShitDashboard =()=>{
                         onChange={ (e)=>{ setAddressza2(e.target.value) } }  
                         fullwidth>
                             { ShowAddressxx }
-                        </TextField><br/><br/>
+                        </Select><br/><br/>
                                 <TextField  disabled
                                 id="addresstextarea" 
                                 className='col col-11 float-right' 
@@ -541,8 +685,9 @@ const ShitDashboard =()=>{
                     </Button>
 
                     <Button 
-                    onClick={ PushParcel } 
+                    form="SEND"
                     variant="contained" 
+                    type="submit"
                     size="large" 
                     color="primary" >
                     {<DoneIcon/>}
@@ -550,10 +695,36 @@ const ShitDashboard =()=>{
                     </Button>
 
                     </DialogActions>
+                    
                 </Dialog>
   {/**************************************************** Data both side *******************************************************/}
+        <div>
+            <Grid container spacing={5}>
+                <Grid item xs={4}>
+                
+                        <Card elevation={5} variant="outlined " className='my-2' id='shitCardNext1'>
+                            <Card elevation={1} variant="outlined "  id='shitCardTop1'>
+                                <h3 className='text-center p-4'>ส่งแล้ว</h3>
+                            </Card>
+                        {OHsend} 
+                        
+                        </Card>
+                    
+                </Grid>
+                <Grid item xs={4}>
+                        <Card elevation={5} variant="outlined " className='my-2' id='shitCardNext2'>
+                            <Card elevation={1} variant="outlined "  id='shitCardTop2'>
+                            <h3 className='text-center p-4'>รับแล้ว/ปฏิเสธแล้ว</h3>
+                            </Card>
+                            {OHresponse}
+                        </Card>
+                </Grid>
+            </Grid>
+        </div>
 
-            <Card elevation={5} variant="outlined " className='my-2' id='shitCard'>
+        <div class='horizonLine'/>
+
+
                 <div className='containter row pl-2'>       
                     <div className='col col-sm-4 m-3 mb-5 my-1' id='boxLeft'>
                         <div><h2 className='text-center'>สถานะพัสดุ <FaInfoCircle/></h2></div>
@@ -568,12 +739,13 @@ const ShitDashboard =()=>{
                         </div>
                     </div>
                         <div class="verticalLine"></div>
+                        
                         <div className='col col-sm-7 m-3 my-1' id='boxRight'>
                         <h2 className='text-center'>ข้อมูลพัสดุ <FaReceipt/></h2>
                         <div id='containerShit' class='border-top'>
                                 <div id='center-col' class='text-center'>
                                     <ul class='p-2'>
-                                        <div className='row'>
+                                        {/* <div className='row'>
                                         <div class="col col-3"></div>
                                         <div class="col col-3"></div>
                                             <div className='row col my-2'>
@@ -598,8 +770,8 @@ const ShitDashboard =()=>{
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                            <DialogTitle 
+                                        </div> */}
+                                            {/* <DialogTitle 
                                             id="form-dialog-title" 
                                             className='text-center'>
                                                  <h4 className='alert alert-primary'>Receiver: {RRNameR}</h4>
@@ -611,13 +783,13 @@ const ShitDashboard =()=>{
                                                     id="form-dialog-title" 
                                                     className='text-center'>
                                                     <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <FaBoxOpen/> }</h4>
-                                                    </DialogTitle>
+                                                    </DialogTitle> */}
                                     {/* <p>{GetIDParcel}</p>  */}
                                     
                                                         
 
 
-                                                        
+{/*                                                         
                                                         <TextField 
                                                         required 
                                                         id="nameSender" 
@@ -712,7 +884,7 @@ const ShitDashboard =()=>{
                                                         InputProps={{readOnly: true, }}
                                                         multiline rows="4" />
                                                         
-                                            </DialogContent>
+                                            </DialogContent> */}
                                     </ul>
                                 </div>
                         </div>
@@ -790,7 +962,7 @@ const ShitDashboard =()=>{
                     
                     </div>
                 </div>         
-            </Card>
+            
             </div>
         </container>
     )

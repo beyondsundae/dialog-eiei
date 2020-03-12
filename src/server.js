@@ -59,15 +59,33 @@ app.get('/',(req,res)=>{
     res.send('heeelll')
 })
 
-app.post('/111', (req, res) => {
-    var sql = "INSERT INTO Parcel (Sender_Name, Sender_Phone, Sender_Address, Receiver_Name, Receiver_Phone, Receiver_Address, Parcel_Name, Parcel_Description) VALUES ('xweasassaddrxxx', '12aa314', 'test', 'test', '12314', 'test', 'test', 'test')";
-        connection.query(sql, function (err, result) {
-            if (err) throw err;
-            console.log("1 record inserted")})})
+// app.post('/111', (req, res) => {
+//     var sql = "INSERT INTO Parcel (Sender_Name, Sender_Phone, Sender_Address, Receiver_Name, Receiver_Phone, Receiver_Address, Parcel_Name, Parcel_Description) VALUES ('xweasassaddrxxx', '12aa314', 'test', 'test', '12314', 'test', 'test', 'test')";
+//         connection.query(sql, function (err, result) {
+//             if (err) throw err;
+//             console.log("1 record inserted")})})
 
 
 app.get('/wholedata', (req, res)=>{
     connection.query("SELECT * FROM Parcel ORDER BY Id_parcel DESC", function (err, result, fields) {
+        if (err) throw err;
+            // console.log(result[2]);    
+            res.send(result)
+            // console.log("show result wholedata")
+            // console.log(result);   
+      });
+})
+app.get('/OhSend', (req, res)=>{
+    connection.query("SELECT * FROM Parcel WHERE status='ส่งแล้ว' ORDER BY Id_parcel DESC  ", function (err, result, fields) {
+        if (err) throw err;
+            // console.log(result[2]);    
+            res.send(result)
+            // console.log("show result wholedata")
+            // console.log(result);   
+      });
+})
+app.get('/OhResponse', (req, res)=>{
+    connection.query("SELECT * FROM Parcel WHERE status!='ส่งแล้ว' ORDER BY Id_parcel DESC  ", function (err, result, fields) {
         if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
@@ -87,34 +105,34 @@ app.get('/specificdata', (req, res)=>{
       });
 })
 
-app.get('/status', (req, res)=>{
-    connection.query("SELECT status FROM Parcel", function (err, result, fields) {
-        if (err) throw err;
-            // console.log(result[2]);    
-            res.send(result)
-            // console.log("show result status")
-            // console.log(result);   
-      });
-})
-app.get('/color', (req, res)=>{
-    connection.query("SELECT color FROM Parcel", function (err, result, fields) {
-        if (err) throw err;
-            // console.log(result[2]);    
-            res.send(result)
-            console.log("show result color")
-            console.log(result);   
-      });
-})
+// app.get('/status', (req, res)=>{
+//     connection.query("SELECT status FROM Parcel", function (err, result, fields) {
+//         if (err) throw err;
+//             // console.log(result[2]);    
+//             res.send(result)
+//             // console.log("show result status")
+//             // console.log(result);   
+//       });
+// })
+// app.get('/color', (req, res)=>{
+//     connection.query("SELECT color FROM Parcel", function (err, result, fields) {
+//         if (err) throw err;
+//             // console.log(result[2]);    
+//             res.send(result)
+//             console.log("show result color")
+//             console.log(result);   
+//       });
+// })
 
-app.get('/both', (req, res)=>{
-    connection.query("SELECT status, color, Id_parcel FROM Parcel", function (err, result, fields) {
-        if (err) throw err;
-            // console.log(result[2]);    
-            res.send(result)
-            // console.log("show result both")
-            // console.log(result);   
-      });
-})
+// app.get('/both', (req, res)=>{
+//     connection.query("SELECT status, color, Id_parcel FROM Parcel", function (err, result, fields) {
+//         if (err) throw err;
+//             // console.log(result[2]);    
+//             res.send(result)
+//             // console.log("show result both")
+//             // console.log(result);   
+//       });
+// })
 
 app.get('/address', (req, res)=>{
     connection.query("SELECT * FROM Address", function (err, result, fields) {
@@ -147,7 +165,17 @@ app.put('/reject', (req, res)=>{
             // console.log("show result")
             // console.log(result);
         });})   
-      
+// app.put('/exco', (req, res)=>{
+//     let id = req.body.id
+//     let param = req.body.exco
+//     let RRName = "Rejected"
+//     connection.query("UPDATE Parcel SET ExCo = ?, Real_Receiver_Name = ?, color = 'alert alert-danger btn-block mr-3' WHERE Id_parcel = ?",[param,RRName,id], function (err, result, fields) {
+//         if (err) throw err;
+//             // console.log(result[2]);    
+//             res.send(result)
+//             // console.log("show result")
+//             // console.log(result);
+//         });})   
 
 
 app.post('/PostParcel',(req, res) => {
@@ -162,9 +190,10 @@ app.post('/PostParcel',(req, res) => {
         Parcel_Name: req.body.PName, 
         Parcel_Description: req.body.Dparcel,
         Date_Time: req.body.DateTime,
-        status:"ส่งเเล้ว",
+        status:"ส่งแล้ว",
         color:"alert alert-warning btn-block mr-3",
-        Real_Receiver_name:"Unknow"
+        Real_Receiver_name:"Unknow",
+        // ExCo:"false"
         };
 
     let sql = "INSERT INTO Parcel SET ?";
