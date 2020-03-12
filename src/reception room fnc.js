@@ -77,31 +77,29 @@ const RRFNC =()=>{
     const [open, setOpen] = useState(false);
     const docs = data.documents;
     
-    function handleClick() {
-        console.log("Handle Clicked....");
-        setOpen(!open)
+    const handleClick=(doc)=> {
+        console.log("Handle Clicked...."+doc.Id);
+        setOpen({...open,[doc.Id]:!open[doc.Id]});
     }
    
-
       const ShitList=(props)=>{
-        const doc=props.doc
+        const docq=props.doc
         const docK=props.doc.Id
           return(
             <div>
-                <ListItem button key={props.doc.Id} onClick={()=>{handleClick()}}>
-                <ListItemText primary={doc.Name} />
+                <ListItem button key={docq.Id} onClick={()=>{handleClick(docq)}}>
+                        <ListItemText primary={docq.Name} />
                 </ListItem>
 
-                <Collapse key={doc.Sheets.Id} in={open}>
-                    <List component="li" disablePadding key={doc.Id}>
-                        {doc.Sheets.map(sheet => {
-                        return (
-                            <ListItem button key={sheet.Id}>
-                            <ListItemText key={sheet.Id} primary={sheet.Title} />
+                <Collapse key={docq.Id} in={open[docq.Id]}>
+                
+                       
+                            <ListItem button key={docq.Id}>
+                            {/* <ListItemText key={sheet.Id} primary={sheet.Title} /> */}
+                            xxxx
                             </ListItem>
-                        );
-                        })}
-                    </List>
+                        
+                    
                 </Collapse>
                 <Divider />
             </div>

@@ -36,16 +36,20 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Collapse from "@material-ui/core/Collapse";
 import DialogActions from '@material-ui/core/DialogActions';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import Divider from "@material-ui/core/Divider";
 
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { withStyles} from "@material-ui/core/styles";
 
 const ShitDashboard =()=>{
+    
     window.onload = function() {
         ohWow();
         OhSend();
         OhResponse();
         TimeRanger();
+        Aiei();
+        
     }
       
     const [open, setOpen] = useState(false);
@@ -58,13 +62,14 @@ const ShitDashboard =()=>{
     const [ShowAddressxx, setShowAddressxx] = useState();
     const [DateTime, setDateTime] = useState();
     const [TinyAdderess, setTinyAdderess] = useState();
-    const [checked, setChecked] = React.useState(false);
-const[opencl,setOpencl] = React.useState(checked?true :false)
-    const handleChangeXX = (index) => {
-      setChecked(!checked);
-      console.log(index)
-      console.log(checked)
-    };
+    const [Test, setTest] = useState([]);
+
+
+    const [openw, setOpenw] = useState(false);
+    const handleClick=(item)=> {
+        console.log("Handle Clicked...."+item.Id_parcel);
+        setOpenw({...openw,[item.Id_parcel]:!openw[item.Id_parcel]});
+    }
     
 
 
@@ -186,7 +191,7 @@ const[opencl,setOpencl] = React.useState(checked?true :false)
         axios.get('http://localhost:4000/specificdata',info)
             .then(function (response){
                 const dataSpecific = response.data;
-                console.table(dataSpecific)
+                console.log(dataSpecific)
 
                 dataSpecific.map((item)=>
                     setSNameR(item.Sender_Name),
@@ -200,9 +205,9 @@ const[opencl,setOpencl] = React.useState(checked?true :false)
                     setPNameR(item.Parcel_Name),
                     setDparcelR(item.Parcel_Description),
                     setRRNameR(item.Real_Receiver_Name),
-                    // setExCo(item.ExCo)
+                  
         )})}
-        // console.log(RRNameR)
+        
         
         /*
             !Get data to state
@@ -292,83 +297,74 @@ const[opencl,setOpencl] = React.useState(checked?true :false)
          /*
             !ClickToAccept
         */
+       const [openx, setOpenx] = useState(true);
+       
+       const handleClickxx=(item)=> {
+           console.log("Handle Clicked...."+item.Id_parcel);
+           console.log(openx)
+           setOpenx({...openx,[item.Id_parcel]:!openx[item.Id_parcel]});
+       }
 
-    function OhSend (){
+       const ShowDD =(props)=>{
+           const itemx = props.item
+           const index = props.index
+           console.log(itemx)
+            return(
+                <div>
+                    <ListItem button key={index} onClick={()=>{handleClickxx(index)}}>
+                            eiei
+                        </ListItem>
+                <Collapse  key={index} in={openx[index]}>
+                                        wooooww
+                        </Collapse>
+                </div>
+            )
+    }
+    function Aiei (){
+        return axios.get('http://localhost:4000/OhSend') 
+        .then(function (response) {
+            const xxxx = response.data;
+            const Newxxx = [...xxxx];
+            setTest(xxxx);
+            console.log(xxxx)
+            
+           
+            })
+    }
+
+    
+
+    const OhSend =()=>{
         axios.get('http://localhost:4000/OhSend')//or both
             .then(function (response){
                 const dataThree = response.data;
-                const MapdataThree = dataThree.map(( item,index )=>
+                const SetThree = dataThree.map((item, index)=>
                 
-                    
-                <div className='my-3'>
                         
-                            <List>
-                                <ListItem>
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <ImageIcon />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText key ={item.Id_parcel} onClick={ ()=>{ ShowData (item) } } id='shitCardSend'>
-                                            <strong>{ShortAddress(item)}</strong><br/>
-                                            <strong>{'สถานะพัสดุ:'+' '}</strong>{ item.status }<br/>
-                                            <strong>{'พัสดุ:'+' '}</strong>{ item.Parcel_Name }<br/>
-                                            <strong>{'วันเวลาที่ส่ง:'+' '}</strong>{item.Date_Time}<br/><br/>
+                            <div className='my-3 '>
+                        
+                        <ShowDD item={item} index={index}/>
+                        <Divider />   
+                            
+                        </div>
 
-                                            
-                                            <strong>{'ชื่อผู้ส่ง:'+' '}</strong>{item.Sender_Name}<br/>
-                                            <strong>{'เบอร์โทรผู้ส่ง:'+' '}</strong>{item.Sender_Phone}<br/>
-                                            <strong>{'สาขาที่ส่ง:'+' '}</strong>{item.Sender_Address}<br/>
-                                            <strong>{'ชื่อผู้รับ:'+' '}</strong>{item.Receiver_Name}<br/>
-                                            <strong>{'บอร์โทรผู้รับ:'+' '}</strong>{item.Receiver_Phone}<br/>
-                                            <strong>{'สาขาที่รับ:'+' '}</strong>{item.Receiver_Address}<br/>
-                                            <strong>{'พัสดุ:'+' '}</strong>{item.Parcel_Name}<br/>
-                                            <strong>{'รายละเอียดพัสดุ:'+' '}</strong>{item.Parcel_Description}<br/>
-                                            <strong>{'ผู้ลงชื่อรับพัสดุ:'+' '}</strong>{item.Real_Receiver_Name}<br/>
-
-                                            <div className='row'>
-                                        <div class="col col-3"></div>
-                                        <div class="col col-3"></div>
-                                            <div className='row col my-2'>
-                                                <div className='row'>
-                                                    <div>
-                                                        <Alert 
-                                                            key ={item.Id_parcel} 
-                                                            id='AlertButton'
-                                                            severity="success"
-                                                            onClick={ ()=>{ SelectAccept(item) } }>
-                                                            <AlertTitle>รับพัสดุ</AlertTitle>
-                                                        </Alert>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-               
-                                    </ListItemText>
-                                </ListItem> 
-
-                            </List>
-
-                <hr/>         
-            </div>
-            )
-                    
-                    setOHsend(MapdataThree)       
+                )
+                
+                setOHsend(SetThree)
+                   
         })
-            .catch(function (error) {
-                console.log(error);
-        });
     }
+  
 
     function OhResponse(){
         axios.get('http://localhost:4000/OhResponse')//or both
             .then(function (response){
                 const dataThree = response.data;
+                console.log(dataThree)
                 const MapdataThree = dataThree.map(( item )=>
-
+                    
                     <div className='my-3'>
                         
-                        <ShitTooltip TransitionComponent={Zoom} title={ShowHover (item)} placement="top" id='ShitTooltip'>
                             
                             <ListItem>
                                 <ListItemAvatar>
@@ -396,7 +392,6 @@ const[opencl,setOpencl] = React.useState(checked?true :false)
                                         
                                 </ListItemText>
                             </ListItem>
-                        </ShitTooltip>
                         <hr/>
                         
                     </div>
@@ -507,6 +502,8 @@ const[opencl,setOpencl] = React.useState(checked?true :false)
         // console.log(GetIDParcel)
         // console.log(RNameR)
         // console.log(ShowAddressxx) 
+        // console.log(OHresponse)
+        console.log(Test)
     })
 
 //  {/************************************************ Interface ***********************************************************/} 
@@ -697,7 +694,7 @@ const[opencl,setOpencl] = React.useState(checked?true :false)
                     </DialogActions>
                     
                 </Dialog>
-  {/**************************************************** Data both side *******************************************************/}
+  {/**************************************************** Data Both list *******************************************************/}
         <div>
             <Grid container spacing={5}>
                 <Grid item xs={4}>
@@ -706,7 +703,34 @@ const[opencl,setOpencl] = React.useState(checked?true :false)
                             <Card elevation={1} variant="outlined "  id='shitCardTop1'>
                                 <h3 className='text-center p-4'>ส่งแล้ว</h3>
                             </Card>
-                        {OHsend} 
+                            {/* {OHsend} */}
+                            <List>
+                                {Test.map(item=>{
+                                    console.log(item)
+                                    return(
+                                    <div>
+                                    <ListItem button key={item.Id_parcel} onClick={()=>{handleClickxx(item)}}>
+                                        {/* <ListItemText primary={item.SName} /> */}xxxxx
+                                    </ListItem>
+            
+                                    <Collapse key={item.Id_parcel} in={openx[item.Id_parcel]}>
+                            
+                                    
+                                    
+                                        <ListItem button key={item.Id_parcel}>
+                                        {/* <ListItemText key={sheet.Id} primary={sheet.Title} /> */}
+                                        ไส้ใน
+                                        </ListItem>
+                                    
+                                    
+                                    
+                                
+                            </Collapse>
+                            <Divider />
+                            </div>
+                                )})}
+                            </List>
+                          
                         
                         </Card>
                     
