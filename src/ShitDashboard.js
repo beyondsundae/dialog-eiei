@@ -48,8 +48,6 @@ const ShitDashboard =()=>{
         OhSend();
         OhResponse();
         TimeRanger();
-        Aiei();
-        
     }
       
     const [open, setOpen] = useState(false);
@@ -62,15 +60,15 @@ const ShitDashboard =()=>{
     const [ShowAddressxx, setShowAddressxx] = useState();
     const [DateTime, setDateTime] = useState();
     const [TinyAdderess, setTinyAdderess] = useState();
-    const [Test, setTest] = useState([]);
+    const [DataBoxL, setDataBoxL] = useState([]);
+    const [DataBoxR, setDataBoxR] = useState([]);
 
-
-    const [openw, setOpenw] = useState(false);
-    const handleClick=(item)=> {
+    const [openx, setOpenx] = useState(true);
+    const handleClickxx=(item)=> {
         console.log("Handle Clicked...."+item.Id_parcel);
-        setOpenw({...openw,[item.Id_parcel]:!openw[item.Id_parcel]});
-    }
-    
+        console.log(openx)
+        setOpenx({...openx,[item.Id_parcel]:!openx[item.Id_parcel]});
+        }
 
 
     const [SName, setSName] = useState([]); 
@@ -139,8 +137,7 @@ const ShitDashboard =()=>{
     /*
     ! When submit
     */
-    }
-    
+        }
 
     function PostShit (e){
 
@@ -178,7 +175,6 @@ const ShitDashboard =()=>{
             !When post data
         */
 
-
     function ShowData (item){
         
         var info ={
@@ -205,14 +201,11 @@ const ShitDashboard =()=>{
                     setPNameR(item.Parcel_Name),
                     setDparcelR(item.Parcel_Description),
                     setRRNameR(item.Real_Receiver_Name),
-                  
         )})}
-        
-        
         /*
             !Get data to state
         */
-    
+
     function Accept (){
         var accept ={
             id:GetIDParcel,
@@ -224,6 +217,7 @@ const ShitDashboard =()=>{
         /*
             !When Accept
         */
+
     function Reject (){
         var reject ={
             id:GetIDParcel}
@@ -254,11 +248,8 @@ const ShitDashboard =()=>{
         const addressShort = item.Receiver_Address
         const Shortaddress = addressShort.split('-')[0]
         // console.log(SmallAddress)
-        setTinyAdderess(Shortaddress)
-
-        return(
-            <strong>{Shortaddress}</strong>
-        )}
+        return(Shortaddress)
+        }
         /*
             !Short Address
         */
@@ -297,114 +288,26 @@ const ShitDashboard =()=>{
          /*
             !ClickToAccept
         */
-       const [openx, setOpenx] = useState(true);
-       
-       const handleClickxx=(item)=> {
-           console.log("Handle Clicked...."+item.Id_parcel);
-           console.log(openx)
-           setOpenx({...openx,[item.Id_parcel]:!openx[item.Id_parcel]});
-       }
 
-       const ShowDD =(props)=>{
-           const itemx = props.item
-           const index = props.index
-           console.log(itemx)
-            return(
-                <div>
-                    <ListItem button key={index} onClick={()=>{handleClickxx(index)}}>
-                            eiei
-                        </ListItem>
-                <Collapse  key={index} in={openx[index]}>
-                                        wooooww
-                        </Collapse>
-                </div>
-            )
-    }
-    function Aiei (){
+
+    function OhSend (){
         return axios.get('http://localhost:4000/OhSend') 
         .then(function (response) {
-            const xxxx = response.data;
-            const Newxxx = [...xxxx];
-            setTest(xxxx);
-            console.log(xxxx)
-            
-           
-            })
-    }
-
+            const data = response.data;
+            setDataBoxL(data);
+            console.log(data)
+            })}
     
-
-    const OhSend =()=>{
-        axios.get('http://localhost:4000/OhSend')//or both
-            .then(function (response){
-                const dataThree = response.data;
-                const SetThree = dataThree.map((item, index)=>
-                
-                        
-                            <div className='my-3 '>
-                        
-                        <ShowDD item={item} index={index}/>
-                        <Divider />   
-                            
-                        </div>
-
-                )
-                
-                setOHsend(SetThree)
-                   
-        })
-    }
-  
-
-    function OhResponse(){
-        axios.get('http://localhost:4000/OhResponse')//or both
-            .then(function (response){
-                const dataThree = response.data;
-                console.log(dataThree)
-                const MapdataThree = dataThree.map(( item )=>
-                    
-                    <div className='my-3'>
-                        
-                            
-                            <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <ImageIcon />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                
-                                <ListItemText  key ={item.Id_parcel} >
-                                        <strong>{ShortAddress(item)}</strong><br/>
-                                        <strong>{'สถานะพัสดุ:'+' '}</strong>{ item.status }<br/>
-                                        <strong>{'พัสดุ:'+' '}</strong>{ item.Parcel_Name }<br/>
-                                        <strong>{'วันเวลาที่ส่ง:'+' '}</strong>{item.Date_Time}<br/>
-
-                                        <strong>{'ชื่อผู้ส่ง:'+' '}</strong>{item.Sender_Name}<br/>
-                                        <strong>{'เบอร์โทรผู้ส่ง:'+' '}</strong>{item.Sender_Phone}<br/>
-                                        <strong>{'สาขาที่ส่ง:'+' '}</strong>{item.Sender_Address}<br/>
-                                        <strong>{'ชื่อผู้รับ:'+' '}</strong>{item.Receiver_Name}<br/>
-                                        <strong>{'บอร์โทรผู้รับ:'+' '}</strong>{item.Receiver_Phone}<br/>
-                                        <strong>{'สาขาที่รับ:'+' '}</strong>{item.Receiver_Address}<br/>
-                                        <strong>{'พัสดุ:'+' '}</strong>{item.Parcel_Name}<br/>
-                                        <strong>{'รายละเอียดพัสดุ:'+' '}</strong>{item.Parcel_Description}<br/>
-                                        <strong>{'ผู้ลงชื่อรับพัสดุ:'+' '}</strong>{item.Real_Receiver_Name}<br/>
-
-                                        
-                                </ListItemText>
-                            </ListItem>
-                        <hr/>
-                        
-                    </div>
-                    )
-                    setOHresponse(MapdataThree)       
-        })
-            .catch(function (error) {
-                console.log(error);
-        });
-    }
+    function OhResponse (){
+        return axios.get('http://localhost:4000/OhResponse')
+        .then(function (response){
+            const data = response.data;
+            setDataBoxR(data);
+            console.log(data)
+            })}
 
     function ohWow (){
-        axios.get('http://localhost:4000/wholedata')//or both
+        axios.get('http://localhost:4000/wholedata')
             .then(function (response){
                 const dataThree = response.data;
                 const MapdataThree = dataThree.map(( item )=>
@@ -459,7 +362,8 @@ const ShitDashboard =()=>{
     const handleClickCloseConfirmAccept = () => {
         setOpenconfirmAccept(false);
     };
-    const handleClickCloseConfirmAcceptWihtAccept= () => {
+    const handleClickCloseConfirmAcceptWihtAccept= (e) => {
+        e.preventDefault()
         Accept();
         setOpenconfirmAccept(false);
         window.location.reload(false);
@@ -476,11 +380,11 @@ const ShitDashboard =()=>{
         }
         else if (RNameR!==null||RNameR!==""||RRNameR!==undefined){
             // eslint-disable-next-line
-            if(RRNameR=="Unknow"){
+            if(RRNameR=="-"){
                  setOpenconfirmReject(true);
             }
             // eslint-disable-next-line
-            else if(RRNameR!=="Unknow"){
+            else if(RRNameR!=="-"){
                 alert("คุณได้กดรับ/ปฏิเสธพัสดุไปเเล้ว")
             }
         }
@@ -503,7 +407,7 @@ const ShitDashboard =()=>{
         // console.log(RNameR)
         // console.log(ShowAddressxx) 
         // console.log(OHresponse)
-        console.log(Test)
+        console.log(DataBoxL)
     })
 
 //  {/************************************************ Interface ***********************************************************/} 
@@ -524,7 +428,6 @@ const ShitDashboard =()=>{
                                 id='shitCardxx'>
                                     <h2 className='text-center my-3'>Wow</h2>
                                     <div class='horizonLine2'/>
-                                    
                                     <br/>
                                     <h2 className='m-4'>ส่งพัสดุ   { <FaBoxOpen/> }{ <ArrowForwardIcon/> }</h2>
                                    
@@ -683,8 +586,8 @@ const ShitDashboard =()=>{
 
                     <Button 
                     form="SEND"
-                    variant="contained" 
                     type="submit"
+                    variant="contained" 
                     size="large" 
                     color="primary" >
                     {<DoneIcon/>}
@@ -697,50 +600,120 @@ const ShitDashboard =()=>{
   {/**************************************************** Data Both list *******************************************************/}
         <div>
             <Grid container spacing={5}>
-                <Grid item xs={4}>
+                <Grid item xs={5}>
                 
                         <Card elevation={5} variant="outlined " className='my-2' id='shitCardNext1'>
                             <Card elevation={1} variant="outlined "  id='shitCardTop1'>
                                 <h3 className='text-center p-4'>ส่งแล้ว</h3>
                             </Card>
-                            {/* {OHsend} */}
-                            <List>
-                                {Test.map(item=>{
-                                    console.log(item)
-                                    return(
-                                    <div>
-                                    <ListItem button key={item.Id_parcel} onClick={()=>{handleClickxx(item)}}>
-                                        {/* <ListItemText primary={item.SName} /> */}xxxxx
-                                    </ListItem>
-            
-                                    <Collapse key={item.Id_parcel} in={openx[item.Id_parcel]}>
-                            
-                                    
-                                    
-                                        <ListItem button key={item.Id_parcel}>
-                                        {/* <ListItemText key={sheet.Id} primary={sheet.Title} /> */}
-                                        ไส้ใน
-                                        </ListItem>
-                                    
-                                    
-                                    
-                                
-                            </Collapse>
-                            <Divider />
-                            </div>
-                                )})}
-                            </List>
-                          
-                        
-                        </Card>
+                                <List>
+                                    {DataBoxL.map(item=>{
+                                        // console.log(item)
+                                        return(
+                                        <div>
+                                            <ListItem button key={item.Id_parcel} onClick={()=>{handleClickxx(item)}} >
+                                            <ListItemAvatar>
+                                            <Avatar>
+                                                <ImageIcon />
+                                            </Avatar>
+                                            </ListItemAvatar>
+                                                <ListItemText  key ={item.Id_parcel} >
+                                                    <strong>{'สาขาที่รับ:'+' '}</strong>{ShortAddress(item)}<br/>
+                                                    <strong>{'สถานะพัสดุ:'+' '}</strong>{ item.status }<br/>
+                                                    <strong>{'พัสดุ:'+' '}</strong>{ item.Parcel_Name }<br/>
+                                                    <strong>{'วันเวลาที่ส่ง:'+' '}</strong>{item.Date_Time}<br/>
+                                                </ListItemText>
+                                            </ListItem>
                     
+                                            <Collapse key={item.Id_parcel} in={openx[item.Id_parcel]}>
+                                            <div class='horizonLine3'/>
+                                                <ListItem key={item.Id_parcel}>
+                                            <ListItemAvatar>
+                                            </ListItemAvatar>
+                                                <ListItemText key ={item.Id_parcel}>
+                                                    <strong>{'ชื่อผู้ส่ง:'+' '}</strong>{item.Sender_Name}<br/>
+                                                    <strong>{'เบอร์โทรผู้ส่ง:'+' '}</strong>{item.Sender_Phone}<br/>
+                                                    <strong>{'สาขาที่ส่ง:'+' '}</strong>{item.Sender_Address}<br/><br/>
+                                                    <strong>{'ชื่อผู้รับ:'+' '}</strong>{item.Receiver_Name}<br/>
+                                                    <strong>{'เบอร์โทรผู้รับ:'+' '}</strong>{item.Receiver_Phone}<br/>
+                                                    <strong>{'สาขาที่รับ:'+' '}</strong>{item.Receiver_Address}<br/><br/>
+                                                    <strong>{'พัสดุ:'+' '}</strong>{item.Parcel_Name}<br/>
+                                                    <strong>{'รายละเอียดพัสดุ:'+' '}</strong>{item.Parcel_Description}<br/><br/>
+                                                    <strong>{'ผู้ลงชื่อรับพัสดุ:'+' '}</strong>{item.Real_Receiver_Name}<br/>
+
+                                                    <div className='row'>
+                                                    <div class="col col-3"></div>
+                                                    <div class="col col-3"></div>
+                                                        <div className='row col my-2'>
+                                                            <div className='row'>
+                                                                <div>
+                                                                    <Alert 
+                                                                        key ={item.Id_parcel} 
+                                                                        id='AlertButton'
+                                                                        severity="success"
+                                                                        onClick={ ()=>{ SelectAccept(item) } }>
+                                                                        <AlertTitle>รับพัสดุ</AlertTitle>
+                                                                    </Alert>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ListItemText>
+                                                </ListItem>
+                                    </Collapse>
+                                    <Divider />
+                                    </div>
+                                    )})}
+                                </List>
+                        </Card>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={5}>
                         <Card elevation={5} variant="outlined " className='my-2' id='shitCardNext2'>
                             <Card elevation={1} variant="outlined "  id='shitCardTop2'>
-                            <h3 className='text-center p-4'>รับแล้ว/ปฏิเสธแล้ว</h3>
+                            <h3 className='text-center p-4'>รับแล้ว</h3>
                             </Card>
-                            {OHresponse}
+                            <List>
+                                {DataBoxR.map(item=>{
+                                        // console.log(item)
+                                        return(
+                                        <div>
+                                            <ListItem button key={item.Id_parcel} onClick={()=>{handleClickxx(item)}} >
+                                            <ListItemAvatar>
+                                            <Avatar>
+                                                <ImageIcon />
+                                            </Avatar>
+                                            </ListItemAvatar>
+                                                <ListItemText  key ={item.Id_parcel} >
+                                                    <strong>{'สาขาที่รับ:'+' '}</strong>{ShortAddress(item)}<br/>
+                                                    <strong>{'สถานะพัสดุ:'+' '}</strong>{ item.status }<br/>
+                                                    <strong>{'พัสดุ:'+' '}</strong>{ item.Parcel_Name }<br/>
+                                                    <strong>{'วันเวลาที่ส่ง:'+' '}</strong>{item.Date_Time}<br/>
+                                                </ListItemText>
+                                            </ListItem>
+                    
+                                            <Collapse key={item.Id_parcel} in={openx[item.Id_parcel]}>
+                                            <div class='horizonLine3'/>
+                                                <ListItem key={item.Id_parcel}>
+                                            <ListItemAvatar>
+                                            </ListItemAvatar>
+                                                <ListItemText key ={item.Id_parcel}>    
+                                                    <h2 className=''>รายละเอียด</h2><br/>
+                                                    <strong>{'ชื่อผู้ส่ง:'+' '}</strong>{item.Sender_Name}<br/>
+                                                    <strong>{'เบอร์โทรผู้ส่ง:'+' '}</strong>{item.Sender_Phone}<br/>
+                                                    <strong>{'สาขาที่ส่ง:'+' '}</strong>{item.Sender_Address}<br/><br/>
+                                                    <strong>{'ชื่อผู้รับ:'+' '}</strong>{item.Receiver_Name}<br/>
+                                                    <strong>{'เบอร์โทรผู้รับ:'+' '}</strong>{item.Receiver_Phone}<br/>
+                                                    <strong>{'สาขาที่รับ:'+' '}</strong>{item.Receiver_Address}<br/><br/>
+                                                    <strong>{'พัสดุ:'+' '}</strong>{item.Parcel_Name}<br/>
+                                                    <strong>{'รายละเอียดพัสดุ:'+' '}</strong>{item.Parcel_Description}<br/><br/>
+                                                    <strong>{'ผู้ลงชื่อรับพัสดุ:'+' '}</strong>{item.Real_Receiver_Name}<br/>
+                                                </ListItemText>
+                                                </ListItem>
+                                    </Collapse>
+                                    <Divider />
+                                    </div>
+                                        )})}
+                            </List>
                         </Card>
                 </Grid>
             </Grid>
@@ -915,37 +888,47 @@ const ShitDashboard =()=>{
   {/********************************************** Appect-Reject Dialog *************************************************************/}
 
                                 <Dialog fullWidth
-                                open={OpenconfirmAccept} onClose={handleClickCloseConfirmAccept} 
-                                aria-labelledby="form-dialog-title" id='shitDialog2'>
-                                    <DialogTitle id="form-dialog-title">การยืนยันรับพัสดุ</DialogTitle>
-                                    <DialogContent>
-                                        <DialogContentText>
-                                            หากต้องการที่จะรับ <strong>{PNameR}</strong> จาก <strong>{TinyAdderess}</strong> โปรดกรอกชื่อเเละกดปุ่ม <strong>"ยืนยัน"</strong>.
-                                        </DialogContentText>
-                                        
-                                            <TextField
-                                                autoFocus
-                                                margin="dense"
-                                                id="name"
-                                                label="ชื่อผู้รับ"
-                                                value={ RRName }
-                                                type="text"
-                                                onChange={ RRNameChange }
-                                                fullWidth/>
-                                    </DialogContent>
-                                    <DialogActions>
-                                    <Alert 
-                                        id='AlertButton' 
-                                        severity="error" 
-                                        
-                                        onClick={handleClickCloseConfirmAccept}><AlertTitle>ยกเลิก</AlertTitle></Alert>
-                                    <Alert 
-                                        id='AlertButton' 
-                                        severity="success" 
-                                        variant="filled"
-                                        onClick={handleClickCloseConfirmAcceptWihtAccept}><AlertTitle>ยืนยัน</AlertTitle></Alert>
-                                    </DialogActions>
-                                </Dialog>
+                                    open={OpenconfirmAccept} onClose={handleClickCloseConfirmAccept} 
+                                    aria-labelledby="form-dialog-title" id='shitDialog2'>
+                                        <DialogTitle id="form-dialog-title">การยืนยันรับพัสดุ</DialogTitle>
+                                        <DialogContent>
+                                            <DialogContentText>
+                                                หากต้องการที่จะรับ <strong>{PNameR}</strong>  โปรดกรอกชื่อเเละกดปุ่ม <strong>"ยืนยัน"</strong>.
+                                            </DialogContentText>
+                                            <form id="SENDACC" name="SENDACC" onSubmit={ handleClickCloseConfirmAcceptWihtAccept }>
+                                                <TextField
+                                                    required
+                                                    autoFocus
+                                                    margin="dense"
+                                                    id="name"
+                                                    label="ชื่อผู้รับ"
+                                                    value={ RRName }
+                                                    type="text"
+                                                    onChange={ RRNameChange }
+                                                    fullWidth/>
+                                            </form>
+                                        </DialogContent>
+                                        <DialogActions>
+                                        <Button 
+                                            id='AlertButton2' 
+                                            variant="contained" 
+                                            color="secondary"
+                                            size="large"
+                                            onClick={handleClickCloseConfirmAccept}><AlertTitle>ยกเลิก</AlertTitle>
+                                        </Button>
+                                        <Button 
+                                            form="SENDACC"
+                                            type="submit"
+                                            id='AlertButton' 
+                                            variant="contained" 
+                                            color="primary"
+                                            size="large"
+                                            // onClick={handleClickCloseConfirmAcceptWihtAccept}
+                                            >
+                                                <AlertTitle>ยืนยัน</AlertTitle>
+                                            </Button>
+                                        </DialogActions>
+                                    </Dialog>
 
 
                                 <Dialog fullWidth

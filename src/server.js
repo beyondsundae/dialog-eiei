@@ -147,6 +147,7 @@ app.get('/address', (req, res)=>{
 app.put('/accept', (req, res)=>{
     let id = req.body.id
     let RRName = req.body.RRName
+    // let Check = req.body.checked
     connection.query("UPDATE Parcel SET status = 'รับแล้ว', Real_Receiver_Name = ?, color = 'alert alert-success btn-block mr-3' WHERE Id_parcel = "+id,[RRName], function (err, result, fields) {
         if (err) throw err;
             // console.log(result[2]);    
@@ -192,7 +193,8 @@ app.post('/PostParcel',(req, res) => {
         Date_Time: req.body.DateTime,
         status:"ส่งแล้ว",
         color:"alert alert-warning btn-block mr-3",
-        Real_Receiver_name:"Unknow",
+        Real_Receiver_name:"-",
+        
         // ExCo:"false"
         };
 
