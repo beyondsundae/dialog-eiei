@@ -39,10 +39,16 @@ import Collapse from "@material-ui/core/Collapse";
 import DialogActions from '@material-ui/core/DialogActions';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Divider from "@material-ui/core/Divider";
-
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { withStyles} from "@material-ui/core/styles";
+// import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import DateFnsUtils from '@date-io/date-fns'; // choose your lib
+import {DatePicker ,TimePicker,DateTimePicker,MuiPickersUtilsProvider,} from '@material-ui/pickers';
+// import { DatePicker } from "@material-ui/pickers";
+    
 
+var dateFormat = require('dateformat');
 const ShitDashboard =()=>{
     
     window.onload = function() {
@@ -52,7 +58,7 @@ const ShitDashboard =()=>{
         TimeRanger();
         MonthMenu();
     }
-      
+    
     const [open, setOpen] = useState(false);
     const [OpenconfirmAccept, setOpenconfirmAccept] = useState(false);
     const [OpenconfirmReject, setOpenconfirmReject] = useState(false);
@@ -62,6 +68,7 @@ const ShitDashboard =()=>{
     const [ShowMonthsxx, setShowMonthsxx] = useState();
     const [DateTime, setDateTime] = useState();
     const [Monthx, setMonthx] = useState();
+    const [Yearx, setYearx] = useState();
     const [TinyAdderess, setTinyAdderess] = useState();
     const [DataBoxL, setDataBoxL] = useState([]);
     const [DataBoxR, setDataBoxR] = useState([]);
@@ -73,6 +80,7 @@ const ShitDashboard =()=>{
         setOpenx({...openx,[item.Id_parcel]:!openx[item.Id_parcel]});
         }
 
+     
 
     const [SName, setSName] = useState([]); 
     function SNameChange (e){ 
@@ -123,8 +131,9 @@ const ShitDashboard =()=>{
     const handleChange = event => {
         setChecked(event.target.value);
       };
-    const [Monthza, setMonthza] = useState('January');
-    
+    const [SelectedDate, setSelectedDate] = useState(new Date()); 
+    const [Monthza, setMonthza] = useState('All'); 
+    const [Yearza, setYearza] = useState('All'); 
      /*
     ! Right side
     */
@@ -159,7 +168,8 @@ const ShitDashboard =()=>{
             PName:PName,
             Dparcel:Dparcel,
             DateTime:DateTime,
-            Monthx:Monthx
+            Monthx:Monthx,
+            Yearx:Yearx
         }
 
         axios.post('http://localhost:4000/PostParcel', formData)
@@ -287,7 +297,7 @@ const ShitDashboard =()=>{
         axios.get('http://localhost:4000/months')
         .then(function(response){
             const dataMonth = response.data;
-            console.log(dataMonth)
+            // console.table(dataMonth)
             const DropdownMonth = dataMonth.map((item) =>
                 <MenuItem 
                     key={ item.Month } 
@@ -307,14 +317,41 @@ const ShitDashboard =()=>{
     function TimeRanger(){
         var DateTime = moment().format('ll') +' '+moment().format('LT');
         var Month = moment().format('MMMM'); 
+        var Year = moment().format('YYYY');  
         setDateTime(DateTime)
         setMonthx(Month)
+        setYearx(Year)
+        console.log('TimeRanger')
         console.log(DateTime)
         console.log(Month)
         }
         /*
             !Time Ranger function
         */
+    // function MM(date){
+    //     setStartDate(date)
+    //     var full = startDate
+    //     var sff = dateFormat(full, "mmmm");
+    //     console.log(sff)
+    //     setMonthza(sff)
+    //     OhSend ()
+        
+    // }
+    function SetMonth(date){
+        console.log(date)
+            var fullDate = date
+            setSelectedDate(fullDate)
+            var Month = dateFormat(fullDate, "mmmm");
+            var Year = dateFormat(fullDate, "yyyy");
+            setMonthza(Month)
+            setYearza(Year)
+            // console.log(fullDate)
+            // console.log(Month)
+            // console.log(Year)
+            OhSend();
+            
+        
+    }
     function SelectAccept(item){
         ShowData (item);
         handleClickOpenConfirmAccept();
@@ -325,11 +362,17 @@ const ShitDashboard =()=>{
 
 
     function OhSend (){
-        return axios.get('http://localhost:4000/OhSend') 
+        var info ={
+            params: {
+                Monthza:Monthza
+            }} 
+
+        return axios.get('http://localhost:4000/OhSendx',info) 
         .then(function (response) {
             const data = response.data;
+            // console.table(data)
             setDataBoxL(data);
-            console.log(data)
+            
             })}
     
     function OhResponse (){
@@ -337,7 +380,7 @@ const ShitDashboard =()=>{
         .then(function (response){
             const data = response.data;
             setDataBoxR(data);
-            console.log(data)
+            // console.table(data)
             })}
 
     function ohWow (){
@@ -442,13 +485,21 @@ const ShitDashboard =()=>{
         // console.log(ShowAddressxx) 
         // console.log(OHresponse)
         // console.log(DataBoxL)
-        console.log(Monthx)
+        // console.log(Monthx)
         // console.log(ShowMonthsxx)
-        console.log(Monthza)
+        //  console.log(startDate)
+        // console.log(Monthza)
+        console.log("UseEffect")
+        console.log(SelectedDate)
+        
+        if(Monthza == 'January'){
+            console.log('5555')
+        }
     })
 
 //  {/************************************************ Header ***********************************************************/} 
     return(
+        
         
         <container fixed class='' id='shitUI'>
         
@@ -469,18 +520,20 @@ const ShitDashboard =()=>{
                                     <h2 className='m-4'>ส่งพัสดุ   { <FaBoxOpen/> }{ <ArrowForwardIcon/> }</h2>
                                    
                                 </Card>
-                                    <Card>
-                                        <Select required 
-                                        id="monthdropdown" 
-                                        className='col col-12 ' 
-                                        select label="ที่อยู่สาขาต้นทาง" 
-                                        value={ Addressza } 
-                                        onChange={ (e)=>{ setMonthza(e.target.value) } } 
-                                        fullwidth>
-                                            {ShowMonthsxx}
-                        
-                                        </Select>
-                                    </Card>
+                                    <Card id='shitCardxx' >
+                                    <div class='text-center m-3 p-1' id='shitCardxx'>
+                                    <DatePicker
+                                        id='shitCardxx'
+                                        variant="inline"
+                                        openTo="month"
+                                        orientation="portrait"
+                                        animateYearScrolling='true'
+                                        views={["year", "month"]}
+                                        value={SelectedDate}
+                                        onChange={(date)=>{SetMonth(date)}}
+                                    />
+                                    </div>
+                                    </Card>                  
                             </div>
                     </div>
                 </Typography>
@@ -659,7 +712,7 @@ const ShitDashboard =()=>{
                                         // console.log(item)
                                         return(
                                         <div>
-                                            <ListItem button key={item.Id_parcel} onClick={()=>{handleClickxx(item)}} >
+                                            <ListItem button key={item.Month} onClick={()=>{handleClickxx(item)}} >
                                             <ListItemAvatar>
                                             <Avatar>
                                                 <ImageIcon />

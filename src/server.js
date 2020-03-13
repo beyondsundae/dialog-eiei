@@ -75,8 +75,29 @@ app.get('/wholedata', (req, res)=>{
             // console.log(result);   
       });
 })
-app.get('/OhSend', (req, res)=>{
-    connection.query("SELECT * FROM Parcel WHERE status='ส่งแล้ว' ORDER BY Id_parcel DESC  ", function (err, result, fields) {
+app.get('/OhSendx', (req, res)=>{
+    let param = req.query.Monthza;
+    if (param !== 'All'){
+connection.query("SELECT * FROM Parcel WHERE status='ส่งแล้ว' AND Month = ? ORDER BY Id_parcel DESC  ",[param], function (err, result, fields) {
+        if (err) throw err;
+            // console.log(result[2]);    
+            res.send(result)
+            // console.log("show result wholedata")
+            // console.log(result);   
+      });}
+      else if (param == 'All'){
+        connection.query("SELECT * FROM Parcel WHERE status='ส่งแล้ว' ORDER BY Id_parcel DESC  ",[param], function (err, result, fields) {
+                if (err) throw err;
+                    // console.log(result[2]);    
+                    res.send(result)
+                    // console.log("show result wholedata")
+                    // console.log(result);   
+              });}
+      
+})
+
+app.get('/OhSendMar', (req, res)=>{
+    connection.query("SELECT * FROM Parcel WHERE status='ส่งแล้ว' AND Month='March' ORDER BY Id_parcel DESC  ", function (err, result, fields) {
         if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
@@ -189,6 +210,7 @@ app.post('/PostParcel',(req, res) => {
         Parcel_Description: req.body.Dparcel,
         Date_Time: req.body.DateTime,
         Month:req.body.Monthx,
+        Year:req.body.Yearx,
         status:"ส่งแล้ว",
         color:"alert alert-warning btn-block mr-3",
         Real_Receiver_name:"-",
