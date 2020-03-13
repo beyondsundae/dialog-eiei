@@ -11,7 +11,9 @@ import Zoom from '@material-ui/core/Zoom';
 import Alert from '@material-ui/lab/Alert';
 import List from '@material-ui/core/List';
 import Switch from '@material-ui/core/Switch';
+import Radio from '@material-ui/core/Radio';
 import ListItem from '@material-ui/core/ListItem';
+import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import moment from 'moment'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -48,6 +50,7 @@ const ShitDashboard =()=>{
         OhSend();
         OhResponse();
         TimeRanger();
+        MonthMenu();
     }
       
     const [open, setOpen] = useState(false);
@@ -55,10 +58,10 @@ const ShitDashboard =()=>{
     const [OpenconfirmReject, setOpenconfirmReject] = useState(false);
 
     const [OHwow, setOHwow] = useState();
-    const [OHsend, setOHsend] = useState();
-    const [OHresponse, setOHresponse] = useState();
     const [ShowAddressxx, setShowAddressxx] = useState();
+    const [ShowMonthsxx, setShowMonthsxx] = useState();
     const [DateTime, setDateTime] = useState();
+    const [Monthx, setMonthx] = useState();
     const [TinyAdderess, setTinyAdderess] = useState();
     const [DataBoxL, setDataBoxL] = useState([]);
     const [DataBoxR, setDataBoxR] = useState([]);
@@ -116,6 +119,11 @@ const ShitDashboard =()=>{
     const [DparcelR, setDparcelR] =useState();
 
     const [RRNameR, setRRNameR] = useState();
+    const [checked, setChecked] = React.useState('ครบ');
+    const handleChange = event => {
+        setChecked(event.target.value);
+      };
+    const [Monthza, setMonthza] = useState('January');
     
      /*
     ! Right side
@@ -150,7 +158,8 @@ const ShitDashboard =()=>{
             Addressza2:Addressza2,
             PName:PName,
             Dparcel:Dparcel,
-            DateTime:DateTime
+            DateTime:DateTime,
+            Monthx:Monthx
         }
 
         axios.post('http://localhost:4000/PostParcel', formData)
@@ -167,7 +176,7 @@ const ShitDashboard =()=>{
             if (SName!==null&&SName!=="", SPhone!==null&&!SPhone=="", Addressza!==null&&Addressza!=="", RName!==null&&RName!=="",
             // eslint-disable-next-line
             RPhone!==null&&RPhone!=="", Addressza2!==null&&Addressza2!=="", PName!==null&&PName!=="", Dparcel!==null&&Dparcel!=="") {
-                return(alert('กรอกข้อมูลสำเร็จ'),
+                return(alert('เพิ่มพัสดุสำเร็จ'),
                 window.location.reload(false)
                 );}
         }
@@ -209,7 +218,8 @@ const ShitDashboard =()=>{
     function Accept (){
         var accept ={
             id:GetIDParcel,
-            RRName:RRName}
+            RRName:RRName,
+            Check:checked}
         axios.put('http://localhost:4000/accept',accept)
             .then(function (response){
                 ohWow();  
@@ -273,10 +283,34 @@ const ShitDashboard =()=>{
         /*
             !Dropdown Address
         */
+    const MonthMenu =()=>{
+        axios.get('http://localhost:4000/months')
+        .then(function(response){
+            const dataMonth = response.data;
+            console.log(dataMonth)
+            const DropdownMonth = dataMonth.map((item) =>
+                <MenuItem 
+                    key={ item.Month } 
+                    value={ item.Month} 
+                    onChange={ ()=> { setMonthza(item.Month) }} 
+                    fullwidth >
+                        { item.Month}
+                </MenuItem>)
+                // <p>{item.Address_Name}</p>)
+                
+                setShowMonthsxx(DropdownMonth)}
+               )
+        }
+        /*
+            !Dropdown Address
+        */
     function TimeRanger(){
         var DateTime = moment().format('ll') +' '+moment().format('LT');
+        var Month = moment().format('MMMM'); 
         setDateTime(DateTime)
+        setMonthx(Month)
         console.log(DateTime)
+        console.log(Month)
         }
         /*
             !Time Ranger function
@@ -407,10 +441,13 @@ const ShitDashboard =()=>{
         // console.log(RNameR)
         // console.log(ShowAddressxx) 
         // console.log(OHresponse)
-        console.log(DataBoxL)
+        // console.log(DataBoxL)
+        console.log(Monthx)
+        // console.log(ShowMonthsxx)
+        console.log(Monthza)
     })
 
-//  {/************************************************ Interface ***********************************************************/} 
+//  {/************************************************ Header ***********************************************************/} 
     return(
         
         <container fixed class='' id='shitUI'>
@@ -432,7 +469,18 @@ const ShitDashboard =()=>{
                                     <h2 className='m-4'>ส่งพัสดุ   { <FaBoxOpen/> }{ <ArrowForwardIcon/> }</h2>
                                    
                                 </Card>
-                                
+                                    <Card>
+                                        <Select required 
+                                        id="monthdropdown" 
+                                        className='col col-12 ' 
+                                        select label="ที่อยู่สาขาต้นทาง" 
+                                        value={ Addressza } 
+                                        onChange={ (e)=>{ setMonthza(e.target.value) } } 
+                                        fullwidth>
+                                            {ShowMonthsxx}
+                        
+                                        </Select>
+                                    </Card>
                             </div>
                     </div>
                 </Typography>
@@ -631,6 +679,7 @@ const ShitDashboard =()=>{
                                             <ListItemAvatar>
                                             </ListItemAvatar>
                                                 <ListItemText key ={item.Id_parcel}>
+                                                    <h2 className=''>รายละเอียด</h2><br/>
                                                     <strong>{'ชื่อผู้ส่ง:'+' '}</strong>{item.Sender_Name}<br/>
                                                     <strong>{'เบอร์โทรผู้ส่ง:'+' '}</strong>{item.Sender_Phone}<br/>
                                                     <strong>{'สาขาที่ส่ง:'+' '}</strong>{item.Sender_Address}<br/><br/>
@@ -705,7 +754,8 @@ const ShitDashboard =()=>{
                                                     <strong>{'เบอร์โทรผู้รับ:'+' '}</strong>{item.Receiver_Phone}<br/>
                                                     <strong>{'สาขาที่รับ:'+' '}</strong>{item.Receiver_Address}<br/><br/>
                                                     <strong>{'พัสดุ:'+' '}</strong>{item.Parcel_Name}<br/>
-                                                    <strong>{'รายละเอียดพัสดุ:'+' '}</strong>{item.Parcel_Description}<br/><br/>
+                                                    <strong>{'รายละเอียดพัสดุ:'+' '}</strong>{item.Parcel_Description}<br/>
+                                                    <strong>{'ความครบถ้วนของพัสดุ:'+' '}</strong>{item.Checked}<br/><br/>
                                                     <strong>{'ผู้ลงชื่อรับพัสดุ:'+' '}</strong>{item.Real_Receiver_Name}<br/>
                                                 </ListItemText>
                                                 </ListItem>
@@ -718,7 +768,7 @@ const ShitDashboard =()=>{
                 </Grid>
             </Grid>
         </div>
-
+{/********************************************** Old *************************************************************/}
         <div class='horizonLine'/>
 
 
@@ -742,146 +792,7 @@ const ShitDashboard =()=>{
                         <div id='containerShit' class='border-top'>
                                 <div id='center-col' class='text-center'>
                                     <ul class='p-2'>
-                                        {/* <div className='row'>
-                                        <div class="col col-3"></div>
-                                        <div class="col col-3"></div>
-                                            <div className='row col my-2'>
-                                                <div className='row'>
-                                                    <div>
-                                                        <Alert 
-                                                            key ={GetIDParcel} 
-                                                            id='AlertButton'
-                                                            severity="error"
-                                                            onClick={ ()=>{ handleClickOpenConfirmReject() } }>
-                                                            <AlertTitle>ปฏิเสธพัสดุ</AlertTitle>
-                                                        </Alert>
-                                                    </div>
-                                                    <div>
-                                                        <Alert 
-                                                            key ={GetIDParcel} 
-                                                            id='AlertButton'
-                                                            severity="success"
-                                                            onClick={ ()=>{ handleClickOpenConfirmAccept() } }>
-                                                            <AlertTitle>รับพัสดุ</AlertTitle>
-                                                        </Alert>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> */}
-                                            {/* <DialogTitle 
-                                            id="form-dialog-title" 
-                                            className='text-center'>
-                                                 <h4 className='alert alert-primary'>Receiver: {RRNameR}</h4>
-                                            <h1>Shipping information </h1>
-                                            </DialogTitle><hr/>
-
-                                            <DialogContent>
-                                                    <DialogTitle 
-                                                    id="form-dialog-title" 
-                                                    className='text-center'>
-                                                    <h4>Sender { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <FaBoxOpen/> }</h4>
-                                                    </DialogTitle> */}
-                                    {/* <p>{GetIDParcel}</p>  */}
-                                    
-                                                        
-
-
-{/*                                                         
-                                                        <TextField 
-                                                        required 
-                                                        id="nameSender" 
-                                                        helperText="Name"
-                                                        variant="outlined" 
-                                                        value={ SNameR }
-                                                        type="text"
-                                                        onChange={ SNameChange }
-                                                        InputProps={{readOnly: true, }}
-                                                        fullWidth/><br/><br/>
-                                                        <TextField required 
-                                                        id="phoneSender" 
-                                                        helperText="Phone Number"
-                                                        variant="outlined" 
-                                                        value={ SPhoneR }
-                                                        type="text"
-                                                        onChange={ SPhonehange }
-                                                        InputProps={{readOnly: true, }}
-                                                        fullWidth/><br/><br/>
-
-                                                        <TextField disabled
-                                                        id="addresstextarea" 
-                                                        helperText="Address"
-                                                        className='col col-11 float-right' 
-                                                        variant="outlined"  
-                                                        multiline rows="2" 
-                                                        InputProps={{readOnly: true, }} 
-                                                        value={ SAddressR }/><br/><br/><br/><hr/>
-
-
-
-                                                        <DialogTitle 
-                                                        id="form-dialog-title" 
-                                                        className='text-center'>
-                                                        <h4>Reciever { <FaBoxOpen/> }{ <ArrowForwardIcon/> }{ <FaceIcon/> }</h4>
-                                                        </DialogTitle>
-
-                                                        <TextField required 
-                                                        id="nameSender" 
-                                                        helperText="Name"
-                                                        variant="outlined" 
-                                                        value={ RNameR }
-                                                        type="text"
-                                                        onChange={ RNameChange }
-                                                        InputProps={{readOnly: true, }}
-                                                        fullWidth/><br/><br/>
-                                                        <TextField required 
-                                                        id="phoneSender" 
-                                                        helperText="Phone"
-                                                        variant="outlined" 
-                                                        value={ RPhoneR }
-                                                        type="text"
-                                                        onChange={ RPhoneChange }
-                                                        InputProps={{readOnly: true, }}
-                                                        fullWidth/><br/><br/>
-
-                                                        <TextField  disabled
-                                                        id="addresstextarea" 
-                                                        helperText="Address"
-                                                        className='col col-11 float-right' 
-                                                        variant="outlined"  
-                                                        multiline rows="2" 
-                                                        InputProps={{readOnly: true, }} 
-                                                        value={ RAddressR }/><br/><br/><br/><hr/>
-
-                                                    
-
-                                                        <DialogTitle 
-                                                        id="form-dialog-title" 
-                                                        className='text-center'>
-                                                        <h4>Pracel information { <FaBoxOpen/> } </h4>
-                                                        </DialogTitle>
-
-                                                        <TextField required 
-                                                        id="namePracel" 
-                                                        helperText="Pracel"
-                                                        variant="outlined" 
-                                                        value={ PNameR }
-                                                        type="text"
-                                                        onChange={ PNameChange }
-                                                        InputProps={{readOnly: true, }}
-                                                        fullWidth/><br/><br/>
-                                                                    
-                                                        <TextField required 
-                                                        id="detailpraceltextarea" 
-                                                        helperText="Pracel Description"
-                                                        className='col col-11 float-right' 
-                                                        variant="outlined"  
-                                                        value={ DparcelR }
-                                                        type="text"
-                                                        onChange={ DparcelChange }
-                                                        InputProps={{readOnly: true, }}
-                                                        multiline rows="4" />
-                                                        
-                                            </DialogContent> */}
+                                        
                                     </ul>
                                 </div>
                         </div>
@@ -906,6 +817,32 @@ const ShitDashboard =()=>{
                                                     type="text"
                                                     onChange={ RRNameChange }
                                                     fullWidth/>
+                                                    <br/><br/>
+                                                    {/* <Checkbox
+                                                        checked={checked}
+                                                        onChange={handleChange}
+                                                        value="primary"
+                                                        inputProps={{ 'aria-label': 'primary checkbox' }}
+                                                    /> */}
+                                                    <p>ความครบถ้วนของพัสดุ</p>
+                                                    <Radio
+                                                    
+                                                        checked={checked === 'ครบ'}
+                                                        onChange={handleChange}
+                                                        value="ครบ"
+                                                        color='primary'
+                                                        name="radio-button-demo"
+                                                        inputProps={{ 'aria-label': 'A' }}
+                                                    /><span>ครบ</span>
+                                                    <Radio
+                                                        checked={checked === 'ไม่ครบ'}
+                                                        onChange={handleChange}
+                                                        value="ไม่ครบ"
+                                                        color='secondary'
+                                                        name="radio-button-demo"
+                                                        inputProps={{ 'aria-label': 'B' }}
+                                                    /><span>ไม่ครบ</span>
+                                                    
                                             </form>
                                         </DialogContent>
                                         <DialogActions>

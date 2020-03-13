@@ -143,12 +143,21 @@ app.get('/address', (req, res)=>{
             // console.log(result);   
       });
 })
+app.get('/months', (req, res)=>{
+    connection.query("SELECT * FROM Months", function (err, result, fields) {
+        if (err) throw err;
+            // console.log(result[2]);    
+            res.send(result)
+            // console.log("show result both")
+            // console.log(result);   
+      });
+})
 
 app.put('/accept', (req, res)=>{
     let id = req.body.id
     let RRName = req.body.RRName
-    // let Check = req.body.checked
-    connection.query("UPDATE Parcel SET status = 'รับแล้ว', Real_Receiver_Name = ?, color = 'alert alert-success btn-block mr-3' WHERE Id_parcel = "+id,[RRName], function (err, result, fields) {
+    let Check = req.body.Check
+    connection.query("UPDATE Parcel SET status = 'รับแล้ว', Real_Receiver_Name = ?, color = 'alert alert-success btn-block mr-3', Checked = ? WHERE Id_parcel = "+id,[RRName, Check], function (err, result, fields) {
         if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
@@ -165,19 +174,7 @@ app.put('/reject', (req, res)=>{
             res.send(result)
             // console.log("show result")
             // console.log(result);
-        });})   
-// app.put('/exco', (req, res)=>{
-//     let id = req.body.id
-//     let param = req.body.exco
-//     let RRName = "Rejected"
-//     connection.query("UPDATE Parcel SET ExCo = ?, Real_Receiver_Name = ?, color = 'alert alert-danger btn-block mr-3' WHERE Id_parcel = ?",[param,RRName,id], function (err, result, fields) {
-//         if (err) throw err;
-//             // console.log(result[2]);    
-//             res.send(result)
-//             // console.log("show result")
-//             // console.log(result);
-//         });})   
-
+        });})    
 
 app.post('/PostParcel',(req, res) => {
     console.log("insertingrs done")
@@ -191,10 +188,11 @@ app.post('/PostParcel',(req, res) => {
         Parcel_Name: req.body.PName, 
         Parcel_Description: req.body.Dparcel,
         Date_Time: req.body.DateTime,
+        Month:req.body.Monthx,
         status:"ส่งแล้ว",
         color:"alert alert-warning btn-block mr-3",
         Real_Receiver_name:"-",
-        
+        Checked:'-'
         // ExCo:"false"
         };
 
