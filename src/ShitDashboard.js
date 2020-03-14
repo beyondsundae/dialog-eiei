@@ -519,7 +519,7 @@ const ShitDashboard =()=>{
                             <Card 
                                 elevation={5} 
                                 variant="outlined " 
-                                className='my-5' 
+                                className='my-5 col  col-md-5 col-lg-5 col-xl-12' 
                                 onClick={handleClickOpen}
                                 id='shitCardxx'>
                                     <h2 className='pl-5 my-3 ' >{ <FaBoxOpen /> }{ <ArrowForwardIcon color="secondary"/> }</h2>
@@ -711,7 +711,7 @@ const ShitDashboard =()=>{
         <div>
         
         <Grid container spacing={3}>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={12} md={12} lg={4} xl={3}>
             <Card elevation={1} variant="outlined "  id='shitCardTop1'>
                 <h3 className='text-center p-4'>เลือกเดือน</h3>
             </Card>
@@ -738,7 +738,7 @@ const ShitDashboard =()=>{
         </Grid>
         </Grid>
             <Grid container spacing={5}>
-                <Grid item xs={4}>
+                <Grid item xs={12} sm={6} md={6} lg={12} xl={4}>
                         <Card elevation={5} variant="outlined " className='my-2' id='shitCardNext1'>
                             <Card elevation={1} variant="outlined "  id='shitCardTop1'>
                                 <h3 className='text-center p-4'>ส่งแล้ว</h3>
@@ -805,7 +805,7 @@ const ShitDashboard =()=>{
                                 </List>
                         </Card>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12} sm={6} md={6} lg={12} xl={4}>
                         <Card elevation={5} variant="outlined " className='my-2' id='shitCardNext2'>
                             <Card elevation={1} variant="outlined "  id='shitCardTop2'>
                             <h3 className='text-center p-4'>รับแล้ว</h3>
