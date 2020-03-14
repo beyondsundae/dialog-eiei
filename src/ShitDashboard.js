@@ -364,8 +364,9 @@ const ShitDashboard =()=>{
     function OhSend (){
         var info ={
             params: {
-                Monthza:Monthza
-            }} 
+                Monthza:Monthza,
+                Yearza:Yearza
+            }}
 
         return axios.get('http://localhost:4000/OhSendx',info) 
         .then(function (response) {
@@ -478,7 +479,9 @@ const ShitDashboard =()=>{
     /*
         !Open-Close-Submit Reject Dialog
     */
-
+    function Reload(){
+        window.location.reload(false)
+    }
     useEffect(() => {
         // console.log(GetIDParcel)
         // console.log(RNameR)
@@ -491,6 +494,8 @@ const ShitDashboard =()=>{
         // console.log(Monthza)
         console.log("UseEffect")
         console.log(SelectedDate)
+        console.log("Year")
+        console.log(Yearza)
         
         if(Monthza == 'January'){
             console.log('5555')
@@ -514,25 +519,14 @@ const ShitDashboard =()=>{
                                 className='my-5' 
                                 onClick={handleClickOpen}
                                 id='shitCardxx'>
-                                    <h2 className='text-center my-3'>Wow</h2>
+                                    <h2 className='pl-5 my-3 ' >{ <FaBoxOpen /> }{ <ArrowForwardIcon color="secondary"/> }</h2>
                                     <div class='horizonLine2'/>
                                     <br/>
-                                    <h2 className='m-4'>ส่งพัสดุ   { <FaBoxOpen/> }{ <ArrowForwardIcon/> }</h2>
+                                    <h2 className='m-4'>ส่งพัสดุ   </h2>
                                    
                                 </Card>
                                     <Card id='shitCardxx' >
-                                    <div class='text-center m-3 p-1' id='shitCardxx'>
-                                    <DatePicker
-                                        id='shitCardxx'
-                                        variant="inline"
-                                        openTo="month"
-                                        orientation="portrait"
-                                        animateYearScrolling='true'
-                                        views={["year", "month"]}
-                                        value={SelectedDate}
-                                        onChange={(date)=>{SetMonth(date)}}
-                                    />
-                                    </div>
+                                    
                                     </Card>                  
                             </div>
                     </div>
@@ -585,7 +579,8 @@ const ShitDashboard =()=>{
                         onChange={ SPhonehange }
                         fullWidth/><br/><br/>
 
-                        <Select required 
+                        <Select 
+                        required 
                         id="addressdropdown" 
                         className='col col-12 ' 
                         select label="ที่อยู่สาขาต้นทาง" 
@@ -700,9 +695,36 @@ const ShitDashboard =()=>{
                 </Dialog>
   {/**************************************************** Data Both list *******************************************************/}
         <div>
+        
+        <Grid container spacing={3}>
+        <Grid item xs={4}>
+            <Card elevation={1} variant="outlined "  id='shitCardTop1'>
+                <h3 className='text-center p-4'>เลือกเดือน</h3>
+            </Card>
+        <Card elevation={5}>
+            <div class='text-center ml-5 m-3 p-1' id='shitCardxx'>
+                <DatePicker
+                    id='shitCardxx'
+                    variant="inline"
+                    openTo="month"
+                    orientation="portrait"
+                    // animateYearScrolling='true'
+                    views={["year", "month"]}
+                    value={SelectedDate}
+                    onChange={(date)=>{SetMonth(date)}}
+                />
+            
+            <Button variant="contained" color="secondary" onClick={()=>{Reload()}} size="large" id='Spacing'>
+            ล้างค่า
+            </Button>
+                                  
+            </div>
+            
+        </Card>
+        </Grid>
+        </Grid>
             <Grid container spacing={5}>
-                <Grid item xs={5}>
-                
+                <Grid item xs={4}>
                         <Card elevation={5} variant="outlined " className='my-2' id='shitCardNext1'>
                             <Card elevation={1} variant="outlined "  id='shitCardTop1'>
                                 <h3 className='text-center p-4'>ส่งแล้ว</h3>
@@ -769,7 +791,7 @@ const ShitDashboard =()=>{
                                 </List>
                         </Card>
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={4}>
                         <Card elevation={5} variant="outlined " className='my-2' id='shitCardNext2'>
                             <Card elevation={1} variant="outlined "  id='shitCardTop2'>
                             <h3 className='text-center p-4'>รับแล้ว</h3>

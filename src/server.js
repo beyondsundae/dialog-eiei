@@ -77,34 +77,27 @@ app.get('/wholedata', (req, res)=>{
 })
 app.get('/OhSendx', (req, res)=>{
     let param = req.query.Monthza;
-    if (param !== 'All'){
-connection.query("SELECT * FROM Parcel WHERE status='ส่งแล้ว' AND Month = ? ORDER BY Id_parcel DESC  ",[param], function (err, result, fields) {
+    let param2 = req.query.Yearza;
+    console.log(param +' '+ param2)
+
+
+    if (param !== 'All' && param2 !== 'All'){
+connection.query("SELECT * FROM Parcel WHERE status='ส่งแล้ว' AND Month = ? AND Year = ? ORDER BY Id_parcel DESC  ",[param,param2], function (err, result, fields) {
         if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
             // console.log("show result wholedata")
             // console.log(result);   
       });}
-      else if (param == 'All'){
-        connection.query("SELECT * FROM Parcel WHERE status='ส่งแล้ว' ORDER BY Id_parcel DESC  ",[param], function (err, result, fields) {
-                if (err) throw err;
-                    // console.log(result[2]);    
-                    res.send(result)
-                    // console.log("show result wholedata")
-                    // console.log(result);   
-              });}
-      
-})
+    else if (param == 'All' &&  param2 == 'All'){
+connection.query("SELECT * FROM Parcel WHERE status='ส่งแล้ว' ORDER BY Id_parcel DESC  ",[param], function (err, result, fields) {
+            if (err) throw err;
+                // console.log(result[2]);    
+                res.send(result)
+                // console.log("show result wholedata")
+                // console.log(result);   
+            });}})
 
-app.get('/OhSendMar', (req, res)=>{
-    connection.query("SELECT * FROM Parcel WHERE status='ส่งแล้ว' AND Month='March' ORDER BY Id_parcel DESC  ", function (err, result, fields) {
-        if (err) throw err;
-            // console.log(result[2]);    
-            res.send(result)
-            // console.log("show result wholedata")
-            // console.log(result);   
-      });
-})
 app.get('/OhResponse', (req, res)=>{
     connection.query("SELECT * FROM Parcel WHERE status!='ส่งแล้ว' ORDER BY Id_parcel DESC  ", function (err, result, fields) {
         if (err) throw err;
@@ -125,35 +118,6 @@ app.get('/specificdata', (req, res)=>{
             // console.log(result);   
       });
 })
-
-// app.get('/status', (req, res)=>{
-//     connection.query("SELECT status FROM Parcel", function (err, result, fields) {
-//         if (err) throw err;
-//             // console.log(result[2]);    
-//             res.send(result)
-//             // console.log("show result status")
-//             // console.log(result);   
-//       });
-// })
-// app.get('/color', (req, res)=>{
-//     connection.query("SELECT color FROM Parcel", function (err, result, fields) {
-//         if (err) throw err;
-//             // console.log(result[2]);    
-//             res.send(result)
-//             console.log("show result color")
-//             console.log(result);   
-//       });
-// })
-
-// app.get('/both', (req, res)=>{
-//     connection.query("SELECT status, color, Id_parcel FROM Parcel", function (err, result, fields) {
-//         if (err) throw err;
-//             // console.log(result[2]);    
-//             res.send(result)
-//             // console.log("show result both")
-//             // console.log(result);   
-//       });
-// })
 
 app.get('/address', (req, res)=>{
     connection.query("SELECT * FROM Address", function (err, result, fields) {
