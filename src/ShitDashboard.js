@@ -46,7 +46,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
 import {DatePicker ,TimePicker,DateTimePicker,MuiPickersUtilsProvider,} from '@material-ui/pickers';
 // import { DatePicker } from "@material-ui/pickers";
-    
+import NativeSelect from '@material-ui/core/NativeSelect';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
 
 var dateFormat = require('dateformat');
 const ShitDashboard =()=>{
@@ -88,7 +90,7 @@ const ShitDashboard =()=>{
     const [SPhone, setSPhone] = useState();
     function SPhonehange (e){ 
         setSPhone(e.target.value) }
-    const [Addressza, setAddressza] = useState();
+    const [Addressza, setAddressza] = useState(" ");
       
     
     const [RName, setRName] = useState();
@@ -144,6 +146,7 @@ const ShitDashboard =()=>{
           maxWidth: 700
         }
       })(Tooltip);
+
 
     function PushParcel (e){
         e.preventDefault()
@@ -278,13 +281,13 @@ const ShitDashboard =()=>{
         .then(function(response){
             const dataAddress = response.data;
             const DropdownAddress = dataAddress.map((item) =>
-                <MenuItem 
+                    <option 
                     key={ item.ID_ADDRESS } 
                     value={ item.Address_Full} 
-                    onChange={ ()=> { setAddressza(item.Address_Name) }} 
+                    // onChange={ ()=> { setAddressza(item.Address_Name) }} 
                     fullwidth >
                         { item.Address_Name}
-                </MenuItem>)
+                </option>)
                 // <p>{item.Address_Name}</p>)
                 
                 setShowAddressxx(DropdownAddress)}
@@ -559,7 +562,9 @@ const ShitDashboard =()=>{
                         id="SEND"
                         name="SEND"
                         onSubmit={ PushParcel }>
-                        <TextField required  
+                        <TextField 
+                        autoFocus
+                        required  
                         id="nameSender" 
                         label="ชื่อผู้ส่ง" 
                         variant="outlined" 
@@ -579,17 +584,21 @@ const ShitDashboard =()=>{
                         onChange={ SPhonehange }
                         fullWidth/><br/><br/>
 
+                        <FormControl required id='formControl'>
+                        <InputLabel htmlFor="age-native-simple">ที่อยุ่สาขาที่ส่ง</InputLabel>
                         <Select 
                         required 
+                        native
                         id="addressdropdown" 
                         className='col col-12 ' 
                         select label="ที่อยู่สาขาต้นทาง" 
-                        value={ Addressza } 
+                        // value={ Addressza } 
                         onChange={ (e)=>{ setAddressza(e.target.value) } } 
                         fullwidth>
                             {ShowAddressxx}
-        
-                        </Select><br/><br/>
+                        </Select>
+                        </FormControl><br/><br/>
+                        
                                 <TextField disabled
                                 id="addresstextarea" 
                                 className='col col-11 float-right' 
@@ -623,7 +632,11 @@ const ShitDashboard =()=>{
                         onChange={ RPhoneChange }
                         fullWidth/><br/><br/>
 
-                        <Select required 
+                        <FormControl required>
+                        <InputLabel htmlFor="age-native-simple">ที่อยุ่สาขาที่รับ</InputLabel>
+                        <Select 
+                        required 
+                        native
                         id="addressdropdown" 
                         className='col col-12 ' 
                         select label="ที่อยู่สาขาปลายทาง" 
@@ -631,7 +644,8 @@ const ShitDashboard =()=>{
                         onChange={ (e)=>{ setAddressza2(e.target.value) } }  
                         fullwidth>
                             { ShowAddressxx }
-                        </Select><br/><br/>
+                        </Select>
+                        </FormControl><br/><br/>
                                 <TextField  disabled
                                 id="addresstextarea" 
                                 className='col col-11 float-right' 
