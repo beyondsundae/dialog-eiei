@@ -24,7 +24,6 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DoneIcon from '@material-ui/icons/Done';
 import FaceIcon from '@material-ui/icons/Face';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import Select from '@material-ui/core/Select';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -41,6 +40,7 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Divider from "@material-ui/core/Divider";
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { withStyles} from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 // import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
@@ -146,6 +146,11 @@ const ShitDashboard =()=>{
           maxWidth: 700
         }
       })(Tooltip);
+    
+      const inputProps = {
+        fontFamily:'Mitr'
+      };
+        
 
 
     function PushParcel (e){
@@ -331,15 +336,7 @@ const ShitDashboard =()=>{
         /*
             !Time Ranger function
         */
-    // function MM(date){
-    //     setStartDate(date)
-    //     var full = startDate
-    //     var sff = dateFormat(full, "mmmm");
-    //     console.log(sff)
-    //     setMonthza(sff)
-    //     OhSend ()
-        
-    // }
+
     function SetMonth(date){
         console.log(date)
             var fullDate = date
@@ -514,7 +511,7 @@ const ShitDashboard =()=>{
             <div className='container col col-sm-7 col-md-12 col-xl-8' id='shitUI'>
                 <Typography variant="subtitle1" gutterBottom className='col col-sm-12'>
                     <div class='col col-sm-12 text-center pt-5' id='parcelH1'>
-                        <h1 className='col col-sm-12 col-md-12 col-xl-12'>ระบบส่ง-รับ พัสดุ <h1><FaBoxOpen/></h1></h1>
+                        <h1 className='col col-sm-12 col-md-12 col-xl-12' id='useFont'>ระบบส่ง-รับ พัสดุ <h1><FaBoxOpen/></h1></h1>
                             <div className='text-left col col-sm-12 col-md-12 col-xl-4'>
                             <Card 
                                 elevation={5} 
@@ -525,7 +522,7 @@ const ShitDashboard =()=>{
                                     <h2 className='pl-5 my-3 ' >{ <FaBoxOpen /> }{ <ArrowForwardIcon color="secondary"/> }</h2>
                                     <div class='horizonLine2'/>
                                     <br/>
-                                    <h2 className='m-4'>ส่งพัสดุ   </h2>
+                                    <h4 className='mb-5 ml-5 ' id='useFont2'>ส่งพัสดุ</h4>
                                    
                                 </Card>
                                     <Card id='shitCardxx' >
@@ -549,16 +546,17 @@ const ShitDashboard =()=>{
                     <DialogTitle 
                     id="form-dialog-title" 
                     className='text-center mt-3'>
-                    <h1>ข้อมูลพัสดุที่ส่ง </h1>
+                    <h1 id='useFont'>ข้อมูลพัสดุที่ส่ง </h1>
                     </DialogTitle><hr/>
                     <DialogContent>
                     
                     <DialogTitle 
                     id="form-dialog-title" 
                     className='text-center'>
-                    <h4>ผู้ส่ง { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <FaBoxOpen/> }</h4>
+                    <h4 id='useFont'>ผู้ส่ง { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <FaBoxOpen/> }</h4>
                     </DialogTitle>
                         <form
+                        
                         id="SEND"
                         name="SEND"
                         onSubmit={ PushParcel }>
@@ -566,6 +564,8 @@ const ShitDashboard =()=>{
                         autoFocus
                         required  
                         id="nameSender" 
+                        inputProps={{style: {fontFamily:'Mitr'}}} 
+                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
                         label="ชื่อผู้ส่ง" 
                         variant="outlined" 
                         value={ SName }
@@ -577,6 +577,8 @@ const ShitDashboard =()=>{
                         <TextField 
                         required
                         id="phoneSender" 
+                        inputProps={{style: {fontFamily:'Mitr'}}} 
+                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
                         label="เบอร์โทรผู้ส่ง" 
                         variant="outlined" 
                         value={SPhone}
@@ -585,12 +587,14 @@ const ShitDashboard =()=>{
                         fullWidth/><br/><br/>
 
                         <FormControl required id='formControl'>
-                        <InputLabel htmlFor="age-native-simple">ที่อยุ่สาขาที่ส่ง</InputLabel>
+                        <InputLabel htmlFor="age-native-simple" id='useFont'>ที่อยุ่สาขาที่ส่ง</InputLabel>
                         <Select 
                         required 
                         native
                         id="addressdropdown" 
                         className='col col-12 ' 
+                        inputProps={{style: {fontFamily:'Mitr'}}} 
+                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
                         select label="ที่อยู่สาขาต้นทาง" 
                         // value={ Addressza } 
                         onChange={ (e)=>{ setAddressza(e.target.value) } } 
@@ -601,6 +605,8 @@ const ShitDashboard =()=>{
                         
                                 <TextField disabled
                                 id="addresstextarea" 
+                                inputProps={{style: {fontFamily:'Mitr'}}} 
+                                InputLabelProps={{style: {fontFamily:'Mitr'}}} 
                                 className='col col-11 float-right' 
                                 variant="outlined"  
                                 multiline rows="2" 
@@ -612,19 +618,23 @@ const ShitDashboard =()=>{
                         <DialogTitle 
                         id="form-dialog-title" 
                         className='text-center'>
-                        <h4>ผู้รับ { <FaBoxOpen/> }{ <ArrowForwardIcon/> }{ <FaceIcon/> }</h4>
+                        <h4 id='useFont'>ผู้รับ { <FaBoxOpen/> }{ <ArrowForwardIcon/> }{ <FaceIcon/> }</h4>
                         </DialogTitle>
 
                         <TextField required 
                         id="nameSender" 
                         label="ชื่อผู้รับ" 
                         variant="outlined" 
+                        inputProps={{style: {fontFamily:'Mitr'}}} 
+                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
                         value={RName}
                         type="text"
                         onChange={ RNameChange }
                         fullWidth/><br/><br/>
                         <TextField required 
                         id="phoneSender" 
+                        inputProps={{style: {fontFamily:'Mitr'}}} 
+                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
                         label="เบอร์โทรผู้รับ" 
                         variant="outlined" 
                         value={RPhone}
@@ -632,13 +642,15 @@ const ShitDashboard =()=>{
                         onChange={ RPhoneChange }
                         fullWidth/><br/><br/>
 
-                        <FormControl required>
-                        <InputLabel htmlFor="age-native-simple">ที่อยุ่สาขาที่รับ</InputLabel>
+                        <FormControl required id='formControl'>
+                        <InputLabel htmlFor="age-native-simple" id='useFont'>ที่อยุ่สาขาที่รับ</InputLabel>
                         <Select 
                         required 
                         native
                         id="addressdropdown" 
                         className='col col-12 ' 
+                        inputProps={{style: {fontFamily:'Mitr'}}} 
+                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
                         select label="ที่อยู่สาขาปลายทาง" 
                         value={ Addressza2 } 
                         onChange={ (e)=>{ setAddressza2(e.target.value) } }  
@@ -648,6 +660,8 @@ const ShitDashboard =()=>{
                         </FormControl><br/><br/>
                                 <TextField  disabled
                                 id="addresstextarea" 
+                                inputProps={{style: {fontFamily:'Mitr'}}} 
+                                InputLabelProps={{style: {fontFamily:'Mitr'}}} 
                                 className='col col-11 float-right' 
                                 variant="outlined"  
                                 multiline rows="2" 
@@ -659,13 +673,15 @@ const ShitDashboard =()=>{
                         <DialogTitle 
                         id="form-dialog-title" 
                         className='text-center'>
-                        <h4>ข้อมูลของพัสดุ { <FaBoxOpen/> } </h4>
+                        <h4 id='useFont'>ข้อมูลของพัสดุ { <FaBoxOpen/> } </h4>
                         </DialogTitle>
 
                         <TextField required 
                         id="namePracel" 
                         label="พัสดุ" 
                         variant="outlined" 
+                        inputProps={{style: {fontFamily:'Mitr'}}} 
+                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
                         value={PName}
                         type="text"
                         onChange={ PNameChange }
@@ -675,6 +691,8 @@ const ShitDashboard =()=>{
                         id="detailpraceltextarea" 
                         label="รายละเอียดของพัสดุ" 
                         className='col col-11 float-right' 
+                        inputProps={{style: {fontFamily:'Mitr'}}} 
+                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
                         variant="outlined"  
                         value={Dparcel}
                         type="text"
@@ -686,6 +704,7 @@ const ShitDashboard =()=>{
                     <DialogActions>
                     <br/><br/><br/><br/>
                     <Button 
+                    id='useFont'
                     onClick={ handleClose }  
                     variant="contained" 
                     ize="large" 
@@ -695,6 +714,7 @@ const ShitDashboard =()=>{
                     </Button>
 
                     <Button 
+                    id='useFont'
                     form="SEND"
                     type="submit"
                     variant="contained" 
@@ -713,15 +733,17 @@ const ShitDashboard =()=>{
         <Grid container spacing={3}>
         <Grid item xs={12} sm={12} md={12} lg={4} xl={3}>
             <Card elevation={1} variant="outlined "  id='shitCardTop1'>
-                <h3 className='text-center p-4'>เลือกเดือน</h3>
+                <h3 className='text-center p-4' id='useFont'>เลือกเดือน</h3>
             </Card>
         <Card elevation={5}>
-            <div class='text-center ml-5 m-3 p-1' id='shitCardxx'>
+            <div class='text-center ml-3 m-3 p-1' id='shitCardxx'>
                 <DatePicker
                     id='shitCardxx'
                     variant="inline"
                     openTo="month"
                     orientation="portrait"
+                    inputProps={{style: {fontFamily:'Mitr'}}} 
+          
                     // animateYearScrolling='true'
                     views={["year", "month"]}
                     value={SelectedDate}
@@ -738,10 +760,10 @@ const ShitDashboard =()=>{
         </Grid>
         </Grid>
             <Grid container spacing={5}>
-                <Grid item xs={12} sm={6} md={6} lg={12} xl={4}>
+                <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
                         <Card elevation={5} variant="outlined " className='my-2' id='shitCardNext1'>
                             <Card elevation={1} variant="outlined "  id='shitCardTop1'>
-                                <h3 className='text-center p-4'>ส่งแล้ว</h3>
+                                <h3 className='text-center p-4' id='useFont'>ส่งแล้ว</h3>
                             </Card>
                                 <List>
                                     {DataBoxL.map(item=>{
@@ -755,10 +777,10 @@ const ShitDashboard =()=>{
                                             </Avatar>
                                             </ListItemAvatar>
                                                 <ListItemText  key ={item.Id_parcel} >
-                                                    <strong>{'สาขาที่รับ:'+' '}</strong>{ShortAddress(item)}<br/>
-                                                    <strong>{'สถานะพัสดุ:'+' '}</strong>{ item.status }<br/>
-                                                    <strong>{'พัสดุ:'+' '}</strong>{ item.Parcel_Name }<br/>
-                                                    <strong>{'วันเวลาที่ส่ง:'+' '}</strong>{item.Date_Time}<br/>
+                                                    <strong id='useFont'>{'สาขาที่รับ:'+' '}</strong><span id='useFont2'>{ShortAddress(item)}</span><br/>
+                                                    <strong id='useFont'>{'สถานะพัสดุ:'+' '}</strong><span id='useFont2'>{ item.status }</span><br/>
+                                                    <strong id='useFont'>{'พัสดุ:'+' '}</strong><span id='useFont2'>{ item.Parcel_Name }</span><br/>
+                                                    <strong id='useFont'>{'วันเวลาที่ส่ง:'+' '}</strong><span id='useFont2'>{item.Date_Time}</span><br/>
                                                 </ListItemText>
                                             </ListItem>
                     
@@ -768,16 +790,16 @@ const ShitDashboard =()=>{
                                             <ListItemAvatar>
                                             </ListItemAvatar>
                                                 <ListItemText key ={item.Id_parcel}>
-                                                    <h2 className=''>รายละเอียด</h2><br/>
-                                                    <strong>{'ชื่อผู้ส่ง:'+' '}</strong>{item.Sender_Name}<br/>
-                                                    <strong>{'เบอร์โทรผู้ส่ง:'+' '}</strong>{item.Sender_Phone}<br/>
-                                                    <strong>{'สาขาที่ส่ง:'+' '}</strong>{item.Sender_Address}<br/><br/>
-                                                    <strong>{'ชื่อผู้รับ:'+' '}</strong>{item.Receiver_Name}<br/>
-                                                    <strong>{'เบอร์โทรผู้รับ:'+' '}</strong>{item.Receiver_Phone}<br/>
-                                                    <strong>{'สาขาที่รับ:'+' '}</strong>{item.Receiver_Address}<br/><br/>
-                                                    <strong>{'พัสดุ:'+' '}</strong>{item.Parcel_Name}<br/>
-                                                    <strong>{'รายละเอียดพัสดุ:'+' '}</strong>{item.Parcel_Description}<br/><br/>
-                                                    <strong>{'ผู้ลงชื่อรับพัสดุ:'+' '}</strong>{item.Real_Receiver_Name}<br/>
+                                                    <h2 className='' id='useFont'>รายละเอียด</h2><br/>
+                                                    <strong id='useFont'>{'ชื่อผู้ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Name}</span><br/>
+                                                    <strong id='useFont'>{'เบอร์โทรผู้ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Phone}</span><br/>
+                                                    <strong id='useFont'>{'สาขาที่ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Address}</span><br/><br/>
+                                                    <strong id='useFont'>{'ชื่อผู้รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Name}</span><br/>
+                                                    <strong id='useFont'>{'เบอร์โทรผู้รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Phone}</span><br/>
+                                                    <strong id='useFont'>{'สาขาที่รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Address}</span><br/><br/>
+                                                    <strong id='useFont'>{'พัสดุ:'+' '}</strong><span id='useFont2'>{item.Parcel_Name}</span><br/>
+                                                    <strong id='useFont'>{'รายละเอียดพัสดุ:'+' '}</strong><span id='useFont2'>{item.Parcel_Description}</span><br/><br/>
+                                                    <strong id='useFont'>{'ผู้ลงชื่อรับพัสดุ:'+' '}</strong><span id='useFont2'>{item.Real_Receiver_Name}</span><br/>
 
                                                     <div className='row'>
                                                     <div class="col col-3"></div>
@@ -790,7 +812,7 @@ const ShitDashboard =()=>{
                                                                         id='AlertButton'
                                                                         severity="success"
                                                                         onClick={ ()=>{ SelectAccept(item) } }>
-                                                                        <AlertTitle>รับพัสดุ</AlertTitle>
+                                                                        <AlertTitle id='useFont'>รับพัสดุ</AlertTitle>
                                                                     </Alert>
                                                                 </div>
                                                             </div>
@@ -805,10 +827,10 @@ const ShitDashboard =()=>{
                                 </List>
                         </Card>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={12} xl={4}>
+                <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
                         <Card elevation={5} variant="outlined " className='my-2' id='shitCardNext2'>
                             <Card elevation={1} variant="outlined "  id='shitCardTop2'>
-                            <h3 className='text-center p-4'>รับแล้ว</h3>
+                            <h3 className='text-center p-4' id='useFont'>รับแล้ว</h3>
                             </Card>
                             <List>
                                 {DataBoxR.map(item=>{
@@ -822,10 +844,10 @@ const ShitDashboard =()=>{
                                             </Avatar>
                                             </ListItemAvatar>
                                                 <ListItemText  key ={item.Id_parcel} >
-                                                    <strong>{'สาขาที่รับ:'+' '}</strong>{ShortAddress(item)}<br/>
-                                                    <strong>{'สถานะพัสดุ:'+' '}</strong>{ item.status }<br/>
-                                                    <strong>{'พัสดุ:'+' '}</strong>{ item.Parcel_Name }<br/>
-                                                    <strong>{'วันเวลาที่ส่ง:'+' '}</strong>{item.Date_Time}<br/>
+                                                    <strong id='useFont'>{'สาขาที่รับ:'+' '}</strong><span id='useFont2'>{ShortAddress(item)}</span><br/>
+                                                    <strong id='useFont'>{'สถานะพัสดุ:'+' '}</strong><span id='useFont2'>{ item.status }</span><br/>
+                                                    <strong id='useFont'>{'พัสดุ:'+' '}</strong><span id='useFont2'>{ item.Parcel_Name }</span><br/>
+                                                    <strong id='useFont'>{'วันเวลาที่ส่ง:'+' '}</strong><span id='useFont2'>{item.Date_Time}</span><br/>
                                                 </ListItemText>
                                             </ListItem>
                     
@@ -835,17 +857,16 @@ const ShitDashboard =()=>{
                                             <ListItemAvatar>
                                             </ListItemAvatar>
                                                 <ListItemText key ={item.Id_parcel}>    
-                                                    <h2 className=''>รายละเอียด</h2><br/>
-                                                    <strong>{'ชื่อผู้ส่ง:'+' '}</strong>{item.Sender_Name}<br/>
-                                                    <strong>{'เบอร์โทรผู้ส่ง:'+' '}</strong>{item.Sender_Phone}<br/>
-                                                    <strong>{'สาขาที่ส่ง:'+' '}</strong>{item.Sender_Address}<br/><br/>
-                                                    <strong>{'ชื่อผู้รับ:'+' '}</strong>{item.Receiver_Name}<br/>
-                                                    <strong>{'เบอร์โทรผู้รับ:'+' '}</strong>{item.Receiver_Phone}<br/>
-                                                    <strong>{'สาขาที่รับ:'+' '}</strong>{item.Receiver_Address}<br/><br/>
-                                                    <strong>{'พัสดุ:'+' '}</strong>{item.Parcel_Name}<br/>
-                                                    <strong>{'รายละเอียดพัสดุ:'+' '}</strong>{item.Parcel_Description}<br/>
-                                                    <strong>{'ความครบถ้วนของพัสดุ:'+' '}</strong>{item.Checked}<br/><br/>
-                                                    <strong>{'ผู้ลงชื่อรับพัสดุ:'+' '}</strong>{item.Real_Receiver_Name}<br/>
+                                                    <h2 className='' id='useFont'>รายละเอียด</h2><br/>
+                                                    <strong id='useFont'>{'ชื่อผู้ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Name}</span><br/>
+                                                    <strong id='useFont'>{'เบอร์โทรผู้ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Phone}</span><br/>
+                                                    <strong id='useFont'>{'สาขาที่ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Address}</span><br/><br/>
+                                                    <strong id='useFont'>{'ชื่อผู้รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Name}</span><br/>
+                                                    <strong id='useFont'>{'เบอร์โทรผู้รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Phone}</span><br/>
+                                                    <strong id='useFont'>{'สาขาที่รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Address}</span><br/><br/>
+                                                    <strong id='useFont'>{'พัสดุ:'+' '}</strong><span id='useFont2'>{item.Parcel_Name}</span><br/>
+                                                    <strong id='useFont'>{'รายละเอียดพัสดุ:'+' '}</strong><span id='useFont2'>{item.Parcel_Description}</span><br/><br/>
+                                                    <strong id='useFont'>{'ผู้ลงชื่อรับพัสดุ:'+' '}</strong><span id='useFont2'>{item.Real_Receiver_Name}</span><br/>
                                                 </ListItemText>
                                                 </ListItem>
                                     </Collapse>
@@ -862,20 +883,7 @@ const ShitDashboard =()=>{
 
 
                 <div className='containter row pl-2'>       
-                    <div className='col col-sm-4 m-3 mb-5 my-1' id='boxLeft'>
-                        <div><h2 className='text-center'>สถานะพัสดุ <FaInfoCircle/></h2></div>
-                        <div id='containerShit' class='border-top'>
-                        
-                                <div id='center-col' class='text-center'>
-                                    <ul class='p-2'>
-                                        {/* {AddButton} */}
-                                        {OHwow}
-                                    </ul>
-                                </div>
-                        </div>
-                    </div>
-                        <div class="verticalLine"></div>
-                        
+                    
                         <div className='col col-sm-7 m-3 my-1' id='boxRight'>
                         <h2 className='text-center'>ข้อมูลพัสดุ <FaReceipt/></h2>
                         <div id='containerShit' class='border-top'>
@@ -887,13 +895,13 @@ const ShitDashboard =()=>{
                         </div>
   {/********************************************** Appect-Reject Dialog *************************************************************/}
 
-                                <Dialog fullWidth
+                                <Dialog fullWidth 
                                     open={OpenconfirmAccept} onClose={handleClickCloseConfirmAccept} 
                                     aria-labelledby="form-dialog-title" id='shitDialog2'>
-                                        <DialogTitle id="form-dialog-title">การยืนยันรับพัสดุ</DialogTitle>
+                                        <h3 id='useFont' className='ml-4 mt-4 mb-3'>การยืนยันรับพัสดุ</h3>
                                         <DialogContent>
-                                            <DialogContentText>
-                                                หากต้องการที่จะรับ <strong>{PNameR}</strong>  โปรดกรอกชื่อเเละกดปุ่ม <strong>"ยืนยัน"</strong>.
+                                            <DialogContentText id='useFont'>
+                                                หากต้องการที่จะรับ <strong >{PNameR}</strong>  โปรดกรอกชื่อเเละกดปุ่ม <strong>"ยืนยัน"</strong>.
                                             </DialogContentText>
                                             <form id="SENDACC" name="SENDACC" onSubmit={ handleClickCloseConfirmAcceptWihtAccept }>
                                                 <TextField
@@ -913,7 +921,7 @@ const ShitDashboard =()=>{
                                                         value="primary"
                                                         inputProps={{ 'aria-label': 'primary checkbox' }}
                                                     /> */}
-                                                    <p>ความครบถ้วนของพัสดุ</p>
+                                                    <p id='useFont'>ความครบถ้วนของพัสดุ</p>
                                                     <Radio
                                                     
                                                         checked={checked === 'ครบ'}
@@ -922,7 +930,7 @@ const ShitDashboard =()=>{
                                                         color='primary'
                                                         name="radio-button-demo"
                                                         inputProps={{ 'aria-label': 'A' }}
-                                                    /><span>ครบ</span>
+                                                    /><span id='useFont'>ครบ</span>
                                                     <Radio
                                                         checked={checked === 'ไม่ครบ'}
                                                         onChange={handleChange}
@@ -930,7 +938,7 @@ const ShitDashboard =()=>{
                                                         color='secondary'
                                                         name="radio-button-demo"
                                                         inputProps={{ 'aria-label': 'B' }}
-                                                    /><span>ไม่ครบ</span>
+                                                    /><span id='useFont'>ไม่ครบ</span>
                                                     
                                             </form>
                                         </DialogContent>
@@ -940,7 +948,7 @@ const ShitDashboard =()=>{
                                             variant="contained" 
                                             color="secondary"
                                             size="large"
-                                            onClick={handleClickCloseConfirmAccept}><AlertTitle>ยกเลิก</AlertTitle>
+                                            onClick={handleClickCloseConfirmAccept}><AlertTitle id='useFont'>ยกเลิก</AlertTitle>
                                         </Button>
                                         <Button 
                                             form="SENDACC"
@@ -951,7 +959,7 @@ const ShitDashboard =()=>{
                                             size="large"
                                             // onClick={handleClickCloseConfirmAcceptWihtAccept}
                                             >
-                                                <AlertTitle>ยืนยัน</AlertTitle>
+                                                <AlertTitle id='useFont'>ยืนยัน</AlertTitle>
                                             </Button>
                                         </DialogActions>
                                     </Dialog>

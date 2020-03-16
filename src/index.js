@@ -7,6 +7,10 @@ import * as serviceWorker from './serviceWorker';
 import DateFnsUtils from "@date-io/date-fns";
 import { render } from "react-dom";
 
+import './fonts/MitrRegular.ttf'
+import './fonts/OpenSans-Regular.ttf'
+
+
 ReactDOM.render(
 <MuiPickersUtilsProvider utils={DateFnsUtils}>
     <App />

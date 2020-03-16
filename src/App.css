@@ -1,3 +1,17 @@
+@font-face {
+  font-family: 'Mitr';
+  src: local('Mitr'), url('./fonts/MitrRegular.ttf') format('truetype');
+}
+
+
+#useFont{
+  font-family: 'Mitr';
+}
+#useFont2{
+  font-family: 'Mitr';
+  color:rgb(102, 102, 102);
+}
+
 #ShitAllofPage{
   background-color: none;
   height:auto;
@@ -76,23 +90,23 @@
 }/*VertLine*/
 .horizonLine{
   margin-top:2em;
-  border-left: 4px solid rgb(11, 41, 94);
+  border-left: 4px solid rgb(11, 41, 94, 0.3);
   width: auto;
-  border:3px solid rgb(11, 41, 94)
+  border:3px solid rgb(11, 41, 94, 0.3);
 }
 .horizonLine2{
   margin-top:2em;
   width: auto;
   margin-left:10%;
   margin-right:10%; 
-  border:4px solid rgb(11, 41, 94)
+  border:2px solid rgb(11, 41, 94,0.7)
 }
 .horizonLine3{
-  border-left: 4px solid rgb(11, 41, 94);
+  border-left: 4px solid rgb(11, 41, 94, 0.3);
   width: auto;
   margin-left:10%;
   margin-right:10%; 
-  border:2px solid rgb(11, 41, 94)
+  border:2px solid rgb(11, 41, 94, 0.3)
 }
 
 #center-col{
@@ -142,8 +156,10 @@
 
 #Spacing{
   margin-left: 5%;
+  font-family: 'Mitr';
 }
 
 #formControl{
   min-Width: 100%;
+  
 }
