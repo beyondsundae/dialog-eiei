@@ -1,54 +1,44 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import axios from 'axios';
-
-// import DialogContentText from '@material-ui/core/DialogContentText';
-// import Address from './Address';
+import moment from 'moment'
 import "bootstrap/dist/css/bootstrap.css";
-import { FaBoxOpen, FaReceipt, FaInfoCircle} from "react-icons/fa";
 import Card from '@material-ui/core/Card';
 import Zoom from '@material-ui/core/Zoom';
-import Alert from '@material-ui/lab/Alert';
 import List from '@material-ui/core/List';
-import Switch from '@material-ui/core/Switch';
+import Grid from '@material-ui/core/Grid';
+import Alert from '@material-ui/lab/Alert';
 import Radio from '@material-ui/core/Radio';
-import ListItem from '@material-ui/core/ListItem';
-import Checkbox from '@material-ui/core/Checkbox';
-import ListItemText from '@material-ui/core/ListItemText';
-import moment from 'moment'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import ImageIcon from '@material-ui/icons/Image';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+import Select from '@material-ui/core/Select';
 import DoneIcon from '@material-ui/icons/Done';
 import FaceIcon from '@material-ui/icons/Face';
-import Grid from '@material-ui/core/Grid';
-import Select from '@material-ui/core/Select';
 import Tooltip from '@material-ui/core/Tooltip';
+import {DatePicker} from '@material-ui/pickers';
+import Divider from "@material-ui/core/Divider";
+import ImageIcon from '@material-ui/icons/Image';
+import ListItem from '@material-ui/core/ListItem';
 import MenuItem from '@material-ui/core/MenuItem';
+import Collapse from "@material-ui/core/Collapse";
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
-import AlertTitle from '@material-ui/lab/AlertTitle';
-import Typography from '@material-ui/core/Typography';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import Collapse from "@material-ui/core/Collapse";
-import DialogActions from '@material-ui/core/DialogActions';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import Divider from "@material-ui/core/Divider";
-import DialogContentText from '@material-ui/core/DialogContentText';
-import { withStyles} from "@material-ui/core/styles";
-import { makeStyles } from '@material-ui/core/styles';
-// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import DateFnsUtils from '@date-io/date-fns'; // choose your lib
-import {DatePicker ,TimePicker,DateTimePicker,MuiPickersUtilsProvider,} from '@material-ui/pickers';
-// import { DatePicker } from "@material-ui/pickers";
-import NativeSelect from '@material-ui/core/NativeSelect';
-import FormControl from '@material-ui/core/FormControl';
+import AlertTitle from '@material-ui/lab/AlertTitle';
+import { withStyles} from "@material-ui/core/styles";
+import { FaBoxOpen, FaReceipt} from "react-icons/fa";
+import Typography from '@material-ui/core/Typography';
 import InputLabel from '@material-ui/core/InputLabel';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import FormControl from '@material-ui/core/FormControl';
+import ListItemText from '@material-ui/core/ListItemText';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import DialogContentText from '@material-ui/core/DialogContentText';
 
 var dateFormat = require('dateformat');
 const ShitDashboard =()=>{
@@ -483,23 +473,11 @@ const ShitDashboard =()=>{
         window.location.reload(false)
     }
     useEffect(() => {
-        // console.log(GetIDParcel)
-        // console.log(RNameR)
-        // console.log(ShowAddressxx) 
-        // console.log(OHresponse)
-        // console.log(DataBoxL)
-        // console.log(Monthx)
-        // console.log(ShowMonthsxx)
-        //  console.log(startDate)
-        // console.log(Monthza)
+
         console.log("UseEffect")
         console.log(SelectedDate)
         console.log("Year")
         console.log(Yearza)
-        
-        if(Monthza == 'January'){
-            console.log('5555')
-        }
     })
 
 //  {/************************************************ Header ***********************************************************/} 
@@ -536,137 +514,148 @@ const ShitDashboard =()=>{
     {/************************************************ Dialog ***********************************************************/} 
 
                 <Dialog 
-                class='container col col-sm-4 col-md-12 col-xl-8'
+                fullWidth 
                 open={open} 
+                id='shitDialog'
+                className='p-5' 
                 onClose={handleClose} 
                 aria-labelledby="form-dialog-title" 
-                className='p-5' 
-                fullWidth 
-                id='shitDialog'>
+                class='container col col-sm-4 col-md-12 col-xl-8'
+                >
                     <DialogTitle 
                     id="form-dialog-title" 
                     className='text-center mt-3'>
-                    <h1 id='useFont'>ข้อมูลพัสดุที่ส่ง </h1>
+                        <h1 id='useFont'>ข้อมูลพัสดุที่ส่ง </h1>
                     </DialogTitle><hr/>
                     <DialogContent>
                     
                     <DialogTitle 
                     id="form-dialog-title" 
                     className='text-center'>
-                    <h4 id='useFont'>ผู้ส่ง { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <FaBoxOpen/> }</h4>
+                        <h4 id='useFont'>ผู้ส่ง { <FaceIcon/> }{ <ArrowForwardIcon/> }{ <FaBoxOpen/> }</h4>
                     </DialogTitle>
-                        <form
-                        
-                        id="SEND"
-                        name="SEND"
-                        onSubmit={ PushParcel }>
+                    <form
+                    id="SEND"
+                    name="SEND"
+                    onSubmit={ PushParcel }>
                         <TextField 
+                        required 
                         autoFocus
-                        required  
-                        id="nameSender" 
-                        inputProps={{style: {fontFamily:'Mitr'}}} 
-                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
-                        label="ชื่อผู้ส่ง" 
-                        variant="outlined" 
-                        value={ SName }
+                        fullWidth
                         type="text"
-                        onChange={ SNameChange }
-                        fullWidth/>
+                        label="ชื่อผู้ส่ง" 
+                        id="nameSender" 
+                        variant="outlined" 
+                            inputProps={{style: {fontFamily:'Mitr'}}} 
+                            InputLabelProps={{style: {fontFamily:'Mitr'}}} 
+                                value={ SName }
+                                onChange={ SNameChange }
+                        />
                         <br/><br/>
 
                         <TextField 
                         required
-                        id="phoneSender" 
-                        inputProps={{style: {fontFamily:'Mitr'}}} 
-                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
-                        label="เบอร์โทรผู้ส่ง" 
-                        variant="outlined" 
-                        value={SPhone}
+                        fullWidth
                         type="text"
-                        onChange={ SPhonehange }
-                        fullWidth/><br/><br/>
+                        id="phoneSender" 
+                        label="เบอร์โทรผู้ส่ง" 
+                        variant="outlined"
+                            inputProps={{style: {fontFamily:'Mitr'}}} 
+                            InputLabelProps={{style: {fontFamily:'Mitr'}}} 
+                                value={SPhone}
+                                onChange={ SPhonehange }
+                        /><br/><br/>
 
                         <FormControl required id='formControl'>
                         <InputLabel htmlFor="age-native-simple" id='useFont'>ที่อยุ่สาขาที่ส่ง</InputLabel>
                         <Select 
-                        required 
                         native
+                        required 
+                        fullwidth
                         id="addressdropdown" 
                         className='col col-12 ' 
-                        inputProps={{style: {fontFamily:'Mitr'}}} 
-                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
                         select label="ที่อยู่สาขาต้นทาง" 
-                        // value={ Addressza } 
-                        onChange={ (e)=>{ setAddressza(e.target.value) } } 
-                        fullwidth>
+                            inputProps={{style: {fontFamily:'Mitr'}}} 
+                            InputLabelProps={{style: {fontFamily:'Mitr'}}} 
+                                value={ Addressza } 
+                                onChange={ (e)=>{ setAddressza(e.target.value) } } 
+                        >
                             {ShowAddressxx}
                         </Select>
                         </FormControl><br/><br/>
                         
-                                <TextField disabled
-                                id="addresstextarea" 
-                                inputProps={{style: {fontFamily:'Mitr'}}} 
-                                InputLabelProps={{style: {fontFamily:'Mitr'}}} 
-                                className='col col-11 float-right' 
+                                <TextField 
+                                disabled
                                 variant="outlined"  
                                 multiline rows="2" 
+                                id="addresstextarea" 
                                 InputProps={{readOnly: true, }} 
-                                value={ Addressza }/><br/><br/><br/><hr/>
+                                className='col col-11 float-right'
+                                    inputProps={{style: {fontFamily:'Mitr'}}} 
+                                    InputLabelProps={{style: {fontFamily:'Mitr'}}} 
+                                        value={ Addressza }
+                                /><br/><br/><br/><hr/>
 
 
 
                         <DialogTitle 
                         id="form-dialog-title" 
                         className='text-center'>
-                        <h4 id='useFont'>ผู้รับ { <FaBoxOpen/> }{ <ArrowForwardIcon/> }{ <FaceIcon/> }</h4>
+                            <h4 id='useFont'>ผู้รับ { <FaBoxOpen/> }{ <ArrowForwardIcon/> }{ <FaceIcon/> }</h4>
                         </DialogTitle>
 
-                        <TextField required 
-                        id="nameSender" 
+                        <TextField 
+                        required 
+                        fullWidth
+                        type="text"
                         label="ชื่อผู้รับ" 
+                        id="nameSender" 
                         variant="outlined" 
-                        inputProps={{style: {fontFamily:'Mitr'}}} 
-                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
-                        value={RName}
+                            inputProps={{style: {fontFamily:'Mitr'}}} 
+                            InputLabelProps={{style: {fontFamily:'Mitr'}}} 
+                                value={RName}
+                                onChange={ RNameChange }
+                        /><br/><br/>
+                        <TextField 
+                        required 
+                        fullWidth
                         type="text"
-                        onChange={ RNameChange }
-                        fullWidth/><br/><br/>
-                        <TextField required 
                         id="phoneSender" 
-                        inputProps={{style: {fontFamily:'Mitr'}}} 
-                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
+                        variant="outlined"
                         label="เบอร์โทรผู้รับ" 
-                        variant="outlined" 
-                        value={RPhone}
-                        type="text"
-                        onChange={ RPhoneChange }
-                        fullWidth/><br/><br/>
+                            inputProps={{style: {fontFamily:'Mitr'}}} 
+                            InputLabelProps={{style: {fontFamily:'Mitr'}}} 
+                                value={RPhone}
+                                onChange={ RPhoneChange }
+                        /><br/><br/>
 
                         <FormControl required id='formControl'>
                         <InputLabel htmlFor="age-native-simple" id='useFont'>ที่อยุ่สาขาที่รับ</InputLabel>
                         <Select 
-                        required 
                         native
+                        required 
+                        fullwidth
                         id="addressdropdown" 
                         className='col col-12 ' 
-                        inputProps={{style: {fontFamily:'Mitr'}}} 
-                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
                         select label="ที่อยู่สาขาปลายทาง" 
-                        value={ Addressza2 } 
-                        onChange={ (e)=>{ setAddressza2(e.target.value) } }  
-                        fullwidth>
+                            inputProps={{style: {fontFamily:'Mitr'}}} 
+                            InputLabelProps={{style: {fontFamily:'Mitr'}}} 
+                                value={ Addressza2 } 
+                                onChange={ (e)=>{ setAddressza2(e.target.value) } }  
+                        >
                             { ShowAddressxx }
                         </Select>
                         </FormControl><br/><br/>
-                                <TextField  disabled
-                                id="addresstextarea" 
-                                inputProps={{style: {fontFamily:'Mitr'}}} 
-                                InputLabelProps={{style: {fontFamily:'Mitr'}}} 
-                                className='col col-11 float-right' 
+                                <TextField  
+                                disabled
                                 variant="outlined"  
                                 multiline rows="2" 
-                                InputProps={{readOnly: true, }} 
-                                value={ Addressza2 }/><br/><br/><br/><hr/>
+                                id="addresstextarea" 
+                                className='col col-11 float-right' 
+                                    inputProps={{style: {fontFamily:'Mitr'}}} 
+                                    InputLabelProps={{style: {fontFamily:'Mitr'}}} 
+                                        InputProps={{readOnly: true, }} 
+                                        value={ Addressza2 }/><br/><br/><br/><hr/>
 
                     
 
@@ -676,28 +665,32 @@ const ShitDashboard =()=>{
                         <h4 id='useFont'>ข้อมูลของพัสดุ { <FaBoxOpen/> } </h4>
                         </DialogTitle>
 
-                        <TextField required 
-                        id="namePracel" 
+                        <TextField 
+                        required 
+                        fullWidth
                         label="พัสดุ" 
-                        variant="outlined" 
-                        inputProps={{style: {fontFamily:'Mitr'}}} 
-                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
+                        type="text"
                         value={PName}
-                        type="text"
-                        onChange={ PNameChange }
-                        fullWidth/><br/><br/>
+                        id="namePracel" 
+                        variant="outlined" 
+                            inputProps={{style: {fontFamily:'Mitr'}}} 
+                            InputLabelProps={{style: {fontFamily:'Mitr'}}} 
+                                onChange={ PNameChange }
+                        /><br/><br/>
                                     
-                        <TextField required 
-                        id="detailpraceltextarea" 
-                        label="รายละเอียดของพัสดุ" 
-                        className='col col-11 float-right' 
-                        inputProps={{style: {fontFamily:'Mitr'}}} 
-                        InputLabelProps={{style: {fontFamily:'Mitr'}}} 
-                        variant="outlined"  
-                        value={Dparcel}
+                        <TextField 
+                        required 
                         type="text"
+                        value={Dparcel}
+                        variant="outlined" 
+                        multiline rows="4"
+                        label="รายละเอียดของพัสดุ"
+                        id="detailpraceltextarea" 
                         onChange={ DparcelChange }
-                        multiline rows="4" />
+                        className='col col-11 float-right' 
+                            inputProps={{style: {fontFamily:'Mitr'}}} 
+                            InputLabelProps={{style: {fontFamily:'Mitr'}}} 
+                         />
                         </form>
                     </DialogContent>
                     
@@ -705,21 +698,23 @@ const ShitDashboard =()=>{
                     <br/><br/><br/><br/>
                     <Button 
                     id='useFont'
-                    onClick={ handleClose }  
+                    size="large" 
+                    color="secondary"
                     variant="contained" 
-                    ize="large" 
-                    color="secondary">
+                    onClick={ handleClose }  
+                    >
                     {<DeleteIcon />}
                         ยกเลิก
                     </Button>
 
                     <Button 
-                    id='useFont'
                     form="SEND"
-                    type="submit"
-                    variant="contained" 
+                    id='useFont'
                     size="large" 
-                    color="primary" >
+                    type="submit"
+                    color="primary"
+                    variant="contained" 
+                     >
                     {<DoneIcon/>}
                         ส่งพัสดุ
                     </Button>
@@ -878,23 +873,10 @@ const ShitDashboard =()=>{
                 </Grid>
             </Grid>
         </div>
-{/********************************************** Old *************************************************************/}
-        <div class='horizonLine'/>
 
-
-                <div className='containter row pl-2'>       
-                    
-                        <div className='col col-sm-7 m-3 my-1' id='boxRight'>
-                        <h2 className='text-center'>ข้อมูลพัสดุ <FaReceipt/></h2>
-                        <div id='containerShit' class='border-top'>
-                                <div id='center-col' class='text-center'>
-                                    <ul class='p-2'>
-                                        
-                                    </ul>
-                                </div>
-                        </div>
   {/********************************************** Appect-Reject Dialog *************************************************************/}
-
+                <div className='containter row pl-2'>       
+                    <div className='col col-sm-7 m-3 my-1' id='boxRight'>
                                 <Dialog fullWidth 
                                     open={OpenconfirmAccept} onClose={handleClickCloseConfirmAccept} 
                                     aria-labelledby="form-dialog-title" id='shitDialog2'>
@@ -963,50 +945,10 @@ const ShitDashboard =()=>{
                                             </Button>
                                         </DialogActions>
                                     </Dialog>
-
-
-                                <Dialog fullWidth
-                                open={OpenconfirmReject} onClose={handleClickCloseConfirmReject} 
-                                aria-labelledby="form-dialog-title" id='shitDialog2'>
-                            <DialogTitle id="form-dialog-title">การยืนยันปฏิเสธพัสดุ</DialogTitle>
-                            <DialogContent>
-                            <DialogContentText>
-                            หากตั้งการปฏิเสธ <strong>{PNameR}</strong> จาก <strong>{TinyAdderess}</strong> 
-                            </DialogContentText>
-                            <DialogContentText>
-                                กด <strong>"ยืนยัน"</strong> เพื่อปฏิเสธพัสดุ
-                            </DialogContentText>
-                            
-                            
-                            {/* <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label="Name"
-                                type="email"
-                                fullWidth
-                            /> */}
-                            </DialogContent>
-                            <DialogActions>
-                            <Alert 
-                                id='AlertButton' 
-                                severity="error" 
-                                
-                                onClick={handleClickCloseConfirmReject}><AlertTitle>ยกเลิก</AlertTitle></Alert>
-                            <Alert 
-                                id='AlertButton' 
-                                severity="error" 
-                                variant="filled"
-                                onClick={handleClickCloseConfirmRejectWihtReject}><AlertTitle>ยืนยัน</AlertTitle></Alert>
-                            </DialogActions>
-                        </Dialog>
-                    
                     </div>
                 </div>         
-            
             </div>
         </container>
-    )
+    )}
 
-}
 export default ShitDashboard
