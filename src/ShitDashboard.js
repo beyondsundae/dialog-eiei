@@ -13,15 +13,19 @@ import Badge from '@material-ui/core/Badge';
 import Radio from '@material-ui/core/Radio';
 import Avatar from '@material-ui/core/Avatar';
 import "bootstrap/dist/css/bootstrap.min.css";
+import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+import Drawer from "@material-ui/core/Drawer";
 import Select from '@material-ui/core/Select';
 import DoneIcon from '@material-ui/icons/Done';
 import FaceIcon from '@material-ui/icons/Face';
 import MailIcon from '@material-ui/icons/Mail';
+import MenuIcon from '@material-ui/icons/Menu';
 import Tooltip from '@material-ui/core/Tooltip';
 import {DatePicker} from '@material-ui/pickers';
 import Divider from "@material-ui/core/Divider";
+import Toolbar from '@material-ui/core/Toolbar';
 import ImageIcon from '@material-ui/icons/Image';
 import ListItem from '@material-ui/core/ListItem';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -34,6 +38,7 @@ import { withStyles} from "@material-ui/core/styles";
 import { FaBoxOpen, FaReceipt} from "react-icons/fa";
 import Typography from '@material-ui/core/Typography';
 import InputLabel from '@material-ui/core/InputLabel';
+import IconButton from '@material-ui/core/IconButton';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -42,7 +47,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import { makeStyles } from "@material-ui/core/styles";
 
+const useStyles = makeStyles({
+    list: { width: 250}
+  });
 
 var dateFormat = require('dateformat');
 const ShitDashboard =()=>{
@@ -99,7 +108,43 @@ const ShitDashboard =()=>{
         console.log(openB3)
         setOpenB3({...openB3,['B3']:!openB3['B3']});
         }
-     
+
+        const [state, setState] = React.useState({
+            right: false
+          });
+        const toggleDrawer = (side, open) => event => {
+        setState({ ...state, [side]: open });
+        };
+        const sideList = side => (
+            <div
+              className={classes.list}
+              role="presentation"
+            //   id="borderTest"
+              >
+                <Card elevation={1} variant="outlined "  id='shitCardTop1'>
+                    <h3 className='text-center p-4' id='useFont'>เลือกเดือน</h3>
+                </Card>
+                <Card elevation={5}>
+                    <div class='text-center ml-3 m-3 p-1' id='shitCardxx'>
+                        <DatePicker
+                            id='shitCardxx'
+                            variant="inline"
+                            openTo="month"
+                            orientation="portrait"
+                            inputProps={{style: {fontFamily:'Mitr'}}} 
+                
+                            // animateYearScrolling='true'
+                            views={["year", "month"]}
+                            value={SelectedDate}
+                            onChange={(date)=>{SetMonth(date)}}/>
+                    
+                        <Button variant="contained" color="secondary" onClick={()=>{Reload()}} size="large" id='Spacing'>
+                        ล้างค่า
+                        </Button>
+                    </div>
+                </Card>
+            </div>
+          );
 
     const [SName, setSName] = useState([]); 
     function SNameChange (e){ 
@@ -185,7 +230,7 @@ const ShitDashboard =()=>{
         fontFamily:'Mitr',
         style: { width: "5rem", height: "2rem",textAlign: "center" }
       };
-
+      const classes = useStyles();
 
     function PushParcel (e){
         e.preventDefault()
@@ -540,34 +585,35 @@ const ShitDashboard =()=>{
 
 //  {/************************************************ Header ***********************************************************/} 
     return(
-        
-        
+
         <container fixed class='' id='shitUI'>
-        
-            <div className='container col col-sm-7 col-md-12 col-xl-8' id='shitUI'>
-                <Typography variant="subtitle1" gutterBottom className='col col-sm-12'>
-                    <div class='col col-sm-12 text-center pt-5' id='parcelH1'>
-                        <h1 className='col col-sm-12 col-md-12 col-xl-12' id='useFont'>ระบบส่ง-รับ พัสดุ <h1><FaBoxOpen/></h1></h1>
-                            <div className='text-left col col-sm-12 col-md-12 col-xl-4'>
-                            <Card 
-                                elevation={5} 
-                                variant="outlined " 
-                                className='my-5 col  col-md-5 col-lg-5 col-xl-12' 
-                                onClick={handleClickOpen}
-                                id='shitCardxx'>
-                                    <h2 className='pl-5 my-1 ' >{ <FaBoxOpen /> }{ <ArrowForwardIcon color="secondary"/> }</h2>
-                                    <h4 className='mb-3 ml-5 ' id='useFont2'>ส่งพัสดุ</h4>
-                                    <div class='horizonLine2'/>
-                                    <br/>
-                                    
-                                   
-                                </Card>
-                                    <Card id='shitCardxx' >
-                                    
-                                    </Card>                  
-                            </div>
-                    </div>
-                </Typography>
+            <AppBar position="fixed" id='AppBar'>
+                <Toolbar >
+               
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} >
+                            <Typography variant="subtitle1" gutterBottom class='mt-3'>
+                                    <h1 className='col col-xl-12 ' id='useFont'>ระบบส่ง-รับ พัสดุ <FaBoxOpen/></h1>
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={4} sm={4} md={4} lg={4} xl={9} ></Grid>
+                        <Grid item xs={1} sm={1} md={1} lg={1} xl={1} >
+                            <IconButton edge="start"  color="inherit" aria-label="menu" >
+                                <MenuIcon onClick={toggleDrawer("right", true)} />
+                            </IconButton>
+                        </Grid>
+                        
+                    </Toolbar>
+                </AppBar><br/><br/>
+                 
+            <div className='container col col-sm-7 col-md-12 col-xl-8 mt-5' id='shitUI'>
+            <Drawer
+                anchor="right"
+                open={state.right}
+                onClose={toggleDrawer("right", false)}
+            >
+                {sideList("right")}
+            </Drawer>
+            
         {/* <button onClick={()=>{ohWow()}}>ohWow</button> */}
         {/* <button onClick={()=>{TimeRanger()}}>Time</button> */}
     {/************************************************ Dialog ***********************************************************/} 
@@ -786,31 +832,17 @@ const ShitDashboard =()=>{
         
         <Grid container spacing={3}>
         <Grid item xs={12} sm={12} md={12} lg={4} xl={3}>
-            <Card elevation={1} variant="outlined "  id='shitCardTop1'>
-                <h3 className='text-center p-4' id='useFont'>เลือกเดือน</h3>
+            <Card 
+            elevation={5} 
+            variant="outlined " 
+            className='my-5 col  col-md-5 col-lg-5 col-xl-12' 
+            onClick={handleClickOpen}
+            id='shitCardxx'>
+                <h2 className='pl-5 my-1 ' >{ <FaBoxOpen /> }{ <ArrowForwardIcon color="secondary"/> }</h2>
+                <h4 className='mb-3 ml-5 ' id='useFont2'>ส่งพัสดุ</h4>
+                <div class='horizonLine2'/>
+                <br/>
             </Card>
-        <Card elevation={5}>
-            <div class='text-center ml-3 m-3 p-1' id='shitCardxx'>
-                <DatePicker
-                    id='shitCardxx'
-                    variant="inline"
-                    openTo="month"
-                    orientation="portrait"
-                    inputProps={{style: {fontFamily:'Mitr'}}} 
-          
-                    // animateYearScrolling='true'
-                    views={["year", "month"]}
-                    value={SelectedDate}
-                    onChange={(date)=>{SetMonth(date)}}
-                />
-            
-            <Button variant="contained" color="secondary" onClick={()=>{Reload()}} size="large" id='Spacing'>
-            ล้างค่า
-            </Button>
-                                  
-            </div>
-            
-        </Card>
         </Grid>
         </Grid>
             <Grid container spacing={5}>
@@ -975,111 +1007,6 @@ const ShitDashboard =()=>{
                                 </Collapse>
                         </Card>
                 </Grid>
-                {/* <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
-                        <Card elevation={5} variant="outlined " className='my-2' id='shitCardNext2'>
-                            <Card elevation={1} variant="outlined "  id='shitCardTop2' onClick={()=>{handleClickxxB2("B2")}}>
-                            <h3 className='text-center p-4' id='useFont'>รับแล้ว</h3>
-                            </Card>
-                            <Collapse key={'B2'} in={openB2['B2']}>
-                            <List>
-                                {DataBoxR.map(item=>{
-                                        // console.log(item)
-                                        return(
-                                        <div>
-                                            <ListItem button key={item.Id_parcel} onClick={()=>{handleClickxx(item)}} >
-                                            <ListItemAvatar>
-                                            <Avatar>
-                                                <ImageIcon />
-                                            </Avatar>
-                                            </ListItemAvatar>
-                                                <ListItemText  key ={item.Id_parcel} >
-                                                    <strong id='useFont'>{'สาขาที่รับ:'+' '}</strong><span id='useFont2'>{ShortAddress(item)}</span><br/>
-                                                    <strong id='useFont'>{'สถานะพัสดุ:'+' '}</strong><span id='useFont2'>{ item.status }</span><br/>
-                                                    <strong id='useFont'>{'พัสดุ:'+' '}</strong><span id='useFont2'>{ item.Parcel_Name }</span><br/>
-                                                    <strong id='useFont'>{'วันเวลาที่ส่ง:'+' '}</strong><span id='useFont2'>{item.Date_Time}</span><br/>
-                                                </ListItemText>
-                                            </ListItem>
-                    
-                                            <Collapse key={item.Id_parcel} in={openx[item.Id_parcel]}>
-                                            <div class='horizonLine3'/>
-                                                <ListItem key={item.Id_parcel}>
-                                            <ListItemAvatar>
-                                            </ListItemAvatar>
-                                                <ListItemText key ={item.Id_parcel}>    
-                                                    <h2 className='' id='useFont'>รายละเอียด</h2><br/>
-                                                    <strong id='useFont'>{'ชื่อผู้ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Name}</span><br/>
-                                                    <strong id='useFont'>{'เบอร์โทรผู้ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Phone}</span><br/>
-                                                    <strong id='useFont'>{'สาขาที่ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Address}</span><br/><br/>
-                                                    <strong id='useFont'>{'ชื่อผู้รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Name}</span><br/>
-                                                    <strong id='useFont'>{'เบอร์โทรผู้รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Phone}</span><br/>
-                                                    <strong id='useFont'>{'สาขาที่รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Address}</span><br/><br/>
-                                                    <strong id='useFont'>{'พัสดุ:'+' '}</strong><span id='useFont2'>{item.Parcel_Name}</span><br/>
-                                                    <strong id='useFont'>{'รายละเอียดพัสดุ:'+' '}</strong><span id='useFont2'>{item.Parcel_Description}</span><br/><br/>
-                                                    <strong id='useFont'>{'ผู้ลงชื่อรับพัสดุ:'+' '}</strong><span id='useFont2'>{item.Real_Receiver_Name}</span><br/>
-                                                </ListItemText>
-                                                </ListItem>
-                                    </Collapse>
-                                    <Divider />
-                                    </div>
-                                        )})}
-                            </List>
-                            </Collapse>
-                        </Card>
-                </Grid> */}
-           
-            {/* <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
-                        <Card elevation={5} variant="outlined " className='my-2' id='shitCardNext2'>
-                            <Card elevation={1} variant="outlined "  id='shitCardTop2' onClick={()=>{handleClickxxB3("B3")}}>
-                            <h3 className='text-center p-4' id='useFont'>รับแล้ว{' '}<Badge badgeContent={DataBoxR.length} color="secondary">
-        <MailIcon /></Badge></h3>
-      
-                            </Card>
-                            <Collapse key={'B3'} in={openB3['B3']}>
-                            <List>
-                                {DataBoxR.map(item=>{
-                                        // console.log(item)
-                                        return(
-                                        <div>
-                                            <ListItem button key={item.Id_parcel} onClick={()=>{handleClickxx(item)}} >
-                                            <ListItemAvatar>
-                                            <Avatar>
-                                                <ImageIcon />
-                                            </Avatar>
-                                            </ListItemAvatar>
-                                                <ListItemText  key ={item.Id_parcel} >
-                                                    <strong id='useFont'>{'สาขาที่รับ:'+' '}</strong><span id='useFont2'>{ShortAddress(item)}</span><br/>
-                                                    <strong id='useFont'>{'สถานะพัสดุ:'+' '}</strong><span id='useFont2'>{ item.status }</span><br/>
-                                                    <strong id='useFont'>{'พัสดุ:'+' '}</strong><span id='useFont2'>{ item.Parcel_Name }</span><br/>
-                                                    <strong id='useFont'>{'วันเวลาที่ส่ง:'+' '}</strong><span id='useFont2'>{item.Date_Time}</span><br/>
-                                                </ListItemText>
-                                            </ListItem>
-                    
-                                            <Collapse key={item.Id_parcel} in={openx[item.Id_parcel]}>
-                                            <div class='horizonLine3'/>
-                                                <ListItem key={item.Id_parcel}>
-                                            <ListItemAvatar>
-                                            </ListItemAvatar>
-                                                <ListItemText key ={item.Id_parcel}>    
-                                                    <h2 className='' id='useFont'>รายละเอียด</h2><br/>
-                                                    <strong id='useFont'>{'ชื่อผู้ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Name}</span><br/>
-                                                    <strong id='useFont'>{'เบอร์โทรผู้ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Phone}</span><br/>
-                                                    <strong id='useFont'>{'สาขาที่ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Address}</span><br/><br/>
-                                                    <strong id='useFont'>{'ชื่อผู้รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Name}</span><br/>
-                                                    <strong id='useFont'>{'เบอร์โทรผู้รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Phone}</span><br/>
-                                                    <strong id='useFont'>{'สาขาที่รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Address}</span><br/><br/>
-                                                    <strong id='useFont'>{'พัสดุ:'+' '}</strong><span id='useFont2'>{item.Parcel_Name}</span><br/>
-                                                    <strong id='useFont'>{'รายละเอียดพัสดุ:'+' '}</strong><span id='useFont2'>{item.Parcel_Description}</span><br/><br/>
-                                                    <strong id='useFont'>{'ผู้ลงชื่อรับพัสดุ:'+' '}</strong><span id='useFont2'>{item.Real_Receiver_Name}</span><br/>
-                                                </ListItemText>
-                                                </ListItem>
-                                    </Collapse>
-                                    <Divider />
-                                    </div>
-                                        )})}
-                            </List>
-                            </Collapse>
-                        </Card>
-                </Grid> */}
             </Grid>
             
         </div>
