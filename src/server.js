@@ -78,8 +78,8 @@ app.get('/wholedata', (req, res)=>{
 app.get('/OhSendx', (req, res)=>{
     let param = req.query.Monthza;
     let param2 = req.query.Yearza;
+    console.log('SENDx')
     console.log(param +' '+ param2)
-
 
     if (param !== 'All' && param2 !== 'All'){
 connection.query("SELECT * FROM Parcel WHERE status='ส่งแล้ว' AND Month = ? AND Year = ? ORDER BY Id_parcel DESC  ",[param,param2], function (err, result, fields) {
@@ -90,7 +90,7 @@ connection.query("SELECT * FROM Parcel WHERE status='ส่งแล้ว' AND 
             // console.log(result);   
       });}
     else if (param == 'All' &&  param2 == 'All'){
-connection.query("SELECT * FROM Parcel WHERE status='ส่งแล้ว' ORDER BY Id_parcel DESC  ",[param], function (err, result, fields) {
+connection.query("SELECT * FROM `Parcel` WHERE status='ส่งแล้ว' ORDER BY `status` DESC, `Date_Time` ASC",[param], function (err, result, fields) {
             if (err) throw err;
                 // console.log(result[2]);    
                 res.send(result)
@@ -99,7 +99,7 @@ connection.query("SELECT * FROM Parcel WHERE status='ส่งแล้ว' ORDE
             });}})
 
 app.get('/OhResponse', (req, res)=>{
-    connection.query("SELECT * FROM Parcel WHERE status!='ส่งแล้ว' ORDER BY Id_parcel DESC  ", function (err, result, fields) {
+    connection.query("SELECT * FROM Parcel WHERE status='ส่งแล้ว' ORDER BY Id_parcel DESC  ", function (err, result, fields) {
         if (err) throw err;
             // console.log(result[2]);    
             res.send(result)
@@ -107,6 +107,29 @@ app.get('/OhResponse', (req, res)=>{
             // console.log(result);   
       });
 })
+app.get('/OhReceived', (req, res)=>{
+    let param = req.query.Monthza;
+    let param2 = req.query.Yearza;
+    console.log('RECEx')
+    console.log(param +' '+ param2)
+
+    if (param !== 'All' && param2 !== 'All'){
+connection.query("SELECT * FROM Parcel WHERE status='รับแล้ว' AND Month = ? AND Year = ? ORDER BY Id_parcel DESC",[param,param2], function (err, result, fields) {
+        if (err) throw err;
+            // console.log(result[2]);    
+            res.send(result)
+            // console.log("show result wholedata")
+            // console.log(result);   
+              });}
+    else if (param == 'All' &&  param2 == 'All'){
+connection.query("SELECT * FROM `Parcel` WHERE status='รับแล้ว' ORDER BY `status` DESC, `Date_Time` DESC",[param],function (err, result, fields) {
+            if (err) throw err;
+                // console.log(result[2]);    
+                res.send(result)
+                // console.log("show result wholedata")
+                // console.log(result);   
+            });}})
+
 
 app.get('/specificdata', (req, res)=>{
     let param = req.query.id

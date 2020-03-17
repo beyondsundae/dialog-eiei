@@ -68,11 +68,13 @@
 #shitCardTop1{
   height:4em;
   color:white;
+  cursor: pointer;
   background-color:rgb(11, 41, 94) ;
 }
 #shitCardTop2{
   height:4em;
   color:white;
+  cursor: pointer;
   background-color:rgb(11, 41, 94) ;
 }
 
@@ -95,7 +97,6 @@
   border:3px solid rgb(11, 41, 94, 0.3);
 }
 .horizonLine2{
-  margin-top:2em;
   width: auto;
   margin-left:10%;
   margin-right:10%; 

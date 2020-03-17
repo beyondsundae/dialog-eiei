@@ -2,12 +2,14 @@ import React, {useState, useEffect} from 'react';
 import './App.css';
 import axios from 'axios';
 import moment from 'moment'
+import Box from "@material-ui/core/Box";
 import "bootstrap/dist/css/bootstrap.css";
 import Card from '@material-ui/core/Card';
 import Zoom from '@material-ui/core/Zoom';
 import List from '@material-ui/core/List';
 import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
+import Badge from '@material-ui/core/Badge';
 import Radio from '@material-ui/core/Radio';
 import Avatar from '@material-ui/core/Avatar';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,6 +18,7 @@ import Dialog from '@material-ui/core/Dialog';
 import Select from '@material-ui/core/Select';
 import DoneIcon from '@material-ui/icons/Done';
 import FaceIcon from '@material-ui/icons/Face';
+import MailIcon from '@material-ui/icons/Mail';
 import Tooltip from '@material-ui/core/Tooltip';
 import {DatePicker} from '@material-ui/pickers';
 import Divider from "@material-ui/core/Divider";
@@ -40,6 +43,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
+
 var dateFormat = require('dateformat');
 const ShitDashboard =()=>{
     
@@ -47,8 +51,13 @@ const ShitDashboard =()=>{
         ohWow();
         OhSend();
         OhResponse();
+        OhReceived ();
         TimeRanger();
         MonthMenu();
+        handleClickxxB3();
+        handleClickxxB2();
+        handleClickxxB1();
+
     }
     
     const [open, setOpen] = useState(false);
@@ -64,6 +73,7 @@ const ShitDashboard =()=>{
     const [TinyAdderess, setTinyAdderess] = useState();
     const [DataBoxL, setDataBoxL] = useState([]);
     const [DataBoxR, setDataBoxR] = useState([]);
+    const [DataBoxRec, setDataBoxRec] = useState([]);
 
     const [openx, setOpenx] = useState(true);
     const handleClickxx=(item)=> {
@@ -71,7 +81,24 @@ const ShitDashboard =()=>{
         console.log(openx)
         setOpenx({...openx,[item.Id_parcel]:!openx[item.Id_parcel]});
         }
-
+    const [openB1, setOpenB1] = useState(true);
+    const handleClickxxB1=(item)=> {
+        console.log("Handle Clicked...."+'B1');
+        console.log(openB2)
+        setOpenB1({...openB1,['B1']:!openB1['B1']});
+        }
+    const [openB2, setOpenB2] = useState(true);
+    const handleClickxxB2=(item)=> {
+        console.log("Handle Clicked...."+'B2');
+        console.log(openB2)
+        setOpenB2({...openB2,['B2']:!openB2['B2']});
+        }
+    const [openB3, setOpenB3] = useState(true);
+    const handleClickxxB3=(item)=> {
+        console.log("Handle Clicked...."+'B3');
+        console.log(openB3)
+        setOpenB3({...openB3,['B3']:!openB3['B3']});
+        }
      
 
     const [SName, setSName] = useState([]); 
@@ -140,7 +167,24 @@ const ShitDashboard =()=>{
       const inputProps = {
         fontFamily:'Mitr'
       };
-        
+      const BoxStsProps1 = {
+        bgcolor: "background.paper",
+        borderColor: "coral",
+        color: "coral",
+        m: 1,
+        border: 1,
+        fontFamily:'Mitr',
+        style: { width: "5rem", height: "2rem",textAlign: "center" }
+      };
+      const BoxStsProps2 = {
+        bgcolor: "background.paper",
+        borderColor: "green",
+        color: "green",
+        m: 1,
+        border: 1,
+        fontFamily:'Mitr',
+        style: { width: "5rem", height: "2rem",textAlign: "center" }
+      };
 
 
     function PushParcel (e){
@@ -339,7 +383,7 @@ const ShitDashboard =()=>{
             // console.log(Month)
             // console.log(Year)
             OhSend();
-            
+            OhReceived ();
         
     }
     function SelectAccept(item){
@@ -371,6 +415,20 @@ const ShitDashboard =()=>{
         .then(function (response){
             const data = response.data;
             setDataBoxR(data);
+            // console.table(data)
+            })}
+
+    function OhReceived (){
+        var info ={
+            params: {
+                Monthza:Monthza,
+                Yearza:Yearza
+            }}
+
+        return axios.get('http://localhost:4000/OhReceived',info)
+        .then(function (response){
+            const data = response.data;
+            setDataBoxRec(data);
             // console.table(data)
             })}
 
@@ -473,7 +531,7 @@ const ShitDashboard =()=>{
         window.location.reload(false)
     }
     useEffect(() => {
-
+        console.log(DataBoxR)
         console.log("UseEffect")
         console.log(SelectedDate)
         console.log("Year")
@@ -497,10 +555,11 @@ const ShitDashboard =()=>{
                                 className='my-5 col  col-md-5 col-lg-5 col-xl-12' 
                                 onClick={handleClickOpen}
                                 id='shitCardxx'>
-                                    <h2 className='pl-5 my-3 ' >{ <FaBoxOpen /> }{ <ArrowForwardIcon color="secondary"/> }</h2>
+                                    <h2 className='pl-5 my-1 ' >{ <FaBoxOpen /> }{ <ArrowForwardIcon color="secondary"/> }</h2>
+                                    <h4 className='mb-3 ml-5 ' id='useFont2'>ส่งพัสดุ</h4>
                                     <div class='horizonLine2'/>
                                     <br/>
-                                    <h4 className='mb-5 ml-5 ' id='useFont2'>ส่งพัสดุ</h4>
+                                    
                                    
                                 </Card>
                                     <Card id='shitCardxx' >
@@ -755,16 +814,24 @@ const ShitDashboard =()=>{
         </Grid>
         </Grid>
             <Grid container spacing={5}>
-                <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
+                <Grid item xs={12} sm={6} md={6} lg={4} xl={4} >
                         <Card elevation={5} variant="outlined " className='my-2' id='shitCardNext1'>
-                            <Card elevation={1} variant="outlined "  id='shitCardTop1'>
-                                <h3 className='text-center p-4' id='useFont'>ส่งแล้ว</h3>
+                            <Card elevation={1} variant="outlined "  id='shitCardTop1' onClick={()=>{handleClickxxB1("B1")}}>
+                                <h3 
+                                className='text-center p-4' 
+                                id='useFont'>ส่งแล้ว{' '}<Badge 
+                                badgeContent={DataBoxR.length} 
+                                color="secondary">
+                                <MailIcon /></Badge>
+                                </h3>
                             </Card>
+                                <Collapse key={'B1'} in={openB1['B1']}>
                                 <List>
                                     {DataBoxL.map(item=>{
                                         // console.log(item)
+                                        console.table(item.status)
                                         return(
-                                        <div>
+                                        <div class='border border-top-0'>
                                             <ListItem button key={item.Month} onClick={()=>{handleClickxx(item)}} >
                                             <ListItemAvatar>
                                             <Avatar>
@@ -772,6 +839,15 @@ const ShitDashboard =()=>{
                                             </Avatar>
                                             </ListItemAvatar>
                                                 <ListItemText  key ={item.Id_parcel} >
+                                                    
+                                                    {item.status=="ส่งแล้ว"?
+                                                    <Box display="flex" justifyContent="flex-end">
+                                                        <Box borderRadius={30} {...BoxStsProps1} >ส่งแล้ว</Box>
+                                                    </Box>:
+                                                    <Box display="flex" justifyContent="flex-end">
+                                                    <Box borderRadius={30} {...BoxStsProps2} >รับแล้ว</Box>
+                                                    </Box>}
+                                                    
                                                     <strong id='useFont'>{'สาขาที่รับ:'+' '}</strong><span id='useFont2'>{ShortAddress(item)}</span><br/>
                                                     <strong id='useFont'>{'สถานะพัสดุ:'+' '}</strong><span id='useFont2'>{ item.status }</span><br/>
                                                     <strong id='useFont'>{'พัสดุ:'+' '}</strong><span id='useFont2'>{ item.Parcel_Name }</span><br/>
@@ -802,13 +878,15 @@ const ShitDashboard =()=>{
                                                         <div className='row col my-2'>
                                                             <div className='row'>
                                                                 <div>
-                                                                    <Alert 
+                                                                    {item.status=="ส่งแล้ว"?
+                                                                     <Alert 
                                                                         key ={item.Id_parcel} 
                                                                         id='AlertButton'
                                                                         severity="success"
                                                                         onClick={ ()=>{ SelectAccept(item) } }>
                                                                         <AlertTitle id='useFont'>รับพัสดุ</AlertTitle>
-                                                                    </Alert>
+                                                                    </Alert> :null
+                                                                    }
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -820,13 +898,89 @@ const ShitDashboard =()=>{
                                     </div>
                                     )})}
                                 </List>
+                                
+                                <List>
+                                    {DataBoxRec.map(item=>{
+                                        // console.log(item)
+                                        console.table(item.status)
+                                        return(
+                                        <div class='border border-top-0'>
+                                            <ListItem button key={item.Month} onClick={()=>{handleClickxx(item)}} >
+                                            <ListItemAvatar>
+                                            <Avatar>
+                                                <ImageIcon />
+                                            </Avatar>
+                                            </ListItemAvatar>
+                                                <ListItemText  key ={item.Id_parcel} >
+                                                    
+                                                    {item.status=="ส่งแล้ว"?
+                                                    <Box display="flex" justifyContent="flex-end">
+                                                        <Box borderRadius={30} {...BoxStsProps1} >ส่งแล้ว</Box>
+                                                    </Box>:
+                                                    <Box display="flex" justifyContent="flex-end">
+                                                    <Box borderRadius={30} {...BoxStsProps2} >รับแล้ว</Box>
+                                                    </Box>}
+                                                    
+                                                    <strong id='useFont'>{'สาขาที่รับ:'+' '}</strong><span id='useFont2'>{ShortAddress(item)}</span><br/>
+                                                    <strong id='useFont'>{'สถานะพัสดุ:'+' '}</strong><span id='useFont2'>{ item.status }</span><br/>
+                                                    <strong id='useFont'>{'พัสดุ:'+' '}</strong><span id='useFont2'>{ item.Parcel_Name }</span><br/>
+                                                    <strong id='useFont'>{'วันเวลาที่ส่ง:'+' '}</strong><span id='useFont2'>{item.Date_Time}</span><br/>
+                                                </ListItemText>
+                                            </ListItem>
+                    
+                                            <Collapse key={item.Id_parcel} in={openx[item.Id_parcel]}>
+                                            <div class='horizonLine3'/>
+                                                <ListItem key={item.Id_parcel}>
+                                            <ListItemAvatar>
+                                            </ListItemAvatar>
+                                                <ListItemText key ={item.Id_parcel}>
+                                                    <h2 className='' id='useFont'>รายละเอียด</h2><br/>
+                                                    <strong id='useFont'>{'ชื่อผู้ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Name}</span><br/>
+                                                    <strong id='useFont'>{'เบอร์โทรผู้ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Phone}</span><br/>
+                                                    <strong id='useFont'>{'สาขาที่ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Address}</span><br/><br/>
+                                                    <strong id='useFont'>{'ชื่อผู้รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Name}</span><br/>
+                                                    <strong id='useFont'>{'เบอร์โทรผู้รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Phone}</span><br/>
+                                                    <strong id='useFont'>{'สาขาที่รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Address}</span><br/><br/>
+                                                    <strong id='useFont'>{'พัสดุ:'+' '}</strong><span id='useFont2'>{item.Parcel_Name}</span><br/>
+                                                    <strong id='useFont'>{'รายละเอียดพัสดุ:'+' '}</strong><span id='useFont2'>{item.Parcel_Description}</span><br/><br/>
+                                                    <strong id='useFont'>{'ผู้ลงชื่อรับพัสดุ:'+' '}</strong><span id='useFont2'>{item.Real_Receiver_Name}</span><br/>
+
+                                                    <div className='row'>
+                                                    <div class="col col-3"></div>
+                                                    <div class="col col-3"></div>
+                                                        <div className='row col my-2'>
+                                                            <div className='row'>
+                                                                <div>
+                                                                    {item.status=="ส่งแล้ว"?
+                                                                     <Alert 
+                                                                        key ={item.Id_parcel} 
+                                                                        id='AlertButton'
+                                                                        severity="success"
+                                                                        onClick={ ()=>{ SelectAccept(item) } }>
+                                                                        <AlertTitle id='useFont'>รับพัสดุ</AlertTitle>
+                                                                    </Alert> :null
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ListItemText>
+                                                </ListItem>
+                                    </Collapse>
+                                    <Divider />
+                                    </div>
+                                    )})}
+
+                                </List>
+                                </Collapse>
                         </Card>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
+                {/* <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
                         <Card elevation={5} variant="outlined " className='my-2' id='shitCardNext2'>
-                            <Card elevation={1} variant="outlined "  id='shitCardTop2'>
+                            <Card elevation={1} variant="outlined "  id='shitCardTop2' onClick={()=>{handleClickxxB2("B2")}}>
                             <h3 className='text-center p-4' id='useFont'>รับแล้ว</h3>
                             </Card>
+                            <Collapse key={'B2'} in={openB2['B2']}>
                             <List>
                                 {DataBoxR.map(item=>{
                                         // console.log(item)
@@ -869,9 +1023,65 @@ const ShitDashboard =()=>{
                                     </div>
                                         )})}
                             </List>
+                            </Collapse>
                         </Card>
-                </Grid>
+                </Grid> */}
+           
+            {/* <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
+                        <Card elevation={5} variant="outlined " className='my-2' id='shitCardNext2'>
+                            <Card elevation={1} variant="outlined "  id='shitCardTop2' onClick={()=>{handleClickxxB3("B3")}}>
+                            <h3 className='text-center p-4' id='useFont'>รับแล้ว{' '}<Badge badgeContent={DataBoxR.length} color="secondary">
+        <MailIcon /></Badge></h3>
+      
+                            </Card>
+                            <Collapse key={'B3'} in={openB3['B3']}>
+                            <List>
+                                {DataBoxR.map(item=>{
+                                        // console.log(item)
+                                        return(
+                                        <div>
+                                            <ListItem button key={item.Id_parcel} onClick={()=>{handleClickxx(item)}} >
+                                            <ListItemAvatar>
+                                            <Avatar>
+                                                <ImageIcon />
+                                            </Avatar>
+                                            </ListItemAvatar>
+                                                <ListItemText  key ={item.Id_parcel} >
+                                                    <strong id='useFont'>{'สาขาที่รับ:'+' '}</strong><span id='useFont2'>{ShortAddress(item)}</span><br/>
+                                                    <strong id='useFont'>{'สถานะพัสดุ:'+' '}</strong><span id='useFont2'>{ item.status }</span><br/>
+                                                    <strong id='useFont'>{'พัสดุ:'+' '}</strong><span id='useFont2'>{ item.Parcel_Name }</span><br/>
+                                                    <strong id='useFont'>{'วันเวลาที่ส่ง:'+' '}</strong><span id='useFont2'>{item.Date_Time}</span><br/>
+                                                </ListItemText>
+                                            </ListItem>
+                    
+                                            <Collapse key={item.Id_parcel} in={openx[item.Id_parcel]}>
+                                            <div class='horizonLine3'/>
+                                                <ListItem key={item.Id_parcel}>
+                                            <ListItemAvatar>
+                                            </ListItemAvatar>
+                                                <ListItemText key ={item.Id_parcel}>    
+                                                    <h2 className='' id='useFont'>รายละเอียด</h2><br/>
+                                                    <strong id='useFont'>{'ชื่อผู้ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Name}</span><br/>
+                                                    <strong id='useFont'>{'เบอร์โทรผู้ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Phone}</span><br/>
+                                                    <strong id='useFont'>{'สาขาที่ส่ง:'+' '}</strong><span id='useFont2'>{item.Sender_Address}</span><br/><br/>
+                                                    <strong id='useFont'>{'ชื่อผู้รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Name}</span><br/>
+                                                    <strong id='useFont'>{'เบอร์โทรผู้รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Phone}</span><br/>
+                                                    <strong id='useFont'>{'สาขาที่รับ:'+' '}</strong><span id='useFont2'>{item.Receiver_Address}</span><br/><br/>
+                                                    <strong id='useFont'>{'พัสดุ:'+' '}</strong><span id='useFont2'>{item.Parcel_Name}</span><br/>
+                                                    <strong id='useFont'>{'รายละเอียดพัสดุ:'+' '}</strong><span id='useFont2'>{item.Parcel_Description}</span><br/><br/>
+                                                    <strong id='useFont'>{'ผู้ลงชื่อรับพัสดุ:'+' '}</strong><span id='useFont2'>{item.Real_Receiver_Name}</span><br/>
+                                                </ListItemText>
+                                                </ListItem>
+                                    </Collapse>
+                                    <Divider />
+                                    </div>
+                                        )})}
+                            </List>
+                            </Collapse>
+                        </Card>
+                </Grid> */}
             </Grid>
+            
         </div>
 
   {/********************************************** Appect-Reject Dialog *************************************************************/}
@@ -892,6 +1102,8 @@ const ShitDashboard =()=>{
                                                     margin="dense"
                                                     id="name"
                                                     label="ชื่อผู้รับ"
+                                                    inputProps={{style: {fontFamily:'Mitr'}}} 
+                                                    InputLabelProps={{style: {fontFamily:'Mitr'}}} 
                                                     value={ RRName }
                                                     type="text"
                                                     onChange={ RRNameChange }
