@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
 import Badge from '@material-ui/core/Badge';
 import Radio from '@material-ui/core/Radio';
+// import socketIOClient from 'socket.io-client';
 import Avatar from '@material-ui/core/Avatar';
 import "bootstrap/dist/css/bootstrap.min.css";
 import AppBar from '@material-ui/core/AppBar';
@@ -83,6 +84,7 @@ const ShitDashboard =()=>{
     const [DataBoxL, setDataBoxL] = useState([]);
     const [DataBoxR, setDataBoxR] = useState([]);
     const [DataBoxRec, setDataBoxRec] = useState([]);
+
 
     const [openx, setOpenx] = useState(true);
     const handleClickxx=(item)=> {
@@ -402,7 +404,7 @@ const ShitDashboard =()=>{
             !Dropdown Address
         */
     function TimeRanger(){
-        var DateTime = moment().format('ll') +' '+moment().format('LT');
+        var DateTime = moment().format('L') +' '+moment().format('LT');
         var Month = moment().format('MMMM'); 
         var Year = moment().format('YYYY');  
         setDateTime(DateTime)
@@ -410,7 +412,7 @@ const ShitDashboard =()=>{
         setYearx(Year)
         console.log('TimeRanger')
         console.log(DateTime)
-        console.log(Month)
+        // console.log(Month)
         }
         /*
             !Time Ranger function
@@ -576,9 +578,9 @@ const ShitDashboard =()=>{
         window.location.reload(false)
     }
     useEffect(() => {
-        console.log(DataBoxR)
+        console.log(DataBoxL)
         console.log("UseEffect")
-        console.log(SelectedDate)
+        // console.log(SelectedDate)
         console.log("Year")
         console.log(Yearza)
     })
@@ -589,7 +591,7 @@ const ShitDashboard =()=>{
         <container fixed class='' id='shitUI'>
             <AppBar position="fixed" id='AppBar'>
                 <Toolbar >
-               
+                {/* <button onClick={()=>TimeRanger()}>time</button> */}
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12} >
                             <Typography variant="subtitle1" gutterBottom class='mt-3'>
                                     <h1 className='col col-xl-12 ' id='useFont'>ระบบส่ง-รับ พัสดุ <FaBoxOpen/></h1>
@@ -597,8 +599,8 @@ const ShitDashboard =()=>{
                         </Grid>
                         <Grid item xs={4} sm={4} md={4} lg={4} xl={9} ></Grid>
                         <Grid item xs={1} sm={1} md={1} lg={1} xl={1} >
-                            <IconButton edge="start"  color="inherit" aria-label="menu" >
-                                <MenuIcon onClick={toggleDrawer("right", true)} />
+                            <IconButton edge="start"  color="inherit" aria-label="menu" onClick={toggleDrawer("right", true)} >
+                                <MenuIcon  />
                             </IconButton>
                         </Grid>
                         
